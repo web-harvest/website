@@ -36,7 +36,7 @@ def repair_content(content: str) -> str:
         if not any(tag in body for tag in WEBHARVEST_TAGS):
             return match.group(0)
         wrapped = (
-            '<?xml version="1.0" encoding="UTF-8"?>\n'
+            '&lt;?xml version="1.0" encoding="UTF-8"?&gt;\n'
             '&lt;config xmlns="http://org.webharvest/schema/2.1/core"&gt;\n'
             f'{body.strip()}\n'
             '&lt;/config&gt;'
