@@ -1,0 +1,62 @@
+name: Website CI
+
+on:
+  pull_request:
+    branches: [main]
+  push:
+    branches:
+      - main
+      - migration/website-source-inventory
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: website-ci-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  validate:
+    name: Validate website source
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - name: Check out source
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Run focused unit tests
+        run: python -m unittest discover -s tests -v
+
+      - name: Check legacy example markup
+        run: python scripts/fix_html_examples.py --check
+
+      - name: Check image markup is up to date
+        run: |
+          python scripts/optimize_images.py --html-only
+          git diff --exit-code -- '*.html'
+
+      - name: Generate and parse sitemap
+        run: |
+          python scripts/generate_sitemap.py \
+            --base-url https://example.invalid \
+            --output "$RUNNER_TEMP/sitemap.xml"
+          python - "$RUNNER_TEMP/sitemap.xml" <<'PY'
+          import sys
+          import xml.etree.ElementTree as ET
+
+          root = ET.parse(sys.argv[1]).getroot()
+          namespace = "{http://www.sitemaps.org/schemas/sitemap/0.9}"
+          urls = root.findall(f"{namespace}url")
+          if not urls:
+              raise SystemExit("Generated sitemap contains no URLs")
+          print(f"Validated sitemap with {len(urls)} URLs")
+          PY
+
+      - name: Check patch whitespace
+        run: git diff --check
