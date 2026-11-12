@@ -1,41 +1,58 @@
 # Website migration inventory
 
-Status: initial static inventory; not yet a completed migration.
+Status: **PARTIAL SOURCE SNAPSHOT — NOT DEPLOYABLE**.
 
-Source repository: [web-harvest/web-harvest](https://github.com/web-harvest/web-harvest), branch `2.2.x`.
+Source repository: [web-harvest/web-harvest](https://github.com/web-harvest/web-harvest), branch `2.2.x`, source commit `e25296701225f40a0f62b56df0795e5b83290a78`.
 
-Destination repository: this repository.
+Destination branch: `migration/website-source-inventory`.
 
 Tracking issue: [#1 — Migrate the WebHarvest project website and deployment tooling](https://github.com/web-harvest/website/issues/1).
 
-## Candidate source paths
+## Current transfer status
 
-| Source path | Initial classification | Action |
+- 112 of 115 files under `docs/web/**` have been copied into this repository.
+- Every copied file has the same Git blob SHA as the source file.
+- Three PNG assets larger than 1 MB could not be retrieved through the text-only GitHub file-content interface. They are listed in `SOURCE-SNAPSHOT.md`; no placeholder files were created.
+- The copied snapshot does not preserve per-file commit history. The source commit is recorded. A local `git filter-repo` / `git subtree split` extraction remains the preferred history-preserving alternative.
+- No source files have been deleted or changed in the application repository.
+
+## Candidate source paths and decisions
+
+| Source path | Dependency finding | Decision |
 |---|---|---|
-| `docs/web/**` | Public website source and generated HTML/assets | Move after identifying generated files and build inputs |
-| `docs/scripts/generate_sitemap.py` | Website utility; currently hard-codes the old SourceForge canonical host | Move and parameterize canonical site URL |
-| `docs/scripts/generate_plugins_index.py` | Potentially generated website output | Inspect imports, inputs and generated output before moving |
-| `docs/scripts/generate_core_plugin_docs.py` | Application-coupled documentation generator | Keep with application unless proven independent |
-| `docs/scripts/generate_external_plugin_docs.py` | Application-coupled documentation generator | Keep with application unless proven independent |
-| `docs/scripts/generate_all_plugin_docs.py` | Orchestrator for the two application-coupled generators and index generator | Keep with application or split after dependency analysis |
-| `docs/scripts/regenerate_all_with_seo.py` | Orchestrator; invokes generators and sitemap script from application-root-relative paths | Do not move unchanged; split website-only and application-coupled steps |
-| `SFTP-UPLOAD-INSTRUCTIONS.md` | Legacy website deployment documentation | Replace with current hosting/deployment guide; do not carry forward SourceForge credentials/paths |
-| `upload-docs.sh` | Legacy website uploader; embeds SourceForge user, host, path and SSH key path; has destructive remote sync behavior | Replace with safe, non-destructive deployment workflow after hosting target is chosen |
-| `sftp-upload.batch` | Legacy SourceForge SFTP commands | Archive only if historically useful; otherwise retire after replacement |
-| `publish-release.sh` | Application artifact publisher to SourceForge FRS (not website deployment) | Keep release-artifact publishing concern separate; redesign in application repo, not website repo |
-| `docs/pom.xml` | Maven docs module | Keep in application repository |
-| `docs/src/main/**` | Maven-coupled documentation implementation/resources | Keep unless dependency analysis proves a separable website-only part |
-| `webharvest-ide/src/main/resources/webapp/**` | Embedded IDE runtime UI | Keep in application repository; not the public website |
+| `docs/web/**` | Public website pages/assets; currently includes three large PNGs not transferred | Move all 115 files; finish binary transfer before considering snapshot complete |
+| `docs/scripts/generate_sitemap.py` | Website-only, but old script hard-codes SourceForge URL and assumes application-root paths | Replaced here by `scripts/generate_sitemap.py`; requires explicit `--base-url` / `WEBSITE_BASE_URL` |
+| `docs/scripts/fix_html_examples.py` | Edits only four HTML pages under `docs/web/documentation/` | Website-only candidate; move/adapt after review |
+| `docs/scripts/fix_javadoc_examples.py` | Edits Java source files across core/database/FTP/mail/browser/ZIP modules | Keep in application repository |
+| `docs/scripts/generate_core_plugin_docs.py` | Reads Java plugin source/Javadocs from application modules | Keep in application repository |
+| `docs/scripts/generate_external_plugin_docs.py` | Reads Java plugin source/Javadocs from external application modules | Keep in application repository |
+| `docs/scripts/generate_plugins_index.py` | Imports `CATEGORIES` and `PLUGIN_NAMES` from `generate_core_plugin_docs.py`; not standalone | Keep for now; later extract shared plugin metadata or emit a stable generated input |
+| `docs/scripts/generate_all_plugin_docs.py` | Orchestrates core/external generators and index generation | Keep in application repository |
+| `docs/scripts/regenerate_all_with_seo.py` | Orchestrates app-coupled generators plus sitemap; assumes application-root cwd | Keep orchestration in app repo; invoke standalone website tooling as a separate step |
+| `SFTP-UPLOAD-INSTRUCTIONS.md` | Legacy SourceForge deployment instructions | Replace after hosting target and domain are selected |
+| `upload-docs.sh` | Embeds SourceForge account/host/path and destructive remote sync behavior | Retire only after replacement workflow is approved; do not reuse as-is |
+| `sftp-upload.batch` | Legacy SourceForge SFTP commands | Retire after replacement workflow; do not execute |
+| `publish-release.sh` | Publishes application JAR artifacts, not website files | Keep in application repo; assess separately during release-tooling cleanup |
+| `docs/pom.xml`, `docs/src/main/**` | Maven docs module and app-coupled build | Keep in application repository |
+| `webharvest-ide/src/main/resources/webapp/**` | Embedded IDE runtime UI | Keep in application repository |
 
-## Findings from initial source inspection
+## Current website-specific tooling
 
-- The existing homepage `docs/web/index.html` contains canonical, Open Graph, Twitter and structured-data URLs pointing to `https://webharvest.sourceforge.net/`.
-- The homepage's download link points to SourceForge Files.
-- `generate_sitemap.py` hard-codes `https://webharvest.sourceforge.net` and writes to `docs/web/sitemap.xml`.
-- `regenerate_all_with_seo.py` assumes it is run from the application repository root and invokes several documentation generators. Moving it unchanged would break those path assumptions.
-- `upload-docs.sh` contains hard-coded SourceForge account/host/remote path and a remote sync path that can delete destination files. It must not be repurposed as a GitHub Pages deployment script without a clean redesign.
-- `publish-release.sh` publishes application JARs, not the public website. It is intentionally not classified as website tooling.
-- The IDE embedded web application is separate from the public website and must not be moved as part of this migration.
+- `scripts/generate_sitemap.py`: standard-library-only generator; scans all HTML pages and downloadable XML examples, requires an explicit canonical base URL, and writes `sitemap.xml`.
+- `tests/test_generate_sitemap.py`: tests URL discovery, output and rejection of non-HTTP(S) base URLs.
+
+The tests have been added but have **not yet been executed in a clean local checkout**. Do not claim CI or test success.
+
+## Findings from source inspection
+
+- The homepage `docs/web/index.html` has canonical, Open Graph, Twitter and structured-data URLs pointing to `https://webharvest.sourceforge.net/`.
+- Its download link points to SourceForge Files.
+- The old sitemap generator hard-coded the SourceForge canonical URL.
+- `fix_html_examples.py` is website-only by its explicit four-file target list; `fix_javadoc_examples.py` modifies Java source.
+- `generate_plugins_index.py` imports data from the Java-source documentation generator, so it is not currently a standalone website tool.
+- `upload-docs.sh` contains a hard-coded SourceForge user, host, remote path and a destructive sync path. It must not be repurposed without redesign.
+- `publish-release.sh` publishes application JARs, not the website.
+- The IDE embedded web application is separate from the public website.
 
 ## Hosting decision — still open
 
@@ -51,18 +68,18 @@ No workflow in this branch deploys or modifies production.
 
 ## Migration validation checklist
 
-- [ ] Complete file-level inventory of `docs/web/**`, including generated vs hand-maintained content.
-- [ ] Trace every script's inputs, outputs, imports and working-directory assumptions.
-- [ ] Identify application-derived documentation generation and keep it reproducible.
+- [ ] Transfer and verify the three missing PNG assets.
+- [ ] Decide whether to replace this API snapshot with a local history-preserving extraction.
+- [ ] Complete file-level review of generated vs hand-maintained website content.
+- [ ] Move/adapt website-only helper scripts and add tests.
 - [ ] Select hosting target and canonical production URL.
-- [ ] Move website source with a source-to-destination path map.
-- [ ] Replace SourceForge URLs in the website only after target URL is confirmed.
-- [ ] Add clean-checkout build/preview and link validation.
+- [ ] Replace old SourceForge URLs only after target URL is confirmed.
+- [ ] Add clean-checkout preview and internal-link validation.
 - [ ] Add deployment workflow with no embedded credentials and no destructive sync by default.
 - [ ] Verify application Maven build no longer packages/depends on the moved public-site tree.
-- [ ] Remove the migrated website source from the application repository in a coordinated PR only after this repository's PR is reviewed and accepted.
+- [ ] Remove migrated website source from the application repository only in a coordinated PR after destination validation.
 - [ ] Complete license, NOTICE and secrets review before either repository becomes public.
 
 ## History preservation
 
-Prefer a history-preserving Git move where feasible. If repository history constraints make that impractical, record each original path and source commit in a migration manifest and retain the source commit reference. Do not rewrite the application repository's existing shared branch history.
+This API snapshot preserves exact Git blob content for the 112 transferred files, but does not preserve their commit history. The original source commit is recorded in `SOURCE-SNAPSHOT.md`. Prefer a local `git filter-repo` or `git subtree split` extraction if a local checkout is available. Do not rewrite the application repository's shared branch history.
