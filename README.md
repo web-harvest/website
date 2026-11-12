@@ -6,9 +6,11 @@ The application and IDE source code lives in [web-harvest](https://github.com/we
 
 ## Migration status
 
-The repository is being initialized as part of the website separation tracked in [Issue #1](https://github.com/web-harvest/website/issues/1).
+The website source migration is in progress and tracked in [Issue #1](https://github.com/web-harvest/website/issues/1).
 
-The current website source is being audited in the application repository under `docs/web/`. No bulk copy or deployment workflow has been committed yet. Until the migration is reviewed and completed, the application repository remains the source of the existing published-site files.
+A partial source snapshot from `web-harvest/web-harvest:2.2.x` is present on the migration branch. It contains 112 of 115 files from `docs/web/**`; three large PNG assets remain to be transferred. See [SOURCE-SNAPSHOT.md](SOURCE-SNAPSHOT.md) and [MIGRATION-INVENTORY.md](MIGRATION-INVENTORY.md) for exact provenance and limitations.
+
+The application repository remains the source of truth for any website files not yet transferred. No source files have been deleted there.
 
 ## Intended ownership
 
@@ -22,10 +24,27 @@ The current website source is being audited in the application repository under 
 - Java application modules, Maven reactor and runtime tests.
 - The embedded IDE web application under `webharvest-ide/src/main/resources/webapp/`.
 - Maven-coupled documentation generators that require application source or compiled classes.
+- Application artifact release publishing.
 
-## Development
+## Local sitemap generation
 
-Build, preview and deployment commands will be documented after the source migration and build dependencies have been audited. No production deployment is configured by this bootstrap commit.
+The standard-library-only generator requires an explicit canonical URL:
+
+```sh
+python3 scripts/generate_sitemap.py --base-url https://example.invalid
+```
+
+Replace the example URL only after the production hostname has been selected. The generator also accepts `WEBSITE_BASE_URL`.
+
+Run its tests from the repository root:
+
+```sh
+python3 -m unittest discover -s tests -v
+```
+
+## Deployment
+
+No production deployment is configured. Hosting, canonical hostname, approval requirements and rollback must be decided before a deployment workflow is added.
 
 ## Security
 
