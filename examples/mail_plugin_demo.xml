@@ -6,7 +6,7 @@
     <def var="smtp_host">smtp.gmail.com</def>
     <def var="smtp_port">587</def>
     <def var="smtp_user">your-email@gmail.com</def>
-    <def var="smtp_password">your-app-password</def>
+    <def var="smtp_password" overwrite="false">YOUR_SMTP_APP_PASSWORD</def>
     <def var="smtp_ssl">true</def>
     
     <!-- Email content -->
