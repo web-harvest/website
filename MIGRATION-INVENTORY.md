@@ -189,7 +189,7 @@ No workflow in this branch deploys or modifies production.
 - [ ] Replace old SourceForge URLs only after target URL is confirmed.
 - [x] Baseline clean-checkout preview and internal-link audit completed at `3003642bdbe3a700f82c888fe6999242b287c4e9`.
 - [x] Six navigation/source-snapshot defects from that baseline were corrected in website commit `75732458e796a27dced88720272bfbbee5fa6c96`.
-- [ ] Rerun the complete test suite, clean-checkout preview, and internal-link audit on the current PR HEAD. The non-deploying CI workflow exists, but its first run had no reported steps/logs and is inconclusive (run `43306213169`).
+- [ ] Rerun the complete test suite, clean-checkout preview, and internal-link audit on the current PR HEAD. The non-deploying CI workflow exists, but run `43306213169` and one retry both failed before reporting any steps/logs; the failure is inconclusive and requires runner/account-level resolution.
 - [ ] Add deployment workflow with no embedded credentials and no destructive sync by default.
 - [ ] Verify application Maven build no longer packages/depends on the moved public-site tree (inspection shows it still does; cutover not started).
 - [ ] Remove migrated website source from the application repository only in a coordinated PR after destination validation.
@@ -231,4 +231,4 @@ Added in commit `96d9e0ac95dae2c3ce6d6848a4bf13ecf37691dd`:
 
 Evidence: the upstream `2.2.x/pom.xml` declares BSD License, and its `NOTICE` identifies the BSD license and the third-party components. This closes the missing project-level license-documentation gap. It does **not** complete a file-level review of all website images, icons, fonts, or other independently sourced material, nor the secrets review.
 
-The full website test suite and clean-checkout link audit have not been rerun on the current branch HEAD. A non-deploying workflow was added in commit `7369fd0c74d0abc960ed8c1742c96d8e04ca1bc0`. Its first run (`43306213169`) completed with a failed job, but GitHub returned no job steps and the job-log endpoint returned `BlobNotFound`; this is inconclusive and does not establish a code/test failure. A successful runner execution remains outstanding.
+The full website test suite and clean-checkout link audit have not been rerun on the current branch HEAD. A non-deploying workflow was added in commit `7369fd0c74d0abc960ed8c1742c96d8e04ca1bc0`. Run `43306213169` was retried once; both attempts ended with a failed job, an empty job-step list, and `BlobNotFound` from the job-log endpoint. This is a runner/account-level execution blocker, not evidence of a failing test or a passing validation. A successful runner execution remains outstanding. The repository is still private; changing visibility is a separate owner decision and was not performed.
