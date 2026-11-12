@@ -191,7 +191,7 @@ No workflow in this branch deploys or modifies production.
 - [ ] Add deployment workflow with no embedded credentials and no destructive sync by default.
 - [ ] Verify application Maven build no longer packages/depends on the moved public-site tree (inspection shows it still does; cutover not started).
 - [ ] Remove migrated website source from the application repository only in a coordinated PR after destination validation.
-- [ ] Complete license, NOTICE and secrets review before either repository becomes public.
+- [ ] Complete secrets review and file-level review of independently authored/third-party website assets before either repository becomes public. Project-level BSD LICENSE, upstream NOTICE and the upstream `licences/` texts have now been added to the website repository; this does not establish the license of every embedded asset.
 
 ### Next-phase recommendation
 
@@ -215,3 +215,17 @@ Applied in commit `75732458e796a27dced88720272bfbbee5fa6c96`:
 A post-commit content check confirmed all six destination references/targets. This is a source-snapshot correction: the application-side JavaDoc/generator source was not changed, so a future regeneration from the application repository must preserve this omission or correct the generator separately. Application `docs/web/**` remains untouched.
 
 These checks validate the exact changed references only; the full 14-test suite and clean-checkout link audit must be rerun before the migration PR can be considered complete.
+
+
+## Project license documentation (2026-11-12)
+
+Added in commit `96d9e0ac95dae2c3ce6d6848a4bf13ecf37691dd`:
+
+- Root `LICENSE`: verbatim copy of the WebHarvest BSD license from `web-harvest/web-harvest:2.2.x/licences/webharvest_licence.txt`.
+- Root `NOTICE`: upstream project attribution and third-party component notice.
+- `licences/`: all nine license texts present in the upstream `2.2.x/licences/` directory.
+- `README.md`: states the project-level BSD license and clarifies that separate third-party asset terms remain controlling.
+
+Evidence: the upstream `2.2.x/pom.xml` declares BSD License, and its `NOTICE` identifies the BSD license and the third-party components. This closes the missing project-level license-documentation gap. It does **not** complete a file-level review of all website images, icons, fonts, or other independently sourced material, nor the secrets review.
+
+The full website test suite and clean-checkout link audit have not been rerun on the current branch HEAD. GitHub reports no check runs or workflow runs for the current commit; this branch has no configured Actions workflow.
