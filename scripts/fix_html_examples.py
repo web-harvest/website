@@ -31,7 +31,7 @@ def repair_content(content: str) -> str:
     """Add a config wrapper to unwrapped WebHarvest XML code samples."""
     def replace(match: re.Match[str]) -> str:
         body = match.group(2)
-        if "&lt;config" in body or "<?xml version" in body:
+        if "&lt;config" in body or "&lt;?xml version" in body:
             return match.group(0)
         if not any(tag in body for tag in WEBHARVEST_TAGS):
             return match.group(0)
