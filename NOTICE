@@ -46,9 +46,12 @@ Major refactoring and modernization work (2024-2025):
 
 ================================================================================
 
-THIRD-PARTY COMPONENTS
+THIRD-PARTY COMPONENTS — JAVA APPLICATION
 
-This product includes the following third-party components:
+The following notices are inherited from the WebHarvest Java application
+distribution. They describe application dependencies and are not a statement
+that these Java components are bundled or shipped by this website-only
+repository.
 
 Apache HttpComponents (Apache License 2.0)
 - httpclient5
@@ -69,7 +72,34 @@ Saxon XSLT Processor (Mozilla Public License)
 ASM (BSD License)
 - See licences/asm_licence.txt
 
-And other components as documented in the project dependencies.
+And other components as documented in the Java application dependencies.
+
+================================================================================
+
+THIRD-PARTY COMPONENTS — WEBSITE
+
+Prism.js
+- Vendored JavaScript syntax highlighter in js/prism.js.
+- MIT License, Copyright (c) 2012 Lea Verou.
+- Full license text: licences/website_third_party_licences.txt
+- Upstream: https://github.com/PrismJS/prism
+
+Font Awesome Free 6.4.0
+- Loaded by website pages from cdnjs.cloudflare.com; Font Awesome files are
+  not vendored in this repository.
+- Font Awesome Free uses CC BY 4.0 for icons, SIL OFL 1.1 for web/desktop fonts,
+  and MIT for code, according to the upstream license.
+- Attribution and license terms: https://fontawesome.com/license/free
+- Upstream: https://github.com/FortAwesome/Font-Awesome
+
+Inter
+- Loaded by website pages through Google Fonts; font binaries are not vendored
+  in this repository.
+- The Inter typeface is licensed under SIL Open Font License 1.1.
+- Copyright (c) 2016 The Inter Project Authors.
+- License text: licences/website_third_party_licences.txt
+- Upstream: https://github.com/rsms/inter
+- Google Fonts distribution: https://fonts.google.com/specimen/Inter
 
 ================================================================================
 
