@@ -5,7 +5,7 @@
     <!-- FTP connection configuration -->
     <def var="ftp_host">ftp.example.com</def>
     <def var="ftp_user">username</def>
-    <def var="ftp_password">password</def>
+    <def var="ftp_password" overwrite="false">YOUR_FTP_PASSWORD</def>
     <def var="ftp_port">21</def>
     
     <!-- Connect to FTP server -->
