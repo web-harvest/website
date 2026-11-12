@@ -68,6 +68,8 @@ No production deployment is configured. Hosting, canonical hostname, approval re
 
 Do not commit credentials, private keys, personal machine paths or host-specific secrets. Deployment credentials, if needed, must be supplied through protected GitHub environments/secrets or an equivalent external secret store.
 
-## License
+## License and notices
 
-The applicable project and third-party licensing/NOTICE files will be added as part of the publication-readiness review. Do not assume that this repository's license is settled until that review is complete.
+The project-authored WebHarvest website source snapshot is distributed under the BSD license reproduced in [LICENSE](LICENSE), consistent with the application repository's `2.2.x` project license declaration. [NOTICE](NOTICE) preserves project attribution and identifies third-party components; the corresponding upstream license texts are retained in [licences/](licences/).
+
+This project-level license statement does not relicense independently authored third-party assets or override any notices embedded in individual files. Their applicable terms remain controlling.
