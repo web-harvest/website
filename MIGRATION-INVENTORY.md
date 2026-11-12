@@ -187,7 +187,9 @@ No workflow in this branch deploys or modifies production.
 - [x] Move/adapt website-only helper scripts and add focused tests.
 - [ ] Select hosting target and canonical production URL.
 - [ ] Replace old SourceForge URLs only after target URL is confirmed.
-- [x] Clean-checkout preview and complete internal-link validation (6 unresolved internal references classified; no fixes applied in this gate).
+- [x] Baseline clean-checkout preview and internal-link audit completed at `3003642bdbe3a700f82c888fe6999242b287c4e9`.
+- [x] Six navigation/source-snapshot defects from that baseline were corrected in website commit `75732458e796a27dced88720272bfbbee5fa6c96`.
+- [ ] Rerun the complete test suite, clean-checkout preview, and internal-link audit on the current PR HEAD.
 - [ ] Add deployment workflow with no embedded credentials and no destructive sync by default.
 - [ ] Verify application Maven build no longer packages/depends on the moved public-site tree (inspection shows it still does; cutover not started).
 - [ ] Remove migrated website source from the application repository only in a coordinated PR after destination validation.
@@ -195,7 +197,8 @@ No workflow in this branch deploys or modifies production.
 
 ### Next-phase recommendation
 
-- **GO** for the next migration-validation phase: triage/fix the five confirmed HTML/anchor defects, decide content ownership for the `param.html` source-snapshot defect in the application generators/javadoc, and continue publication-readiness work.
+- Navigation defect triage is complete for the website snapshot: the five confirmed broken destinations and the `param.html` source-snapshot link were corrected in commit `75732458e796a27dced88720272bfbbee5fa6c96`. The application-side JavaDoc/generator source remains unchanged.
+- **GO** for one final exact-HEAD validation pass (14 focused tests, helper checks, clean-checkout preview, and full internal-link audit), followed by a concise publication-readiness review.
 - **STOP** for deployment, production hosting assumptions, repository visibility changes, merging PR #2, and deletion of application `docs/web/**`. Hosting and canonical URL are undecided; file-level third-party asset provenance and secrets review remain incomplete. Project-level BSD LICENSE and NOTICE documentation has been added.
 
 ## History preservation
