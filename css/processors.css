@@ -1,0 +1,1015 @@
+/* Processor-specific styles */
+
+/* Page Header */
+.page-header {
+    margin-bottom: 3rem;
+    text-align: center;
+}
+
+.page-header h1 {
+    font-size: 2.5rem;
+    font-weight: 700;
+    margin-bottom: 1rem;
+    color: var(--text-primary);
+}
+
+.page-header p {
+    font-size: 1.125rem;
+    color: var(--text-secondary);
+    margin-bottom: 2rem;
+    max-width: 600px;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.architecture-notice {
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    color: white;
+    padding: 2.5rem;
+    border-radius: var(--radius-lg);
+    margin-top: 2rem;
+    box-shadow: 0 10px 30px rgba(102, 126, 234, 0.3);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    position: relative;
+    overflow: hidden;
+}
+
+.architecture-notice::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: linear-gradient(45deg, rgba(255, 255, 255, 0.1) 0%, transparent 50%);
+    pointer-events: none;
+}
+
+.architecture-notice h3 {
+    margin-bottom: 1rem;
+    font-size: 1.5rem;
+    font-weight: 700;
+    text-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+    position: relative;
+    z-index: 1;
+}
+
+.architecture-notice h3 i {
+    margin-right: 0.75rem;
+    color: rgba(255, 255, 255, 0.9);
+}
+
+.architecture-notice p {
+    margin: 0;
+    font-size: 1.125rem;
+    line-height: 1.7;
+    text-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
+    position: relative;
+    z-index: 1;
+    opacity: 0.95;
+}
+
+/* Plugin Architecture Section */
+.plugin-architecture-section {
+    margin: 2rem 0;
+    padding: 2rem 0;
+    background: var(--bg-secondary);
+    border-radius: var(--radius-lg);
+    border: 1px solid var(--border-color);
+}
+
+.plugin-architecture-section h2 {
+    text-align: center;
+    font-size: 1.75rem;
+    font-weight: 700;
+    margin-bottom: 2rem;
+    color: var(--text-primary);
+}
+
+.architecture-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+    gap: 1rem;
+    max-width: 900px;
+    margin: 0 auto;
+    padding: 0 1rem;
+}
+
+.architecture-card {
+    background: white;
+    padding: 1.25rem;
+    border-radius: var(--radius-lg);
+    text-align: center;
+    box-shadow: var(--shadow-sm);
+    border: 1px solid var(--border-color);
+    transition: all 0.3s ease;
+}
+
+.architecture-card:hover {
+    transform: translateY(-4px);
+    box-shadow: var(--shadow-lg);
+}
+
+.architecture-icon {
+    width: 40px;
+    height: 40px;
+    background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+    border-radius: var(--radius-lg);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 0 auto 0.75rem;
+    box-shadow: var(--shadow-md);
+}
+
+.architecture-icon i {
+    font-size: 1rem;
+    color: white;
+}
+
+.architecture-card h3 {
+    font-size: 1rem;
+    font-weight: 600;
+    margin-bottom: 0.5rem;
+    color: var(--text-primary);
+}
+
+.architecture-card p {
+    color: var(--text-secondary);
+    line-height: 1.4;
+    margin: 0;
+    font-size: 0.85rem;
+}
+
+/* Processors by Category */
+.processors-by-category {
+    margin: 2rem 0;
+}
+
+.category-section {
+    margin-bottom: 2.5rem;
+    padding: 1rem 0;
+}
+
+.category-section h2 {
+    font-size: 1.75rem;
+    font-weight: 700;
+    margin-bottom: 1rem;
+    color: var(--text-primary);
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+}
+
+.category-section h2 i {
+    color: var(--primary-color);
+    font-size: 1.5rem;
+}
+
+.category-section p {
+    font-size: 1.125rem;
+    color: var(--text-secondary);
+    margin-bottom: 2rem;
+}
+
+.processors-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+    gap: 1.5rem;
+}
+
+.processor-card {
+    background: white;
+    border: 1px solid var(--border-color);
+    border-radius: var(--radius-lg);
+    padding: 1.5rem;
+    box-shadow: var(--shadow-sm);
+    transition: all 0.3s ease;
+}
+
+.processor-card:hover {
+    transform: translateY(-2px);
+    box-shadow: var(--shadow-md);
+    border-color: var(--primary-color);
+}
+
+.processor-card-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    margin-bottom: 1rem;
+    gap: 1rem;
+}
+
+.processor-card-header h3 {
+    font-size: 1.25rem;
+    font-weight: 600;
+    color: var(--text-primary);
+    margin: 0;
+    font-family: 'Courier New', monospace;
+}
+
+.processor-link {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.5rem 1rem;
+    background: var(--primary-color);
+    color: white;
+    text-decoration: none;
+    border-radius: var(--radius-md);
+    font-size: 0.875rem;
+    font-weight: 500;
+    transition: all 0.2s ease;
+    flex-shrink: 0;
+}
+
+.processor-link:hover {
+    background: var(--primary-dark);
+    transform: translateY(-1px);
+    box-shadow: var(--shadow-sm);
+}
+
+.processor-card p {
+    color: var(--text-secondary);
+    line-height: 1.6;
+    margin-bottom: 1.5rem;
+}
+
+.processor-attributes {
+    margin-bottom: 1.5rem;
+}
+
+.processor-attributes h4 {
+    font-size: 0.875rem;
+    font-weight: 600;
+    color: var(--text-primary);
+    margin-bottom: 0.75rem;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+.processor-attributes ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+.processor-attributes li {
+    padding: 0.5rem 0;
+    border-bottom: 1px solid var(--border-light);
+    font-size: 0.875rem;
+    color: var(--text-secondary);
+}
+
+.processor-attributes li:last-child {
+    border-bottom: none;
+}
+
+.processor-attributes code {
+    background: var(--bg-tertiary);
+    padding: 0.25rem 0.5rem;
+    border-radius: var(--radius-sm);
+    font-family: 'Courier New', monospace;
+    font-size: 0.8rem;
+    color: var(--primary-color);
+    font-weight: 600;
+}
+
+.processor-example {
+    margin-top: 1.5rem;
+}
+
+.processor-example h4 {
+    font-size: 0.875rem;
+    font-weight: 600;
+    color: var(--text-primary);
+    margin-bottom: 0.75rem;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+/* Breadcrumb */
+.breadcrumb {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    margin: 2rem 0 1rem;
+    font-size: 0.875rem;
+    color: var(--text-secondary);
+}
+
+.breadcrumb a {
+    color: var(--primary-color);
+    text-decoration: none;
+    transition: color 0.2s ease;
+}
+
+.breadcrumb a:hover {
+    color: var(--primary-dark);
+}
+
+.breadcrumb i {
+    font-size: 0.75rem;
+    color: var(--text-muted);
+}
+
+/* Processor Header */
+.processor-header {
+    display: flex;
+    align-items: flex-start;
+    gap: 1.5rem;
+    margin-bottom: 3rem;
+    padding: 2rem;
+    background: linear-gradient(135deg, var(--bg-secondary) 0%, var(--bg-tertiary) 100%);
+    border-radius: var(--radius-lg);
+    border: 1px solid var(--border-color);
+}
+
+.processor-icon {
+    width: 80px;
+    height: 80px;
+    background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+    border-radius: var(--radius-lg);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+    box-shadow: var(--shadow-md);
+}
+
+.processor-icon i {
+    font-size: 2rem;
+    color: white;
+}
+
+.processor-info {
+    flex: 1;
+}
+
+.processor-info h1 {
+    font-size: 2.5rem;
+    margin-bottom: 0.5rem;
+    color: var(--text-primary);
+    font-family: 'Fira Code', 'Monaco', 'Consolas', monospace;
+}
+
+.processor-description {
+    font-size: 1.25rem;
+    color: var(--text-secondary);
+    margin-bottom: 1rem;
+}
+
+.processor-meta {
+    display: flex;
+    gap: 1rem;
+    align-items: center;
+}
+
+.category-tag {
+    display: inline-block;
+    padding: 0.25rem 0.75rem;
+    border-radius: var(--radius-sm);
+    font-size: 0.75rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+}
+
+.category-tag.web {
+    background: #dbeafe;
+    color: #1e40af;
+    border: 1px solid #93c5fd;
+}
+
+.category-tag.data {
+    background: #dcfce7;
+    color: #166534;
+    border: 1px solid #bbf7d0;
+}
+
+.category-tag.file {
+    background: #fef3c7;
+    color: #92400e;
+    border: 1px solid #fde68a;
+}
+
+.category-tag.control {
+    background: #e0e7ff;
+    color: #3730a3;
+    border: 1px solid #a5b4fc;
+}
+
+.category-tag.variable {
+    background: #f3e8ff;
+    color: #7c3aed;
+    border: 1px solid #c4b5fd;
+}
+
+.category-tag.extension {
+    background: #fce7f3;
+    color: #be185d;
+    border: 1px solid #f9a8d4;
+}
+
+.version-badge {
+    background: var(--primary-color);
+    color: white;
+    padding: 0.25rem 0.75rem;
+    border-radius: var(--radius-sm);
+    font-size: 0.75rem;
+    font-weight: 600;
+}
+
+/* Processor Card Header */
+.processor-card-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 1rem;
+}
+
+.processor-card-header h3 {
+    margin: 0;
+    font-family: 'Fira Code', 'Monaco', 'Consolas', monospace;
+    color: var(--primary-color);
+}
+
+.processor-link {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.5rem 1rem;
+    background: var(--primary-color);
+    color: white;
+    text-decoration: none;
+    border-radius: var(--radius-sm);
+    font-size: 0.875rem;
+    font-weight: 500;
+    transition: all 0.2s ease;
+}
+
+.processor-link:hover {
+    background: var(--primary-dark);
+    transform: translateY(-1px);
+    box-shadow: var(--shadow-sm);
+}
+
+.processor-link i {
+    font-size: 0.75rem;
+}
+
+/* Processor Content */
+.processor-content {
+    margin-bottom: 3rem;
+}
+
+.processor-section {
+    margin-bottom: 3rem;
+    padding: 2rem;
+    background: white;
+    border-radius: var(--radius-lg);
+    border: 1px solid var(--border-color);
+    box-shadow: var(--shadow-sm);
+}
+
+.processor-section h2 {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    margin-bottom: 1.5rem;
+    color: var(--text-primary);
+    font-size: 1.5rem;
+}
+
+.processor-section h2 i {
+    color: var(--primary-color);
+    font-size: 1.25rem;
+}
+
+/* Feature Highlights */
+.feature-highlights {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 1rem;
+    margin-top: 1.5rem;
+}
+
+.highlight-item {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    padding: 1rem;
+    background: var(--bg-secondary);
+    border-radius: var(--radius-md);
+    border: 1px solid var(--border-light);
+}
+
+.highlight-item i {
+    color: var(--success-color);
+    font-size: 1.125rem;
+    flex-shrink: 0;
+}
+
+.highlight-item span {
+    color: var(--text-secondary);
+    font-size: 0.875rem;
+}
+
+/* Attributes Table */
+.attributes-table {
+    overflow-x: auto;
+    margin-top: 1rem;
+}
+
+.attributes-table table {
+    width: 100%;
+    border-collapse: collapse;
+    background: white;
+    border-radius: var(--radius-md);
+    overflow: hidden;
+    box-shadow: var(--shadow-sm);
+}
+
+.attributes-table th,
+.attributes-table td {
+    padding: 1rem;
+    text-align: left;
+    border-bottom: 1px solid var(--border-color);
+}
+
+.attributes-table th {
+    background: var(--bg-secondary);
+    font-weight: 600;
+    color: var(--text-primary);
+    font-size: 0.875rem;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+}
+
+.attributes-table td {
+    color: var(--text-secondary);
+    font-size: 0.875rem;
+}
+
+.attributes-table tr.required {
+    background: #fef2f2;
+}
+
+.attributes-table code {
+    background: var(--bg-tertiary);
+    padding: 0.25rem 0.5rem;
+    border-radius: var(--radius-sm);
+    color: var(--primary-color);
+    font-weight: 600;
+    font-family: 'Fira Code', 'Monaco', 'Consolas', monospace;
+}
+
+.required-badge {
+    background: var(--error-color);
+    color: white;
+    padding: 0.125rem 0.5rem;
+    border-radius: var(--radius-sm);
+    font-size: 0.75rem;
+    font-weight: 600;
+}
+
+/* Subprocessors */
+.subprocessors-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 1.5rem;
+    margin-top: 1.5rem;
+}
+
+.subprocessor-card {
+    background: var(--bg-secondary);
+    padding: 1.5rem;
+    border-radius: var(--radius-lg);
+    border: 1px solid var(--border-color);
+    transition: all 0.3s ease;
+}
+
+.subprocessor-card:hover {
+    box-shadow: var(--shadow-md);
+    transform: translateY(-2px);
+}
+
+.subprocessor-card h3 {
+    color: var(--primary-color);
+    margin-bottom: 0.75rem;
+    font-family: 'Fira Code', 'Monaco', 'Consolas', monospace;
+    font-size: 1.125rem;
+}
+
+.subprocessor-card p {
+    color: var(--text-secondary);
+    margin-bottom: 1rem;
+    font-size: 0.875rem;
+}
+
+.subprocessor-attributes {
+    font-size: 0.875rem;
+}
+
+.subprocessor-attributes strong {
+    color: var(--text-primary);
+    display: block;
+    margin-bottom: 0.5rem;
+}
+
+.subprocessor-attributes ul {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+}
+
+.subprocessor-attributes li {
+    padding: 0.25rem 0;
+    color: var(--text-secondary);
+}
+
+.subprocessor-attributes code {
+    background: var(--bg-tertiary);
+    padding: 0.125rem 0.375rem;
+    border-radius: var(--radius-sm);
+    color: var(--primary-color);
+    font-weight: 600;
+    font-family: 'Fira Code', 'Monaco', 'Consolas', monospace;
+}
+
+/* Example Tabs */
+.example-tabs {
+    margin-top: 1.5rem;
+}
+
+.tab-buttons {
+    display: flex;
+    gap: 0.5rem;
+    margin-bottom: 1.5rem;
+    border-bottom: 1px solid var(--border-color);
+    overflow-x: auto;
+}
+
+.tab-button {
+    background: none;
+    border: none;
+    padding: 0.75rem 1.5rem;
+    cursor: pointer;
+    font-weight: 500;
+    color: var(--text-secondary);
+    border-bottom: 2px solid transparent;
+    transition: all 0.2s ease;
+    white-space: nowrap;
+}
+
+.tab-button:hover {
+    color: var(--primary-color);
+    background: var(--bg-secondary);
+}
+
+.tab-button.active {
+    color: var(--primary-color);
+    border-bottom-color: var(--primary-color);
+    background: var(--bg-secondary);
+}
+
+.tab-content {
+    position: relative;
+}
+
+.tab-pane {
+    display: none;
+}
+
+.tab-pane.active {
+    display: block;
+}
+
+.tab-pane h3 {
+    margin-bottom: 1rem;
+    color: var(--text-primary);
+}
+
+.tab-pane p {
+    margin-bottom: 1.5rem;
+    color: var(--text-secondary);
+}
+
+.code-example {
+    background: #1e1e1e;
+    border-radius: var(--radius-lg);
+    overflow: hidden;
+    box-shadow: var(--shadow-xl);
+    border: 1px solid #333;
+}
+
+.code-example pre {
+    margin: 0;
+    padding: 1.5rem;
+    overflow-x: auto;
+    font-family: 'Fira Code', 'Monaco', 'Consolas', monospace;
+    font-size: 0.875rem;
+    line-height: 1.6;
+}
+
+.code-example code {
+    color: #e2e8f0;
+}
+
+/* Code Window (like on main page) */
+.code-window {
+    background: #1e1e1e;
+    border-radius: var(--radius-lg);
+    overflow: hidden;
+    box-shadow: var(--shadow-xl);
+    border: 1px solid #333;
+}
+
+.window-header {
+    background: #2d2d2d;
+    padding: 0.75rem 1rem;
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    border-bottom: 1px solid #333;
+}
+
+.window-controls {
+    display: flex;
+    gap: 0.5rem;
+}
+
+.control {
+    width: 12px;
+    height: 12px;
+    border-radius: 50%;
+}
+
+.control.red {
+    background: #ff5f56;
+}
+
+.control.yellow {
+    background: #ffbd2e;
+}
+
+.control.green {
+    background: #27ca3f;
+}
+
+.window-title {
+    color: #ccc;
+    font-size: 0.875rem;
+    font-weight: 500;
+}
+
+.window-content {
+    padding: 1.5rem;
+    overflow-x: auto;
+}
+
+.window-content pre {
+    margin: 0;
+    font-family: 'Fira Code', 'Monaco', 'Consolas', monospace;
+    font-size: 0.875rem;
+    line-height: 1.5;
+}
+
+.window-content code {
+    color: #e2e8f0;
+}
+
+/* Related Processors */
+.related-processors {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 1rem;
+    margin-top: 1.5rem;
+}
+
+.related-processor {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 1.5rem;
+    background: var(--bg-secondary);
+    border-radius: var(--radius-lg);
+    border: 1px solid var(--border-color);
+    text-decoration: none;
+    color: var(--text-primary);
+    transition: all 0.3s ease;
+    text-align: center;
+}
+
+.related-processor:hover {
+    box-shadow: var(--shadow-md);
+    transform: translateY(-2px);
+    color: var(--primary-color);
+}
+
+.related-processor i {
+    font-size: 2rem;
+    color: var(--primary-color);
+    margin-bottom: 0.75rem;
+}
+
+.related-processor span {
+    font-weight: 600;
+    margin-bottom: 0.5rem;
+    font-family: 'Fira Code', 'Monaco', 'Consolas', monospace;
+}
+
+.related-processor small {
+    color: var(--text-secondary);
+    font-size: 0.75rem;
+}
+
+/* XPath Reference */
+.xpath-reference {
+    margin-top: 1.5rem;
+}
+
+.reference-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 1.5rem;
+    margin-top: 1.5rem;
+}
+
+.reference-card {
+    background: var(--bg-secondary);
+    padding: 1.5rem;
+    border-radius: var(--radius-lg);
+    border: 1px solid var(--border-color);
+}
+
+.reference-card h3 {
+    color: var(--primary-color);
+    margin-bottom: 1rem;
+    font-size: 1.125rem;
+}
+
+.reference-card ul {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+}
+
+.reference-card li {
+    padding: 0.5rem 0;
+    border-bottom: 1px solid var(--border-light);
+    font-size: 0.875rem;
+}
+
+.reference-card li:last-child {
+    border-bottom: none;
+}
+
+.reference-card code {
+    background: var(--bg-tertiary);
+    padding: 0.25rem 0.5rem;
+    border-radius: var(--radius-sm);
+    color: var(--primary-color);
+    font-weight: 600;
+    font-family: 'Fira Code', 'Monaco', 'Consolas', monospace;
+    font-size: 0.8rem;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+    .processor-header {
+        flex-direction: column;
+        text-align: center;
+    }
+
+    .processor-icon {
+        align-self: center;
+    }
+
+    .processor-info h1 {
+        font-size: 2rem;
+    }
+
+    .processor-meta {
+        justify-content: center;
+    }
+
+    .tab-buttons {
+        flex-wrap: wrap;
+    }
+
+    .tab-button {
+        flex: 1;
+        min-width: 120px;
+    }
+
+    .subprocessors-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .related-processors {
+        grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+    }
+
+    .feature-highlights {
+        grid-template-columns: 1fr;
+    }
+}
+
+@media (max-width: 480px) {
+    .processor-section {
+        padding: 1rem;
+    }
+
+    .processor-header {
+        padding: 1rem;
+    }
+
+    .processor-info h1 {
+        font-size: 1.75rem;
+    }
+
+    .attributes-table {
+        font-size: 0.75rem;
+    }
+
+    .attributes-table th,
+    .attributes-table td {
+        padding: 0.5rem;
+    }
+
+    .page-header h1 {
+        font-size: 2rem;
+    }
+
+    .page-header p {
+        font-size: 1rem;
+    }
+
+    .architecture-notice {
+        padding: 1.5rem;
+    }
+
+    .plugin-architecture-section {
+        margin: 2rem 0;
+        padding: 2rem 0;
+    }
+
+    .architecture-grid {
+        grid-template-columns: repeat(2, 1fr);
+        gap: 1rem;
+        padding: 0 0.5rem;
+    }
+
+    .processors-grid {
+        grid-template-columns: 1fr;
+        gap: 1.5rem;
+    }
+
+    .processor-card {
+        padding: 1.5rem;
+    }
+
+    .processor-card-header {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 1rem;
+    }
+
+    .processor-link {
+        align-self: flex-start;
+    }
+
+    .category-section {
+        margin-bottom: 3rem;
+        padding: 1rem 0;
+    }
+
+    .category-section h2 {
+        font-size: 1.5rem;
+    }
+}
+
+@media (max-width: 480px) {
+    .page-header h1 {
+        font-size: 1.75rem;
+    }
+
+    .architecture-grid {
+        grid-template-columns: 1fr;
+        gap: 0.75rem;
+    }
+
+    .architecture-card {
+        padding: 1rem;
+    }
+
+    .processor-card {
+        padding: 1rem;
+    }
+
+    .related-grid {
+        grid-template-columns: 1fr;
+    }
+}

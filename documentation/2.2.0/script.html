@@ -1,0 +1,441 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>&lt;script&gt; - Script execution processor | WebHarvest v2.2.0</title>
+    <meta name="description" content="WebHarvest script plugin: Script execution processor. Core processor for web scraping and data extraction with XML configuration. Examples, usage, and documentation." />
+    <meta name="keywords" content="webharvest script, script plugin, web scraping, data extraction, XML configuration, core processor, webharvest plugin documentation" />
+    <meta name="robots" content="index, follow" />
+    <meta name="author" content="WebHarvest Team" />
+    
+    <!-- Open Graph / Facebook -->
+    <meta property="og:type" content="article" />
+    <meta property="og:title" content="&lt;script&gt; - Script execution processor" />
+    <meta property="og:description" content="The <code><script></code> processor enables execution of arbitrary code in multiple scripting
+languages. This is essential for complex data transformations, ari..." />
+    <meta property="og:url" content="https://webharvest.sourceforge.net/documentation/2.2.0/script.html" />
+    
+    <!-- Twitter -->
+    <meta property="twitter:card" content="summary" />
+    <meta property="twitter:title" content="&lt;script&gt; - Script execution processor" />
+    <meta property="twitter:description" content="The <code><script></code> processor enables execution of arbitrary code in multiple scripting
+languages. This is essential for complex data transformations, ari..." />
+    
+    <!-- Structured Data -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "TechArticle",
+      "headline": "&lt;script&gt; - Script execution processor",
+      "description": "The <code><script></code> processor enables execution of arbitrary code in multiple scripting
+languages. This is essential for complex data transformations, arithmetic operations,
+API calls, conditional logic, and any processing that's difficult to express in pure XML.",
+      "author": {
+        "@type": "Organization",
+        "name": "WebHarvest Team"
+      },
+      "datePublished": "2025-01-01",
+      "dateModified": "2025-01-01",
+      "publisher": {
+        "@type": "Organization",
+        "name": "WebHarvest",
+        "logo": {
+          "@type": "ImageObject",
+          "url": "https://webharvest.sourceforge.net/images/logo.png"
+        }
+      },
+      "mainEntityOfPage": {
+        "@type": "WebPage",
+        "@id": "https://webharvest.sourceforge.net/documentation/2.2.0/script.html"
+      },
+      "about": {
+        "@type": "SoftwareApplication",
+        "name": "WebHarvest",
+        "applicationCategory": "DeveloperApplication"
+      }
+    }
+    </script>
+    <link rel="stylesheet" href="../../css/enterprise.css">
+    <link rel="stylesheet" href="../../css/prism.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        /* Override enterprise.css background for code blocks */
+        .window-content pre[class*="language-"] {
+            background: #272822 !important;
+        }
+        .processor-content {
+            max-width: 900px;
+            margin: var(--spacing-8) auto;
+            padding: 0 var(--spacing-4);
+        }
+        .section {
+            margin-bottom: var(--spacing-8);
+        }
+        .section-title {
+            font-size: 1.75rem;
+            font-weight: 700;
+            margin-bottom: var(--spacing-4);
+        }
+        .subsection-title {
+            font-size: 1.25rem;
+            font-weight: 600;
+            margin-top: var(--spacing-6);
+            margin-bottom: var(--spacing-3);
+        }
+        .related-links {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: var(--spacing-3);
+            margin-top: var(--spacing-4);
+        }
+        .related-link {
+            padding: var(--spacing-3);
+            background: white;
+            border: 2px solid var(--gray-300);
+            border-radius: var(--radius-lg);
+            text-align: center;
+            text-decoration: none;
+            color: var(--text-primary);
+            font-weight: 600;
+            transition: all 0.3s ease;
+        }
+        .related-link:hover {
+            background: var(--gray-50);
+            border-color: var(--gray-400);
+            transform: translateY(-2px);
+        }
+    </style>
+</head>
+<body>
+    <header class="site-header">
+        <div class="container header-inner">
+            <a href="../../index.html" class="brand" style="text-decoration: none; color: inherit; display: flex; align-items: center; gap: var(--spacing-3);">
+                <img src="../../images/logo.png" alt="WebHarvest Logo - Enterprise Web Scraping Framework" class="logo" />
+                <span class="project-name">WebHarvest</span>
+            </a>
+            <nav class="main-nav">
+                <a href="../../about.html">About</a>
+                <a href="../getting-started.html" style="background: linear-gradient(135deg, var(--lime), #8BC34A); color: white; padding: 0.5rem 1rem; border-radius: var(--radius-md); font-weight: 700;"><i class="fas fa-rocket"></i> Get Started</a>
+                <a href="../../plugins.html">Plugins</a>
+                <a href="../../ide.html">IDE</a>
+                <a href="../../cli.html">CLI</a>
+                <a href="../../examples/">Examples</a>
+                <a href="../">Docs</a>
+                <a href="../../news.html">News</a>
+                <a href="../../support.html">Support</a>
+                <a class="cta" href="../../index.html#download">Download</a>
+            </nav>
+        </div>
+    </header>
+
+    <!-- Hero -->
+    <section class="hero">
+        <div class="container hero-inner">
+            <div class="hero-content">
+                <h1>&lt;script&gt;</h1>
+                <p class="lead">Script execution processor</p>
+                <p class="hero-description">
+                    <span style="display: inline-block; margin-right: 1rem;"><i class="fas fa-cube"></i> Core</span>
+                    <span style="display: inline-block;">v2.2.0</span>
+                </p>
+            </div>
+        </div>
+    </section>
+
+    <div class="processor-content">
+        <section class="section">
+            <h2 class="section-title">Overview</h2>
+            <p>The <code><script></code> processor enables execution of arbitrary code in multiple scripting
+languages. This is essential for complex data transformations, arithmetic operations,
+API calls, conditional logic, and any processing that's difficult to express in pure XML.</p>
+        </section>
+
+        <section class="section">
+            <h2 class="section-title">Usage Examples</h2>
+            
+            <h3 class="subsection-title">Example 1: Arithmetic operations (real math, not string concat)</h3>
+            <div class="code-window">
+                <div class="window-header">
+                    <div class="window-controls">
+                        <span class="control red"></span>
+                        <span class="control yellow"></span>
+                        <span class="control green"></span>
+                    </div>
+                    <span class="window-title">example-1.xml</span>
+                </div>
+                <div class="window-content">
+                    <pre><code class="language-xml">&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?&gt;
+&lt;config xmlns=&quot;http://org.webharvest/schema/2.1/core&quot;&gt;
+&lt;def var=&quot;price&quot; value=&quot;99.99&quot;/&gt;
+&lt;def var=&quot;quantity&quot; value=&quot;5&quot;/&gt;
+
+&lt;def var=&quot;total&quot;&gt;
+  &lt;script language=&quot;javascript&quot;&gt;
+    &lt;![CDATA[
+      var price = parseFloat(context.getVar(&quot;price&quot;).toString());
+      var qty = parseInt(context.getVar(&quot;quantity&quot;).toString());
+      price * qty;  // Returns: 499.95
+    ]]&gt;
+  &lt;/script&gt;
+&lt;/def&gt;
+&lt;/config&gt;</code></pre>
+                </div>
+            </div>
+
+            <h3 class="subsection-title">Example 2: String manipulation</h3>
+            <div class="code-window">
+                <div class="window-header">
+                    <div class="window-controls">
+                        <span class="control red"></span>
+                        <span class="control yellow"></span>
+                        <span class="control green"></span>
+                    </div>
+                    <span class="window-title">example-2.xml</span>
+                </div>
+                <div class="window-content">
+                    <pre><code class="language-xml">&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?&gt;
+&lt;config xmlns=&quot;http://org.webharvest/schema/2.1/core&quot;&gt;
+&lt;def var=&quot;email&quot; value=&quot;USER@EXAMPLE.COM&quot;/&gt;
+
+&lt;def var=&quot;normalizedEmail&quot;&gt;
+  &lt;script&gt;
+    &lt;![CDATA[
+      var email = context.getVar(&quot;email&quot;).toString();
+      email.toLowerCase();  // Returns: user@example.com
+    ]]&gt;
+  &lt;/script&gt;
+&lt;/def&gt;
+&lt;/config&gt;</code></pre>
+                </div>
+            </div>
+
+            <h3 class="subsection-title">Example 3: Conditional logic</h3>
+            <div class="code-window">
+                <div class="window-header">
+                    <div class="window-controls">
+                        <span class="control red"></span>
+                        <span class="control yellow"></span>
+                        <span class="control green"></span>
+                    </div>
+                    <span class="window-title">example-3.xml</span>
+                </div>
+                <div class="window-content">
+                    <pre><code class="language-xml">&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?&gt;
+&lt;config xmlns=&quot;http://org.webharvest/schema/2.1/core&quot;&gt;
+&lt;def var=&quot;httpStatus&quot; value=&quot;404&quot;/&gt;
+
+&lt;def var=&quot;shouldRetry&quot;&gt;
+  &lt;script&gt;
+    &lt;![CDATA[
+      var status = parseInt(context.getVar(&quot;httpStatus&quot;).toString());
+      
+      if (status &gt;= 500 &amp;&amp; status &lt; 600) {
+        &quot;true&quot;;  // Server error - retry
+      } else if (status == 429) {
+        &quot;true&quot;;  // Rate limit - retry
+      } else {
+        &quot;false&quot;;  // Don&#x27;t retry
+      }
+    ]]&gt;
+  &lt;/script&gt;
+&lt;/def&gt;
+
+&lt;if condition=&quot;${shouldRetry}&quot;&gt;
+  &lt;sleep time=&quot;5000&quot;/&gt;
+  &lt;http url=&quot;${url}&quot;/&gt;
+&lt;/if&gt;
+&lt;/config&gt;</code></pre>
+                </div>
+            </div>
+
+            <h3 class="subsection-title">Example 4: JSON parsing and manipulation</h3>
+            <div class="code-window">
+                <div class="window-header">
+                    <div class="window-controls">
+                        <span class="control red"></span>
+                        <span class="control yellow"></span>
+                        <span class="control green"></span>
+                    </div>
+                    <span class="window-title">example-4.xml</span>
+                </div>
+                <div class="window-content">
+                    <pre><code class="language-xml">&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?&gt;
+&lt;config xmlns=&quot;http://org.webharvest/schema/2.1/core&quot;&gt;
+&lt;def var=&quot;jsonData&quot;&gt;
+  &lt;http url=&quot;https://api.example.com/data&quot;/&gt;
+&lt;/def&gt;
+
+&lt;def var=&quot;extractedValue&quot;&gt;
+  &lt;script&gt;
+    &lt;![CDATA[
+      var json = context.getVar(&quot;jsonData&quot;).toString();
+      var obj = JSON.parse(json);
+      obj.users[0].name;  // Extract nested value
+    ]]&gt;
+  &lt;/script&gt;
+&lt;/def&gt;
+&lt;/config&gt;</code></pre>
+                </div>
+            </div>
+
+            <h3 class="subsection-title">Example 5: Date formatting</h3>
+            <div class="code-window">
+                <div class="window-header">
+                    <div class="window-controls">
+                        <span class="control red"></span>
+                        <span class="control yellow"></span>
+                        <span class="control green"></span>
+                    </div>
+                    <span class="window-title">example-5.xml</span>
+                </div>
+                <div class="window-content">
+                    <pre><code class="language-xml">&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?&gt;
+&lt;config xmlns=&quot;http://org.webharvest/schema/2.1/core&quot;&gt;
+&lt;def var=&quot;timestamp&quot; value=&quot;1609459200000&quot;/&gt;
+
+&lt;def var=&quot;formattedDate&quot;&gt;
+  &lt;script&gt;
+    &lt;![CDATA[
+      var ts = parseInt(context.getVar(&quot;timestamp&quot;).toString());
+      var date = new Date(ts);
+      date.toISOString();  // Returns: 2021-01-01T00:00:00.000Z
+    ]]&gt;
+  &lt;/script&gt;
+&lt;/def&gt;
+&lt;/config&gt;</code></pre>
+                </div>
+            </div>
+
+            <h3 class="subsection-title">Example 6: Complex URL building</h3>
+            <div class="code-window">
+                <div class="window-header">
+                    <div class="window-controls">
+                        <span class="control red"></span>
+                        <span class="control yellow"></span>
+                        <span class="control green"></span>
+                    </div>
+                    <span class="window-title">example-6.xml</span>
+                </div>
+                <div class="window-content">
+                    <pre><code class="language-xml">&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?&gt;
+&lt;config xmlns=&quot;http://org.webharvest/schema/2.1/core&quot;&gt;
+&lt;def var=&quot;baseUrl&quot; value=&quot;https://api.example.com&quot;/&gt;
+&lt;def var=&quot;endpoint&quot; value=&quot;users&quot;/&gt;
+&lt;def var=&quot;userId&quot; value=&quot;123&quot;/&gt;
+&lt;def var=&quot;fields&quot;&gt;name,email,age&lt;/def&gt;
+
+&lt;def var=&quot;fullUrl&quot;&gt;
+  &lt;script&gt;
+    &lt;![CDATA[
+      var base = context.getVar(&quot;baseUrl&quot;).toString();
+      var ep = context.getVar(&quot;endpoint&quot;).toString();
+      var id = context.getVar(&quot;userId&quot;).toString();
+      var fields = context.getVar(&quot;fields&quot;).toString();
+      
+      base + &quot;/&quot; + ep + &quot;/&quot; + id + &quot;?fields=&quot; + encodeURIComponent(fields);
+      // Returns: https://api.example.com/users/123?fields=name%2Cemail%2Cage
+    ]]&gt;
+  &lt;/script&gt;
+&lt;/def&gt;
+&lt;/config&gt;</code></pre>
+                </div>
+            </div>
+
+            <h3 class="subsection-title">Example 7: Groovy for Java library access</h3>
+            <div class="code-window">
+                <div class="window-header">
+                    <div class="window-controls">
+                        <span class="control red"></span>
+                        <span class="control yellow"></span>
+                        <span class="control green"></span>
+                    </div>
+                    <span class="window-title">example-7.xml</span>
+                </div>
+                <div class="window-content">
+                    <pre><code class="language-xml">&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?&gt;
+&lt;config xmlns=&quot;http://org.webharvest/schema/2.1/core&quot;&gt;
+&lt;def var=&quot;uuid&quot;&gt;
+  &lt;script language=&quot;groovy&quot;&gt;
+    &lt;![CDATA[
+      import java.util.UUID
+      UUID.randomUUID().toString()
+    ]]&gt;
+  &lt;/script&gt;
+&lt;/def&gt;
+&lt;/config&gt;</code></pre>
+                </div>
+            </div>
+
+            <h3 class="subsection-title">Example 8: Counter with real increment</h3>
+            <div class="code-window">
+                <div class="window-header">
+                    <div class="window-controls">
+                        <span class="control red"></span>
+                        <span class="control yellow"></span>
+                        <span class="control green"></span>
+                    </div>
+                    <span class="window-title">example-8.xml</span>
+                </div>
+                <div class="window-content">
+                    <pre><code class="language-xml">&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?&gt;
+&lt;config xmlns=&quot;http://org.webharvest/schema/2.1/core&quot;&gt;
+&lt;def var=&quot;counter&quot; value=&quot;0&quot;/&gt;
+
+&lt;loop maxloops=&quot;10&quot;&gt;
+  &lt;!-- Real arithmetic increment --&gt;
+  &lt;def var=&quot;counter&quot;&gt;
+    &lt;script&gt;
+      &lt;![CDATA[
+        var current = parseInt(context.getVar(&quot;counter&quot;).toString());
+        current + 1;
+      ]]&gt;
+    &lt;/script&gt;
+  &lt;/def&gt;
+  
+  &lt;http url=&quot;https://example.com/page/${counter}&quot;/&gt;
+&lt;/loop&gt;
+&lt;/config&gt;</code></pre>
+                </div>
+            </div>
+
+        </section>
+
+        
+
+        <section class="section">
+            <h2 class="section-title">Important Notes</h2><ul style="line-height: 1.8;"><li>CDATA required:: Use <code><![CDATA[...]]></code> for any code with <code><, >, &</code></li><li>Context access:: <code>context</code> object is always available</li><li>Last expression:: The final evaluated expression is returned</li><li>No side effects:: Prefer returning values over context.setVar()</li><li>Thread safety:: Each execution has isolated script context</li></ul>
+        </section>
+
+        <section class="section">
+            <h2 class="section-title">Related Processors</h2><div class="related-links">
+                <a href="template.html" class="related-link">
+                    <i class="fas fa-code"></i> &lt;template&gt;
+                </a>
+                <a href="def.html" class="related-link">
+                    <i class="fas fa-code"></i> &lt;def&gt;
+                </a>
+                <a href="function.html" class="related-link">
+                    <i class="fas fa-code"></i> &lt;function&gt;
+                </a></div>
+        </section>
+    </div>
+
+    <footer class="site-footer">
+        <div class="container footer-content">
+            <div class="footer-links">
+                <a href="../../about.html">About</a>
+                <a href="../">Plugins</a>
+                <a href="../">Documentation</a>
+                <a href="../../examples/">Examples</a>
+                <a href="../../support.html">Support</a>
+                <a href="https://sourceforge.net/projects/web-harvest/">SourceForge</a>
+            </div>
+            <div class="footer-legal">
+                <p>Copyright © 2006-2025 WebHarvest Contributors. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+    <script src="../../js/prism.js"></script>
+</body>
+</html>

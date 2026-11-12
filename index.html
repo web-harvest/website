@@ -1,0 +1,477 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>WebHarvest - Enterprise Web Scraping & Data Extraction Framework</title>
+    <meta name="description"
+        content="Professional web scraping framework with 57 plugins, modern IDE, and enterprise features. Extract data from any website with XML-based configuration. Free and open source." />
+    <meta name="keywords"
+        content="web scraping, data extraction, web harvesting, automation, XML, XPath, HTTP, enterprise, framework, Java, open source" />
+    <meta name="author" content="WebHarvest Team" />
+    <meta name="robots" content="index, follow" />
+    <link rel="canonical" href="https://webharvest.sourceforge.net/" />
+
+    <!-- Open Graph / Facebook -->
+    <meta property="og:type" content="website" />
+    <meta property="og:url" content="https://webharvest.sourceforge.net/" />
+    <meta property="og:title" content="WebHarvest - Enterprise Web Scraping & Data Extraction" />
+    <meta property="og:description"
+        content="Professional web scraping framework with 57 plugins, modern IDE, and enterprise features. Extract data from any website with XML-based configuration." />
+    <meta property="og:image" content="https://webharvest.sourceforge.net/images/logo.png" />
+
+    <!-- Twitter -->
+    <meta property="twitter:card" content="summary_large_image" />
+    <meta property="twitter:url" content="https://webharvest.sourceforge.net/" />
+    <meta property="twitter:title" content="WebHarvest - Enterprise Web Scraping & Data Extraction" />
+    <meta property="twitter:description"
+        content="Professional web scraping framework with 57 plugins, modern IDE, and enterprise features." />
+    <meta property="twitter:image" content="https://webharvest.sourceforge.net/images/logo.png" />
+
+    <!-- Structured Data -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "SoftwareApplication",
+      "name": "WebHarvest",
+      "description": "Enterprise web scraping and data extraction framework",
+      "url": "https://webharvest.sourceforge.net/",
+      "applicationCategory": "DeveloperApplication",
+      "operatingSystem": "Windows, macOS, Linux",
+      "programmingLanguage": "Java",
+      "license": "Apache License 2.0",
+      "downloadUrl": "https://sourceforge.net/projects/webharvest/",
+      "author": {
+        "@type": "Organization",
+        "name": "WebHarvest Team"
+      }
+    }
+    </script>
+    <link rel="stylesheet" href="css/enterprise.css" />
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="css/prism.css">
+</head>
+
+<body>
+
+    <!-- Professional Header -->
+    <header class="site-header">
+        <div class="container header-inner">
+            <a href="index.html" class="brand"
+                style="text-decoration: none; color: inherit; display: flex; align-items: center; gap: var(--spacing-3);">
+                <img src="images/logo.png" alt="WebHarvest Logo - Enterprise Web Scraping Framework" class="logo" />
+                <span class="project-name">WebHarvest</span>
+            </a>
+            <nav class="main-nav">
+                <a href="about.html">About</a>
+                <a href="documentation/getting-started.html"
+                    style="background: linear-gradient(135deg, var(--lime), #8BC34A); color: white; padding: 0.5rem 1rem; border-radius: var(--radius-md); font-weight: 700;"><i
+                        class="fas fa-rocket"></i> Get Started</a>
+                <a href="plugins.html">Plugins</a>
+                <a href="ide.html">IDE</a>
+                <a href="cli.html">CLI</a>
+                <a href="examples/">Examples</a>
+                <a href="documentation/">Docs</a>
+                <a href="news.html">News</a>
+                <a href="support.html">Support</a>
+                <a class="cta" href="#download">Download</a>
+            </nav>
+        </div>
+    </header>
+
+    <!-- Hero -->
+    <section class="hero">
+        <div class="container hero-inner">
+            <div class="hero-content">
+                <h1>Enterprise Web Scraping<br />& Data Extraction</h1>
+                <p class="lead">Extract the web. Automate data harvesting.</p>
+                <p class="hero-description">
+                    Production-ready framework with 57 plugins: 47 core (built-in) + 10 extensions (optional), modern
+                    plugin architecture,
+                    session management, and professional web IDE.
+                </p>
+                <div class="hero-buttons">
+                    <a class="btn btn-primary btn-large" href="documentation/getting-started.html">
+                        <i class="fas fa-rocket"></i>
+                        Get Started
+                    </a>
+                    <a class="btn btn-secondary btn-large"
+                        href="https://sourceforge.net/projects/web-harvest/files/webhervest/2.2.0/">
+                        <i class="fas fa-download"></i>
+                        Download v2.2.0
+                    </a>
+                </div>
+                <div style="margin-top: 1rem; font-size: 0.95rem;">
+                    <a href="#features"
+                        style="color: var(--lime); text-decoration: none; font-weight: 600; display: inline-flex; align-items: center; gap: 0.5rem;">
+                        <i class="fas fa-arrow-down"></i> Or learn more about features
+                    </a>
+                </div>
+            </div>
+            <div class="hero-visual">
+                <img src="images/hero-icon.png" alt="WebHarvest Hero Icon - Data Extraction and Web Scraping" />
+
+                <!-- Stats Bar (under icon, aligned with buttons) -->
+                <div class="stats-bar">
+                    <div class="stat">
+                        <div class="stat-number">57</div>
+                        <div class="stat-label">Plugins</div>
+                    </div>
+                    <div class="stat">
+                        <div class="stat-number stat-success">3,091</div>
+                        <div class="stat-label">Tests Pass</div>
+                    </div>
+                    <div class="stat">
+                        <div class="stat-number">15+</div>
+                        <div class="stat-label">Years</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- IDE Preview Section -->
+    <section class="ide-preview" id="ide">
+        <div class="container">
+            <div class="ide-showcase">
+                <div class="ide-features-list">
+                    <!-- Header inside left column -->
+                    <div class="ide-section-header">
+                        <h2>Professional Web IDE</h2>
+                        <p class="ide-subtitle">
+                            Develop, test, and debug your scrapers directly in the browser
+                        </p>
+                    </div>
+
+                    <!-- Features -->
+                    <div class="ide-feature-item">
+                        <div class="ide-feature-icon">
+                            <i class="fas fa-code"></i>
+                        </div>
+                        <div>
+                            <h4>Monaco Editor</h4>
+                            <p>VS Code's powerful editor with XML syntax highlighting and auto-completion</p>
+                        </div>
+                    </div>
+                    <div class="ide-feature-item">
+                        <div class="ide-feature-icon">
+                            <i class="fas fa-bolt"></i>
+                        </div>
+                        <div>
+                            <h4>Real-Time Updates</h4>
+                            <p>WebSocket-based live streaming of logs, progress, and results</p>
+                        </div>
+                    </div>
+                    <div class="ide-feature-item">
+                        <div class="ide-feature-icon">
+                            <i class="fas fa-layer-group"></i>
+                        </div>
+                        <div>
+                            <h4>Multi-Tab Support</h4>
+                            <p>Per-tab logs, results, and session tracking (v2.2)</p>
+                        </div>
+                    </div>
+                    <div class="ide-feature-item">
+                        <div class="ide-feature-icon">
+                            <i class="fas fa-chart-bar"></i>
+                        </div>
+                        <div>
+                            <h4>Session Metrics</h4>
+                            <p>Track duration, tokens, and performance in real-time</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="ide-code-preview">
+                    <!-- Code Window -->
+                    <div class="code-window">
+                        <div class="window-header">
+                            <div class="window-controls">
+                                <span class="control red"></span>
+                                <span class="control yellow"></span>
+                                <span class="control green"></span>
+                            </div>
+                            <span class="window-title">scraper.xml</span>
+                        </div>
+                        <div class="window-content">
+                            <pre><code class="language-xml">&lt;config xmlns="http://org.webharvest/schema/2.1/core"&gt;
+  &lt;!-- Fetch HTML --&gt;
+  &lt;def var="html"&gt;
+    &lt;http url="https://example.com"/&gt;
+  &lt;/def&gt;
+  
+  &lt;!-- Parse to XML --&gt;
+  &lt;def var="page"&gt;
+    &lt;html-to-xml&gt;
+      &lt;get var="html"/&gt;
+    &lt;/html-to-xml&gt;
+  &lt;/def&gt;
+  
+  &lt;!-- Extract Title --&gt;
+  &lt;def var="title"&gt;
+    &lt;xpath expression="//title/text()"&gt;
+      &lt;get var="page"/&gt;
+    &lt;/xpath&gt;
+  &lt;/def&gt;
+&lt;/config&gt;</code></pre>
+                        </div>
+                    </div>
+
+                    <div style="text-align: center; margin-top: 2rem;">
+                        <a href="#" class="btn btn-primary btn-large">
+                            <i class="fas fa-play"></i>
+                            Try IDE Now
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Features -->
+    <section class="features container" id="features">
+        <div class="section-header">
+            <h2>Enterprise Features</h2>
+            <p class="section-subtitle">
+                Production-ready tools for professional web scraping
+            </p>
+        </div>
+
+        <div class="features-grid">
+            <div class="feature-card">
+                <div class="feature-icon">
+                    <i class="fas fa-code"></i>
+                </div>
+                <h3>Advanced Parsing</h3>
+                <p>HTML/XML parsing with XPath, XQuery, and CSS selectors. Multi-strategy parsing for maximum
+                    compatibility.</p>
+                <div class="feature-tags">
+                    <a href="documentation/2.2.0/html-to-xml.html" class="tag">&lt;html-to-xml&gt;</a>
+                    <a href="documentation/2.2.0/xpath.html" class="tag">&lt;xpath&gt;</a>
+                </div>
+            </div>
+
+            <div class="feature-card">
+                <div class="feature-icon">
+                    <i class="fas fa-network-wired"></i>
+                </div>
+                <h3>HTTP Client</h3>
+                <p>Full-featured HTTP client with connection pooling, cookies, authentication, and advanced headers.</p>
+                <div class="feature-tags">
+                    <a href="documentation/2.2.0/http.html" class="tag">&lt;http&gt;</a>
+                </div>
+            </div>
+
+            <div class="feature-card">
+                <div class="feature-icon">
+                    <i class="fas fa-plug"></i>
+                </div>
+                <h3>Plugin System</h3>
+                <p>Modern plugin architecture with dependency injection, auto-discovery, and 47 built-in plugins.
+                </p>
+                <div class="feature-tags">
+                    <a href="documentation/2.2.0/" class="tag">View All</a>
+                </div>
+            </div>
+
+            <div class="feature-card">
+                <div class="feature-icon">
+                    <i class="fas fa-chart-line"></i>
+                </div>
+                <h3>Session Tracking</h3>
+                <p>Built-in session management, metrics, token tracking, and performance monitoring for production use.
+                </p>
+                <div class="feature-tags">
+                    <a href="documentation/architecture.html" class="tag">Architecture</a>
+                </div>
+            </div>
+
+            <div class="feature-card" style="border-left: 4px solid var(--lime);">
+                <div class="feature-icon" style="background: linear-gradient(135deg, var(--lime), var(--green-600));">
+                    <i class="fas fa-terminal"></i>
+                </div>
+                <h3>Unified Settings <span class="tag"
+                        style="background: var(--lime); color: white; font-size: 0.75rem; margin-left: 0.5rem;">NEW
+                        v2.2.0</span></h3>
+                <p>CLI and GUI share configuration. Modern -option syntax. Auto-discovery. Override via command-line.
+                </p>
+                <div class="feature-tags">
+                    <a href="cli.html" class="tag"><i class="fas fa-book"></i> CLI Guide</a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Core Plugins Quick View -->
+    <section class="plugins container" id="plugins">
+        <div class="section-header">
+            <h2>12 Essential Core Plugins</h2>
+            <p class="section-subtitle">
+                Most commonly used processors - all included in webharvest-core
+            </p>
+        </div>
+
+        <div class="processor-grid">
+            <a href="documentation/2.2.0/http.html" class="processor-card" style="border-left: 4px solid var(--lime);">
+                <div class="processor-icon" style="background: linear-gradient(135deg, var(--lime), var(--green-600));">
+                    <i class="fas fa-globe"></i>
+                </div>
+                <h4>HTTP</h4>
+                <p>Fetch web pages & APIs</p>
+            </a>
+
+            <a href="documentation/2.2.0/html-to-xml.html" class="processor-card"
+                style="border-left: 4px solid var(--lime);">
+                <div class="processor-icon" style="background: linear-gradient(135deg, var(--lime), var(--green-600));">
+                    <i class="fas fa-file-code"></i>
+                </div>
+                <h4>HTML-to-XML</h4>
+                <p>Parse HTML content</p>
+            </a>
+
+            <a href="documentation/2.2.0/xpath.html" class="processor-card" style="border-left: 4px solid var(--lime);">
+                <div class="processor-icon" style="background: linear-gradient(135deg, var(--lime), var(--green-600));">
+                    <i class="fas fa-code-branch"></i>
+                </div>
+                <h4>XPath</h4>
+                <p>Extract data from XML</p>
+            </a>
+
+            <a href="documentation/2.2.0/json-to-xml.html" class="processor-card">
+                <div class="processor-icon">
+                    <i class="fas fa-brackets-curly"></i>
+                </div>
+                <h4>JSON-to-XML</h4>
+                <p>Parse JSON data</p>
+            </a>
+
+            <a href="documentation/2.2.0/def.html" class="processor-card">
+                <div class="processor-icon">
+                    <i class="fas fa-tag"></i>
+                </div>
+                <h4>Def</h4>
+                <p>Define variables</p>
+            </a>
+
+            <a href="documentation/2.2.0/get-var.html" class="processor-card">
+                <div class="processor-icon">
+                    <i class="fas fa-arrow-right"></i>
+                </div>
+                <h4>Get</h4>
+                <p>Retrieve variables</p>
+            </a>
+
+            <a href="documentation/2.2.0/template.html" class="processor-card">
+                <div class="processor-icon">
+                    <i class="fas fa-file-alt"></i>
+                </div>
+                <h4>Template</h4>
+                <p>Generate output</p>
+            </a>
+
+            <a href="documentation/2.2.0/loop.html" class="processor-card">
+                <div class="processor-icon">
+                    <i class="fas fa-repeat"></i>
+                </div>
+                <h4>Loop</h4>
+                <p>Iterate collections</p>
+            </a>
+
+            <a href="documentation/2.2.0/xquery.html" class="processor-card">
+                <div class="processor-icon">
+                    <i class="fas fa-database"></i>
+                </div>
+                <h4>XQuery</h4>
+                <p>Advanced XML queries</p>
+            </a>
+
+            <a href="documentation/2.2.0/regexp.html" class="processor-card">
+                <div class="processor-icon">
+                    <i class="fas fa-search"></i>
+                </div>
+                <h4>Regexp</h4>
+                <p>Pattern matching</p>
+            </a>
+
+            <a href="documentation/2.2.0/script.html" class="processor-card">
+                <div class="processor-icon">
+                    <i class="fas fa-code"></i>
+                </div>
+                <h4>Script</h4>
+                <p>JavaScript & Groovy</p>
+            </a>
+
+            <a href="documentation/2.2.0/file.html" class="processor-card">
+                <div class="processor-icon">
+                    <i class="fas fa-file"></i>
+                </div>
+                <h4>File</h4>
+                <p>Read & write files</p>
+            </a>
+        </div>
+
+        <div style="text-align: center; margin-top: 3rem;">
+            <p style="font-size: 1rem; opacity: 0.8; margin-bottom: 1.5rem;">
+                Plus 35 more: if, while, xslt, xml-to-json, tokenize, case, try-catch, function, include, and more
+            </p>
+            <a href="documentation/2.2.0/" class="btn btn-outline">
+                <i class="fas fa-th"></i>
+                View All 47 Core Processors
+            </a>
+            <a href="documentation/2.2.0/" class="btn btn-primary" style="margin-left: 1rem;">
+                <i class="fas fa-plug"></i>
+                10 External Plugins
+            </a>
+        </div>
+    </section>
+
+    <!-- Download CTA -->
+    <section class="download container" id="download">
+        <div class="download-card">
+            <h2>Start Building Today</h2>
+            <p>Download WebHarvest v2.2.0 and automate your data extraction workflows</p>
+            <div class="download-buttons">
+                <a class="btn btn-primary btn-large"
+                    href="https://sourceforge.net/projects/web-harvest/files/webhervest/2.2.0/webharvest-ide-2.2.0.jar/download">
+                    <i class="fas fa-desktop"></i>
+                    IDE v2.2.0 (JAR)
+                </a>
+                <a class="btn btn-primary btn-large"
+                    href="https://sourceforge.net/projects/web-harvest/files/webhervest/2.2.0/webharvest-cli-2.2.0.jar/download">
+                    <i class="fas fa-terminal"></i>
+                    CLI v2.2.0 (JAR)
+                </a>
+                <a class="btn btn-secondary btn-large" href="documentation/">
+                    <i class="fas fa-book"></i>
+                    Documentation
+                </a>
+            </div>
+            <p style="margin-top: 1.5rem; font-size: 0.9375rem; opacity: 0.85;">
+                Java 11+ • Apache License 2.0 • Production Ready
+            </p>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="site-footer">
+        <div class="container footer-content">
+            <div class="footer-links">
+                <a href="about.html">About</a>
+                <a href="documentation/2.2.0/">Plugins</a>
+                <a href="documentation/">Documentation</a>
+                <a href="examples/">Examples</a>
+                <a href="support.html">Support</a>
+                <a href="https://sourceforge.net/projects/web-harvest/">SourceForge</a>
+            </div>
+            <div class="footer-legal">
+                <p>Copyright © 2006-2025 WebHarvest Contributors. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script src="js/prism.js"></script>
+</body>
+
+</html>

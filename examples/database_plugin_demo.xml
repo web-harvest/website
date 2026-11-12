@@ -1,0 +1,92 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<config xmlns="http://org.webharvest/schema/2.1/core" charset="UTF-8">
+    <!-- Database Plugin Demo - demonstrates database operations with new plugin architecture -->
+    
+    <!-- Database connection configuration -->
+    <def var="db_url">jdbc:h2:mem:testdb</def>
+    <def var="db_driver">org.h2.Driver</def>
+    <def var="db_user">sa</def>
+    <def var="db_password"></def>
+    
+    <!-- Create test table -->
+    <database url="${db_url}" driver="${db_driver}" user="${db_user}" password="${db_password}">
+        <sql>CREATE TABLE IF NOT EXISTS products (id INT PRIMARY KEY, name VARCHAR(100), price DECIMAL(10,2))</sql>
+        <sql>INSERT INTO products VALUES (1, 'Web-Harvest Pro', 299.99)</sql>
+        <sql>INSERT INTO products VALUES (2, 'Data Extractor', 199.99)</sql>
+        <sql>INSERT INTO products VALUES (3, 'Scraper Suite', 399.99)</sql>
+    </database>
+    
+    <!-- Query all products -->
+    <database url="${db_url}" driver="${db_driver}" user="${db_user}" password="${db_password}">
+        <sql>SELECT * FROM products</sql>
+        <def var="dbResult">
+            <body>
+                <loop item="row">
+                    <xpath expression="//row">
+                        <get var="dbResult"/>
+                    </xpath>
+                    <body>
+                        <product>
+                            <!-- Use /text() to extract text content -->
+                            <id><xpath expression="id/text()"><get var="row"/></xpath></id>
+                            <name><xpath expression="name/text()"><get var="row"/></xpath></name>
+                            <price><xpath expression="price/text()"><get var="row"/></xpath></price>
+                        </product>
+                    </body>
+                </loop>
+            </body>
+        </def>
+    </database>
+    
+    <!-- Parameterized query -->
+    <def var="min_price">200.00</def>
+    <database url="${db_url}" driver="${db_driver}" user="${db_user}" password="${db_password}">
+        <sql>SELECT * FROM products WHERE price >= ?</sql>
+        <db-param><get var="min_price"/></db-param>
+        <def var="paramResult">
+            <body>
+                <loop item="row">
+                    <xpath expression="//row">
+                        <get var="paramResult"/>
+                    </xpath>
+                    <body>
+                        <expensive_product>
+                            <!-- Use /text() to extract text content -->
+                            <id><xpath expression="id/text()"><get var="row"/></xpath></id>
+                            <name><xpath expression="name/text()"><get var="row"/></xpath></name>
+                            <price><xpath expression="price/text()"><get var="row"/></xpath></price>
+                        </expensive_product>
+                    </body>
+                </loop>
+            </body>
+        </def>
+    </database>
+    
+    <!-- Generate results -->
+    <file action="write" path="database_demo_results.xml" charset="UTF-8">
+        <template>
+            <database_test_results>
+                <all_records>
+                    <get var="dbResult"></get>
+                </all_records>
+                <parametrized_query>
+                    <get var="paramResult"></get>
+                </parametrized_query>
+            </database_test_results>
+        </template>
+    </file>
+    
+    <text>Database demo completed. Results saved to database_demo_results.xml</text>
+</config>
+
+
+
+
+
+
+
+
+
+
+
+

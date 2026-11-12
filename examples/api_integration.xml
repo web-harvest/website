@@ -1,0 +1,136 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<config xmlns="http://org.webharvest/schema/2.1/core">
+    <!-- API integration and data processing example -->
+    <def var="apiKey">demo_key_12345</def>
+    <def var="baseUrl">https://httpbin.org</def>
+    
+    <!-- Fetch data from REST API -->
+    <def var="userData">
+        <http url="${baseUrl}/json">
+            <http-header name="Authorization">Bearer ${apiKey}</http-header>
+            <http-header name="Content-Type">application/json</http-header>
+        </http>
+    </def>
+    
+    <!-- Process JSON response -->
+    <def var="processedData">
+        <json-to-xml tag="api_response">
+            <script>userData</script>
+        </json-to-xml>
+    </def>
+    
+    <!-- Extract specific fields -->
+    <!-- Note: Use /text() to extract TEXT content, not the element -->
+    <def var="userName">
+        <xpath expression="//slideshow/title/text()">
+            <script>processedData</script>
+        </xpath>
+    </def>
+    
+    <def var="userEmail">
+        <xpath expression="//slideshow/date/text()">
+            <script>processedData</script>
+        </xpath>
+    </def>
+    
+    <!-- Transform data using XSLT -->
+    <def var="transformedData">
+        <xslt>
+            <xml>
+                <script>processedData</script>
+            </xml>
+            <stylesheet>
+                <![CDATA[
+                <?xml version="1.0" encoding="UTF-8"?>
+                <xsl:stylesheet version="1.0" xmlns:xsl="http://www.w3.org/1999/XSL/Transform">
+                    <xsl:template match="/">
+                        <user_profile>
+                            <xsl:for-each select="//slideshow">
+                                <name><xsl:value-of select="title"/></name>
+                                <email><xsl:value-of select="date"/></email>
+                                <status>active</status>
+                                <last_updated><xsl:value-of select="date"/></last_updated>
+                            </xsl:for-each>
+                        </user_profile>
+                    </xsl:template>
+                </xsl:stylesheet>
+                ]]>
+            </stylesheet>
+        </xslt>
+    </def>
+    
+    <!-- Send data to another API endpoint -->
+    <def var="apiResponse">
+        <http method="post" url="${baseUrl}/post">
+            <http-header name="Content-Type">application/json</http-header>
+            <http-param name="data">
+                <script>transformedData</script>
+            </http-param>
+        </http>
+    </def>
+    
+    <!-- Process API response -->
+    <def var="responseData">
+        <json-to-xml tag="response">
+            <script>apiResponse</script>
+        </json-to-xml>
+    </def>
+    
+    <!-- Generate integration report -->
+    <file path="api_integration_report.xml" action="write">
+        <template>
+            <![CDATA[
+            <api_integration_report>
+                <timestamp>${sys.datetime("yyyy-MM-dd HH:mm:ss")}</timestamp>
+                <source_api>${baseUrl}/json</source_api>
+                <target_api>${baseUrl}/post</target_api>
+                <status>success</status>
+                <data_processed>
+                    <user_name>${userName}</user_name>
+                    <user_email>${userEmail}</user_email>
+                </data_processed>
+                <api_response>
+                    <script>responseData</script>
+                </api_response>
+            </api_integration_report>
+            ]]>
+        </template>
+    </file>
+    
+    <!-- Generate error handling example -->
+    <try>
+        <body>
+            <!-- Simulate API call that might fail -->
+            <def var="riskyApiCall">
+                <http url="${baseUrl}/status/500">
+                    <http-header name="Authorization">Bearer ${apiKey}</http-header>
+                </http>
+            </def>
+        </body>
+        <catch>
+            <file path="api_error_log.txt" action="write">
+                <template>
+                    <![CDATA[
+                    API Error occurred at ${sys.datetime("yyyy-MM-dd HH:mm:ss")}
+                    Error: ${sys.lastException().getMessage()}
+                    Stack trace: ${sys.lastException().getStackTrace()}
+                    ]]>
+                </template>
+            </file>
+        </catch>
+    </try>
+    
+    <!-- Generate performance metrics -->
+    <file path="performance_metrics.xml" action="write">
+        <template>
+            <![CDATA[
+            <performance_metrics>
+                <execution_time>N/A</execution_time>
+                <memory_usage>N/A</memory_usage>
+                <api_calls_made>2</api_calls_made>
+                <data_processed>N/A</data_processed>
+            </performance_metrics>
+            ]]>
+        </template>
+    </file>
+</config>

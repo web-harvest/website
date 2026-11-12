@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<config xmlns="http://org.webharvest/schema/2.1/core" charset="UTF-8">
+    <!-- Product catalog scraping example -->
+    <def var="products">
+        <html-to-xml>
+            <http url="https://books.toscrape.com/"/>
+        </html-to-xml>
+    </def>
+    
+    <!-- Extract product information from the page -->
+    <file action="write" path="product_catalog/catalog.xml" charset="UTF-8">
+        <![CDATA[ <catalog> ]]>
+        <xquery>
+            <xq-param name="content" type="node()">
+                <get var="products"/>
+            </xq-param>
+            <xq-expression>
+                <![CDATA[
+                    declare variable $content as node() external;
+                    
+                    for $product in $content//article[@class="product_pod"]
+                    return
+                        <product>
+                            <title>{normalize-space($product//h3/a/@title)}</title>
+                            <price>{normalize-space($product//p[@class="price_color"])}</price>
+                            <rating>{normalize-space($product//p[@class="star-rating"]/@class)}</rating>
+                            <availability>{normalize-space($product//p[@class="instock availability"])}</availability>
+                        </product>
+                ]]>
+            </xq-expression>
+        </xquery>
+        <![CDATA[ </catalog> ]]>
+    </file>
+    
+    <!-- Also save individual product details -->
+    <file action="write" path="product_catalog/summary.txt" charset="UTF-8">
+        <template>
+            Product Catalog Summary
+            ======================
+            
+            Sample products from books.toscrape.com:
+            <xquery>
+                <xq-param name="content" type="node()">
+                    <get var="products"/>
+                </xq-param>
+                <xq-expression>
+                    <![CDATA[
+                        declare variable $content as node() external;
+                        
+                        for $product at $i in $content//article[@class="product_pod"][position() <= 5]
+                        return concat($i, ". ", normalize-space($product//h3/a/@title), " - ", normalize-space($product//p[@class="price_color"]))
+                    ]]>
+                </xq-expression>
+            </xquery>
+        </template>
+    </file>
+</config>

@@ -1,0 +1,1042 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>WebHarvest Architecture - System Design</title>
+    <link rel="stylesheet" href="../css/enterprise.css" />
+    <link rel="stylesheet" href="../css/prism.css" />
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        /* Override enterprise.css background for code blocks */
+        .window-content pre[class*="language-"] {
+            background: #272822 !important;
+        }
+
+        /* Add spacing between code windows */
+        .code-window {
+            margin: var(--spacing-6) 0;
+        }
+    </style>
+</head>
+
+<body>
+
+    <!-- Header -->
+    <header class="site-header">
+        <div class="container header-inner">
+            <a href="../index.html" class="brand"
+                style="text-decoration: none; color: inherit; display: flex; align-items: center; gap: var(--spacing-3);">
+                <img src="../images/logo.png" alt="WebHarvest" class="logo" />
+                <span class="project-name">WebHarvest</span>
+            </a>
+            <nav class="main-nav">
+                <a href="../about.html">About</a>
+                <a href="getting-started.html"
+                    style="background: linear-gradient(135deg, var(--lime), #8BC34A); color: white; padding: 0.5rem 1rem; border-radius: var(--radius-md); font-weight: 700;"><i
+                        class="fas fa-rocket"></i> Get Started</a>
+                <a href="../plugins.html">Plugins</a>
+                <a href="../ide.html">IDE</a>
+                <a href="../cli.html">CLI</a>
+                <a href="../examples/">Examples</a>
+                <a href="./" class="active">Docs</a>
+                <a href="../news.html">News</a>
+                <a href="../support.html">Support</a>
+                <a class="cta" href="../index.html#download">Download</a>
+            </nav>
+        </div>
+    </header>
+
+    <!-- Hero -->
+    <section class="hero">
+        <div class="container hero-inner">
+            <div class="hero-content">
+                <h1>WebHarvest<br />Architecture</h1>
+                <p class="lead">Modular, plugin-based, extensible design</p>
+                <p class="hero-description">
+                    Understanding the core architecture, plugin system, and execution model
+                    that powers WebHarvest's flexibility and performance.
+                </p>
+            </div>
+        </div>
+    </section>
+
+    <!-- High-Level Architecture -->
+    <section class="container" style="margin-top: 4rem;">
+        <div class="section-header">
+            <h2>System Architecture (v2.2)</h2>
+            <p class="section-subtitle">Modular design with clear separation of concerns</p>
+        </div>
+
+        <div class="diagram-container">
+            <h3 style="text-align: center; margin-bottom: 2rem; color: var(--text-primary);">System Architecture Diagram
+            </h3>
+
+            <!-- Application Layer -->
+            <div class="diagram-row">
+                <div class="diagram-box accent">
+                    <i class="fas fa-laptop-code"></i>
+                    webharvest-ide
+                    <small>Web-based IDE</small>
+                </div>
+                <div class="diagram-box accent">
+                    <i class="fas fa-terminal"></i>
+                    webharvest-cli
+                    <small>Command-line tool</small>
+                </div>
+            </div>
+
+            <div class="diagram-arrow">
+                <i class="fas fa-arrow-down"></i>
+            </div>
+
+            <!-- Core Framework -->
+            <div class="diagram-box primary" style="max-width: 600px;">
+                <i class="fas fa-cube"></i>
+                webharvest-core (Framework)
+                <small>47 Plugins • Parser • Runtime • DI • Sessions • Events</small>
+            </div>
+
+            <div class="diagram-arrow">
+                <i class="fas fa-arrow-down"></i>
+            </div>
+
+            <!-- External Plugins -->
+            <div class="diagram-grid">
+                <div class="diagram-box">
+                    <i class="fas fa-database"></i>
+                    webharvest-database
+                    <small>External Plugin</small>
+                </div>
+                <div class="diagram-box">
+                    <i class="fas fa-envelope"></i>
+                    webharvest-mail
+                    <small>External Plugin</small>
+                </div>
+                <div class="diagram-box">
+                    <i class="fas fa-server"></i>
+                    webharvest-ftp
+                    <small>External Plugin</small>
+                </div>
+                <div class="diagram-box">
+                    <i class="fas fa-file-archive"></i>
+                    webharvest-zip
+                    <small>External Plugin</small>
+                </div>
+                <div class="diagram-box">
+                    <i class="fas fa-globe"></i>
+                    webharvest-webbrowser
+                    <small>External Plugin</small>
+                </div>
+            </div>
+
+            <div
+                style="text-align: center; margin-top: 2rem; padding: 1rem; background: var(--gray-50); border-radius: var(--radius-lg);">
+                <p style="font-size: 0.875rem; color: var(--text-secondary); margin: 0;">
+                    <strong>Architecture:</strong> webharvest-core is the foundation. Applications (IDE, CLI) and
+                    external plugins build on top.
+                </p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Module Breakdown -->
+    <section class="container" style="margin-top: 6rem;">
+        <div class="section-header">
+            <h2>Module Breakdown</h2>
+            <p class="section-subtitle">Core framework and external plugins</p>
+        </div>
+
+        <div class="features-grid">
+            <div class="feature-card">
+                <div class="feature-icon">
+                    <i class="fas fa-cube"></i>
+                </div>
+                <h3>webharvest-core</h3>
+                <p><strong>The Foundation:</strong> Framework with 47 built-in plugins, parser, runtime engine, DI,
+                    session management, and token tracking.</p>
+                <div class="feature-tags">
+                    <span class="tag">Required</span>
+                    <span class="tag">47 Plugins</span>
+                </div>
+            </div>
+
+            <div class="feature-card">
+                <div class="feature-icon">
+                    <i class="fas fa-terminal"></i>
+                </div>
+                <h3>webharvest-cli</h3>
+                <p><strong>Command-Line Tool:</strong> Run configurations from terminal, scripting support, batch
+                    processing.</p>
+                <div class="feature-tags">
+                    <span class="tag">Optional</span>
+                </div>
+            </div>
+
+            <div class="feature-card">
+                <div class="feature-icon">
+                    <i class="fas fa-laptop-code"></i>
+                </div>
+                <h3>webharvest-ide</h3>
+                <p><strong>Web IDE:</strong> Embedded Jetty server, Monaco editor, real-time WebSocket updates, per-tab
+                    workspaces.</p>
+                <div class="feature-tags">
+                    <span class="tag">Optional</span>
+                    <span class="tag">Jetty 11</span>
+                </div>
+            </div>
+
+            <div class="feature-card">
+                <div class="feature-icon">
+                    <i class="fas fa-plug"></i>
+                </div>
+                <h3>External Plugins</h3>
+                <p><strong>Extensions:</strong> Database, Mail, FTP, ZIP, Web Browser - separate modules,
+                    auto-discovered
+                    when on classpath.</p>
+                <div class="feature-tags">
+                    <span class="tag">Optional</span>
+                    <span class="tag">5+ Plugins</span>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Execution Flow -->
+    <section class="container" style="margin-top: 6rem;">
+        <div class="section-header">
+            <h2>Execution Flow</h2>
+            <p class="section-subtitle">From XML configuration to results</p>
+        </div>
+
+        <div class="diagram-container">
+            <h3 style="text-align: center; margin-bottom: 2rem; color: var(--text-primary);">Request Execution Pipeline
+            </h3>
+
+            <div class="diagram-box">
+                <i class="fas fa-file-code"></i>
+                1. Configuration Loading
+                <small>config.xml → SAXConfigParser → XmlNode tree</small>
+            </div>
+
+            <div class="diagram-arrow"><i class="fas fa-arrow-down"></i></div>
+
+            <div class="diagram-box">
+                <i class="fas fa-search"></i>
+                2. Definition Resolution
+                <small>&lt;http&gt; → HttpDef → HttpPlugin mapping</small>
+            </div>
+
+            <div class="diagram-arrow"><i class="fas fa-arrow-down"></i></div>
+
+            <div class="diagram-box">
+                <i class="fas fa-plug"></i>
+                3. Plugin Registration
+                <small>@CorePlugin discovery → PluginRegistry</small>
+            </div>
+
+            <div class="diagram-arrow"><i class="fas fa-arrow-down"></i></div>
+
+            <div class="diagram-box">
+                <i class="fas fa-syringe"></i>
+                4. Dependency Injection
+                <small>Guice → @Inject HttpService, etc.</small>
+            </div>
+
+            <div class="diagram-arrow"><i class="fas fa-arrow-down"></i></div>
+
+            <div class="diagram-box primary">
+                <i class="fas fa-fingerprint"></i>
+                5. Session Creation
+                <small>UUID + SessionMetrics + TokenTracker</small>
+            </div>
+
+            <div class="diagram-arrow"><i class="fas fa-arrow-down"></i></div>
+
+            <div class="diagram-box primary">
+                <i class="fas fa-play-circle"></i>
+                6. Execution
+                <small>Scraper.execute() → Plugins → Variables</small>
+            </div>
+
+            <div class="diagram-arrow"><i class="fas fa-arrow-down"></i></div>
+
+            <div class="diagram-box">
+                <i class="fas fa-podcast"></i>
+                7. Event Broadcasting
+                <small>SessionStarted → SessionCompleted</small>
+            </div>
+
+            <div class="diagram-arrow"><i class="fas fa-arrow-down"></i></div>
+
+            <div class="diagram-box success">
+                <i class="fas fa-check-circle"></i>
+                8. Results & Cleanup
+                <small>Variables extracted • Metrics calculated</small>
+            </div>
+        </div>
+    </section>
+
+    <!-- Plugin System Details -->
+    <section class="container" style="margin-top: 6rem;">
+        <div class="section-header">
+            <h2>Plugin System</h2>
+            <p class="section-subtitle">How plugins are discovered, registered, and executed</p>
+        </div>
+
+        <div class="architecture-cards">
+            <div class="arch-card">
+                <h3><i class="fas fa-search"></i> Plugin Discovery</h3>
+                <ul>
+                    <li><strong>Classpath Scanning:</strong> Reflections library scans for <code>@CorePlugin</code> and
+                        <code>@Autoscanned</code>
+                    </li>
+                    <li><strong>Dual Architecture:</strong> Old <code>@Definition</code> + new <code>@CorePlugin</code>
+                        coexist</li>
+                    <li><strong>Namespace Mapping:</strong> XML namespace → Plugin class</li>
+                    <li><strong>Runtime Registration:</strong> Plugins can be added at runtime</li>
+                </ul>
+            </div>
+
+            <div class="arch-card">
+                <h3><i class="fas fa-cogs"></i> Dependency Injection</h3>
+                <ul>
+                    <li><strong>Guice Modules:</strong> <code>ConfigModule</code>, <code>ServicesModule</code></li>
+                    <li><strong>Static Injection:</strong> <code>BaseTemplater</code> uses static DI</li>
+                    <li><strong>Service Location:</strong> <code>InjectorHelper.getInjector()</code></li>
+                    <li><strong>Scoped Injection:</strong> Singleton, Prototype patterns supported</li>
+                </ul>
+            </div>
+
+            <div class="arch-card">
+                <h3><i class="fas fa-layer-group"></i> Plugin Execution</h3>
+                <ul>
+                    <li><strong>Context Management:</strong> <code>DynamicScopeContext</code> for variable scoping</li>
+                    <li><strong>Variable System:</strong> Typed variables (Node, List, Empty)</li>
+                    <li><strong>Interruption:</strong> All plugins check <code>InterruptedException</code></li>
+                    <li><strong>Error Handling:</strong> <code>&lt;try&gt;</code>/<code>&lt;catch&gt;</code> support
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </section>
+
+    <!-- Session Management (v2.2) -->
+    <section class="container" style="margin-top: 6rem;">
+        <div class="section-header">
+            <h2>Session Management API (v2.2)</h2>
+            <p class="section-subtitle">Production-grade execution tracking and monitoring</p>
+        </div>
+
+        <div class="diagram-container">
+            <h3 style="text-align: center; margin-bottom: 2rem; color: var(--text-primary);">Session Lifecycle (v2.2)
+            </h3>
+
+            <div class="diagram-box">
+                <i class="fas fa-plus-circle"></i>
+                1. SESSION CREATED
+                <small>UUID: "a3f2c8e1..." • Status: PENDING • Event: SessionCreatedEvent</small>
+            </div>
+            <div class="diagram-label">ClientContext attached • SessionMetrics initialized • TokenTracker started</div>
+
+            <div class="diagram-arrow"><i class="fas fa-arrow-down"></i></div>
+
+            <div class="diagram-box primary">
+                <i class="fas fa-play"></i>
+                2. SESSION STARTED
+                <small>Status: PENDING → RUNNING • Event: SessionStartedEvent</small>
+            </div>
+            <div class="diagram-label">Start time recorded • Thread assigned • DynamicScopeContext created</div>
+
+            <div class="diagram-arrow"><i class="fas fa-arrow-down"></i></div>
+
+            <div class="diagram-box primary" style="max-width: 500px;">
+                <i class="fas fa-cogs"></i>
+                3. EXECUTION
+                <small>Plugins execute • Variables stored • Metrics tracked</small>
+            </div>
+            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; max-width: 600px; margin: 1rem auto;">
+                <div
+                    style="background: var(--gray-100); padding: 0.75rem; border-radius: var(--radius-md); font-size: 0.8125rem;">
+                    <strong>TokenTracker:</strong><br>
+                    HTTP_REQUEST +1<br>
+                    HTTP_BYTES +N<br>
+                    CPU_TIME +N ms<br>
+                    MEMORY_PEAK tracked
+                </div>
+                <div
+                    style="background: var(--gray-100); padding: 0.75rem; border-radius: var(--radius-md); font-size: 0.8125rem;">
+                    <strong>SessionMetrics:</strong><br>
+                    processedElements +1<br>
+                    Events broadcast<br>
+                    Progress updated
+                </div>
+            </div>
+
+            <div class="diagram-arrow"><i class="fas fa-arrow-down"></i></div>
+
+            <div class="diagram-row" style="justify-content: center;">
+                <div class="diagram-box success" style="max-width: 200px;">
+                    <i class="fas fa-check-circle"></i>
+                    COMPLETED
+                    <small>Success!</small>
+                </div>
+                <div class="diagram-box error" style="max-width: 200px;">
+                    <i class="fas fa-times-circle"></i>
+                    FAILED
+                    <small>Error occurred</small>
+                </div>
+                <div class="diagram-box"
+                    style="max-width: 200px; background: var(--gray-500); color: white; border-color: var(--gray-600);">
+                    <i class="fas fa-ban"></i>
+                    CANCELLED
+                    <small>User stopped</small>
+                </div>
+            </div>
+            <div class="diagram-label">End time recorded • Duration calculated • Token snapshot • Context preserved
+            </div>
+
+            <div class="diagram-arrow"><i class="fas fa-arrow-down"></i></div>
+
+            <div class="diagram-box">
+                <i class="fas fa-broom"></i>
+                5. CLEANUP (optional)
+                <small>Session removed • Context destroyed • Memory freed</small>
+            </div>
+        </div>
+
+        <div class="architecture-cards">
+            <div class="arch-card">
+                <h3><i class="fas fa-fingerprint"></i> Session Tracking</h3>
+                <ul>
+                    <li><strong>UUID-based IDs:</strong> <code>UUID.randomUUID()</code> for globally unique identifiers
+                    </li>
+                    <li><strong>Lifecycle States:</strong> PENDING → RUNNING → COMPLETED/FAILED/CANCELLED</li>
+                    <li><strong>Thread-Safe Registry:</strong> <code>ConcurrentHashMap</code> with atomic operations
+                    </li>
+                    <li><strong>Client Context:</strong> ClientID + arbitrary metadata (tags, project, user)</li>
+                    <li><strong>Blocking Wait:</strong> <code>awaitCompletion(timeout)</code> for sync execution</li>
+                </ul>
+            </div>
+
+            <div class="arch-card">
+                <h3><i class="fas fa-chart-line"></i> Metrics & Tracking</h3>
+                <ul>
+                    <li><strong>Duration:</strong> <code>Instant</code>-based timing with nanosecond precision</li>
+                    <li><strong>Element Count:</strong> Atomic counter for processed processors</li>
+                    <li><strong>Processing Rate:</strong> Real-time elements/second calculation</li>
+                    <li><strong>Token Usage:</strong> Granular tracking of resources consumed</li>
+                    <li><strong>Immutable Snapshots:</strong> <code>TokenUsage</code> for safe reporting</li>
+                </ul>
+            </div>
+
+            <div class="arch-card">
+                <h3><i class="fas fa-podcast"></i> Event System</h3>
+                <ul>
+                    <li><strong>Guava EventBus:</strong> Async, decoupled event broadcasting</li>
+                    <li><strong>Session Events:</strong> Created, Started, Completed, Failed, Cancelled</li>
+                    <li><strong>Listener Registration:</strong> <code>@Subscribe</code> annotation for handlers</li>
+                    <li><strong>IDE Integration:</strong> Real-time WebSocket updates via event listeners</li>
+                    <li><strong>Thread-Safe:</strong> Event posting from any thread</li>
+                </ul>
+            </div>
+        </div>
+    </section>
+
+    <!-- Multi-Threading & Concurrency -->
+    <section class="container" style="margin-top: 6rem;">
+        <div class="section-header">
+            <h2>Multi-Threading & Concurrency</h2>
+            <p class="section-subtitle">Thread-safe execution of parallel scrapers</p>
+        </div>
+
+        <div class="diagram-container">
+            <h3 style="text-align: center; margin-bottom: 2rem; color: var(--text-primary);">Concurrent Execution Model
+            </h3>
+
+            <div class="diagram-box accent">
+                <i class="fas fa-server"></i>
+                WebHarvestService (API)
+                <small>executeAsync(config, context, options) → Future&lt;Session&gt;</small>
+            </div>
+
+            <div class="diagram-arrow"><i class="fas fa-arrow-down"></i></div>
+
+            <div class="diagram-box primary" style="max-width: 350px;">
+                <i class="fas fa-layer-group"></i>
+                ThreadPoolExecutor
+                <small>Core: 10 threads • Max: 200 threads • Queue: Unbounded</small>
+            </div>
+
+            <div class="diagram-arrow"><i class="fas fa-arrow-down"></i></div>
+
+            <!-- Thread Execution -->
+            <div class="diagram-grid" style="max-width: 800px; margin: 0 auto;">
+                <div
+                    style="background: linear-gradient(135deg, #E3F2FD, #BBDEFB); border: 2px solid #2196F3; border-radius: var(--radius-lg); padding: 1rem; text-align: center;">
+                    <strong>[Thread 1]</strong><br>
+                    <em>Session A</em><br>
+                    <small style="display: block; margin-top: 0.5rem; font-size: 0.75rem;">
+                        ScraperContext (isolated)<br>
+                        TokenTracker (atomic)<br>
+                        SessionMetrics (atomic)
+                    </small>
+                </div>
+                <div
+                    style="background: linear-gradient(135deg, #E8F5E9, #C8E6C9); border: 2px solid #4CAF50; border-radius: var(--radius-lg); padding: 1rem; text-align: center;">
+                    <strong>[Thread 2]</strong><br>
+                    <em>Session B</em><br>
+                    <small style="display: block; margin-top: 0.5rem; font-size: 0.75rem;">
+                        ScraperContext (isolated)<br>
+                        TokenTracker (atomic)<br>
+                        SessionMetrics (atomic)
+                    </small>
+                </div>
+                <div
+                    style="background: linear-gradient(135deg, #FFF3E0, #FFE0B2); border: 2px solid #FF9800; border-radius: var(--radius-lg); padding: 1rem; text-align: center;">
+                    <strong>[Thread 3]</strong><br>
+                    <em>Session C</em><br>
+                    <small style="display: block; margin-top: 0.5rem; font-size: 0.75rem;">
+                        ScraperContext (isolated)<br>
+                        TokenTracker (atomic)<br>
+                        SessionMetrics (atomic)
+                    </small>
+                </div>
+            </div>
+
+            <div class="diagram-arrow" style="margin-top: 2rem;"><i class="fas fa-arrow-down"></i></div>
+
+            <div class="diagram-box" style="max-width: 400px;">
+                <i class="fas fa-database"></i>
+                SessionRegistry
+                <small>ConcurrentHashMap • Thread-safe reads/writes • No locking</small>
+            </div>
+
+            <!-- Thread Safety Guarantees -->
+            <div
+                style="margin-top: 2rem; padding: 1.5rem; background: var(--lime); color: white; border-radius: var(--radius-xl); max-width: 700px; margin-left: auto; margin-right: auto;">
+                <h4 style="margin-bottom: 0.75rem; display: flex; align-items: center; gap: 0.5rem;">
+                    <i class="fas fa-shield-alt"></i> Thread Safety Guarantees
+                </h4>
+                <div style="font-size: 0.875rem; line-height: 1.8;">
+                    ✅ Isolated ScraperContext per session<br>
+                    ✅ AtomicLong counters (lock-free)<br>
+                    ✅ ConcurrentHashMap (concurrent access)<br>
+                    ✅ EventBus thread-safe<br>
+                    ✅ No synchronized blocks in hot paths
+                </div>
+            </div>
+        </div>
+
+        <div class="architecture-cards">
+            <div class="arch-card">
+                <h3><i class="fas fa-lock"></i> Thread Safety</h3>
+                <ul>
+                    <li><strong>Isolated Contexts:</strong> Each session has own <code>DynamicScopeContext</code></li>
+                    <li><strong>Atomic Counters:</strong> <code>AtomicLong</code> for metrics (lock-free)</li>
+                    <li><strong>Concurrent Collections:</strong> <code>ConcurrentHashMap</code> for registries</li>
+                    <li><strong>Immutable Data:</strong> <code>TokenUsage</code>, <code>ClientContext</code> are
+                        immutable</li>
+                    <li><strong>No Shared State:</strong> Variables scoped per-session</li>
+                </ul>
+            </div>
+
+            <div class="arch-card">
+                <h3><i class="fas fa-layer-group"></i> Thread Pool</h3>
+                <ul>
+                    <li><strong>Cached Pool:</strong> Scales 0 → 200 threads on demand</li>
+                    <li><strong>Keep-Alive:</strong> 60 seconds idle thread timeout</li>
+                    <li><strong>Unbounded Queue:</strong> All sessions accepted (no rejection)</li>
+                    <li><strong>Graceful Shutdown:</strong> <code>awaitTermination()</code> for cleanup</li>
+                    <li><strong>Cancellation:</strong> <code>interrupt()</code> propagates to plugins</li>
+                </ul>
+            </div>
+
+            <div class="arch-card">
+                <h3><i class="fas fa-stop-circle"></i> Cancellation</h3>
+                <ul>
+                    <li><strong>User-Initiated:</strong> <code>session.cancel()</code> → thread interrupt</li>
+                    <li><strong>Plugin Support:</strong> All plugins check <code>InterruptedException</code></li>
+                    <li><strong>Graceful Exit:</strong> Current processor finishes, then stops</li>
+                    <li><strong>Status Update:</strong> RUNNING → CANCELLED</li>
+                    <li><strong>Event:</strong> <code>SessionCancelledEvent</code> broadcast</li>
+                </ul>
+            </div>
+        </div>
+    </section>
+
+    <!-- Token Tracking & Billing -->
+    <section class="container" style="margin-top: 6rem;">
+        <div class="section-header">
+            <h2>Token Tracking & Resource Monitoring</h2>
+            <p class="section-subtitle">Optional billing model for SaaS deployments - track usage, enforce quotas</p>
+        </div>
+
+        <div
+            style="max-width: 800px; margin: 0 auto 2rem; padding: 1rem; background: var(--yellow); color: #000; border-radius: var(--radius-lg); font-weight: 600; text-align: center;">
+            <i class="fas fa-info-circle"></i> This is an example pricing model for applications using WebHarvest as a
+            service.
+            The framework tracks resources - billing implementation is optional and customizable.
+        </div>
+
+        <div class="diagram-container">
+            <h3 style="text-align: center; margin-bottom: 2rem; color: var(--text-primary);">Token Types & Billing Model
+            </h3>
+
+            <!-- Resource Types -->
+            <div class="diagram-grid" style="max-width: 900px; margin: 0 auto;">
+                <div
+                    style="background: linear-gradient(135deg, #E3F2FD, #BBDEFB); border: 2px solid #2196F3; border-radius: var(--radius-lg); padding: 1.25rem; text-align: center;">
+                    <i class="fas fa-globe" style="font-size: 1.5rem; color: #1976D2; margin-bottom: 0.5rem;"></i>
+                    <h4 style="margin: 0.5rem 0;">HTTP_REQUEST</h4>
+                    <div style="font-size: 0.8125rem; color: var(--text-secondary);">
+                        Every HTTP call<br>
+                        Rate limiting<br>
+                        <strong style="color: #1976D2;">$0.001/request</strong>
+                    </div>
+                </div>
+                <div
+                    style="background: linear-gradient(135deg, #F3E5F5, #E1BEE7); border: 2px solid #9C27B0; border-radius: var(--radius-lg); padding: 1.25rem; text-align: center;">
+                    <i class="fas fa-download" style="font-size: 1.5rem; color: #7B1FA2; margin-bottom: 0.5rem;"></i>
+                    <h4 style="margin: 0.5rem 0;">HTTP_BYTES</h4>
+                    <div style="font-size: 0.8125rem; color: var(--text-secondary);">
+                        Data transferred<br>
+                        Bandwidth monitoring<br>
+                        <strong style="color: #7B1FA2;">$0.10/GB</strong>
+                    </div>
+                </div>
+                <div
+                    style="background: linear-gradient(135deg, #FFF3E0, #FFE0B2); border: 2px solid #FF9800; border-radius: var(--radius-lg); padding: 1.25rem; text-align: center;">
+                    <i class="fas fa-microchip" style="font-size: 1.5rem; color: #F57C00; margin-bottom: 0.5rem;"></i>
+                    <h4 style="margin: 0.5rem 0;">CPU_TIME</h4>
+                    <div style="font-size: 0.8125rem; color: var(--text-secondary);">
+                        Processing time<br>
+                        Performance tracking<br>
+                        <strong style="color: #F57C00;">$0.02/CPU-hour</strong>
+                    </div>
+                </div>
+                <div
+                    style="background: linear-gradient(135deg, #E8F5E9, #C8E6C9); border: 2px solid #4CAF50; border-radius: var(--radius-lg); padding: 1.25rem; text-align: center;">
+                    <i class="fas fa-memory" style="font-size: 1.5rem; color: #388E3C; margin-bottom: 0.5rem;"></i>
+                    <h4 style="margin: 0.5rem 0;">MEMORY_PEAK</h4>
+                    <div style="font-size: 0.8125rem; color: var(--text-secondary);">
+                        Max heap usage<br>
+                        Resource planning<br>
+                        <strong style="color: #388E3C;">$0.01/GB-hour</strong>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Example Calculations -->
+            <h4 style="text-align: center; margin-top: 3rem; margin-bottom: 1.5rem; color: var(--text-primary);">Example
+                Cost Calculations</h4>
+            <div class="diagram-row" style="align-items: flex-start;">
+                <div
+                    style="flex: 1; background: white; border: 2px solid var(--magenta); border-radius: var(--radius-lg); padding: 1.5rem;">
+                    <h4 style="color: var(--magenta); margin-bottom: 1rem;">
+                        <i class="fas fa-shopping-cart"></i> Session A: E-commerce Scraper
+                    </h4>
+                    <table style="width: 100%; font-size: 0.875rem;">
+                        <tr>
+                            <td><strong>HTTP_REQUEST:</strong></td>
+                            <td>1,250 requests</td>
+                            <td style="text-align: right; color: var(--magenta);"><strong>$1.25</strong></td>
+                        </tr>
+                        <tr>
+                            <td><strong>HTTP_BYTES:</strong></td>
+                            <td>45 MB</td>
+                            <td style="text-align: right;">$0.0045</td>
+                        </tr>
+                        <tr>
+                            <td><strong>CPU_TIME:</strong></td>
+                            <td>12,500 ms (12.5s)</td>
+                            <td style="text-align: right;">$0.00007</td>
+                        </tr>
+                        <tr>
+                            <td><strong>MEMORY_PEAK:</strong></td>
+                            <td>256 MB</td>
+                            <td style="text-align: right;">negligible</td>
+                        </tr>
+                        <tr style="border-top: 2px solid var(--magenta);">
+                            <td colspan="2"><strong>TOTAL COST:</strong></td>
+                            <td
+                                style="text-align: right; color: var(--magenta); font-weight: 700; font-size: 1.125rem;">
+                                ~$1.25</td>
+                        </tr>
+                    </table>
+                </div>
+                <div
+                    style="flex: 1; background: white; border: 2px solid var(--purple); border-radius: var(--radius-lg); padding: 1.5rem;">
+                    <h4 style="color: var(--purple); margin-bottom: 1rem;">
+                        <i class="fas fa-database"></i> Session B: Data Lake Pipeline
+                    </h4>
+                    <table style="width: 100%; font-size: 0.875rem;">
+                        <tr>
+                            <td><strong>HTTP_REQUEST:</strong></td>
+                            <td>50 requests</td>
+                            <td style="text-align: right;">$0.05</td>
+                        </tr>
+                        <tr>
+                            <td><strong>HTTP_BYTES:</strong></td>
+                            <td>2.5 GB</td>
+                            <td style="text-align: right; color: var(--purple);"><strong>$0.25</strong></td>
+                        </tr>
+                        <tr>
+                            <td><strong>CPU_TIME:</strong></td>
+                            <td>180,000 ms (3 min)</td>
+                            <td style="text-align: right;">$0.001</td>
+                        </tr>
+                        <tr>
+                            <td><strong>MEMORY_PEAK:</strong></td>
+                            <td>1.2 GB</td>
+                            <td style="text-align: right;">$0.0012</td>
+                        </tr>
+                        <tr style="border-top: 2px solid var(--purple);">
+                            <td colspan="2"><strong>TOTAL COST:</strong></td>
+                            <td style="text-align: right; color: var(--purple); font-weight: 700; font-size: 1.125rem;">
+                                ~$0.30</td>
+                        </tr>
+                    </table>
+                </div>
+            </div>
+
+            <!-- Multi-Tenant Scenarios -->
+            <h4 style="text-align: center; margin-top: 3rem; margin-bottom: 1.5rem; color: var(--text-primary);">
+                Multi-Tenant Quota Management</h4>
+            <div class="diagram-row" style="align-items: flex-start;">
+                <div
+                    style="flex: 1; background: white; border: 2px solid var(--yellow); border-radius: var(--radius-lg); padding: 1.5rem;">
+                    <h4 style="color: var(--yellow); margin-bottom: 1rem;">
+                        <i class="fas fa-building"></i> Client "DataCorp"
+                    </h4>
+                    <div style="font-size: 0.875rem; line-height: 1.8;">
+                        Session 1: 1,000 requests<br>
+                        Session 2: 2,500 requests<br>
+                        Session 3: 500 requests<br>
+                        <div
+                            style="margin-top: 1rem; padding: 0.75rem; background: var(--gray-50); border-radius: var(--radius-md);">
+                            <strong>Total: 4,000 requests</strong><br>
+                            Quota: 5,000/month<br>
+                            Status: ⚠️ 80% usage - Alert!
+                        </div>
+                    </div>
+                </div>
+                <div
+                    style="flex: 1; background: white; border: 2px solid var(--lime); border-radius: var(--radius-lg); padding: 1.5rem;">
+                    <h4 style="color: var(--lime); margin-bottom: 1rem;">
+                        <i class="fas fa-rocket"></i> Client "StartupXYZ"
+                    </h4>
+                    <div style="font-size: 0.875rem; line-height: 1.8;">
+                        Plan: Free tier<br>
+                        Limit: 100 requests/day<br>
+                        Usage: 95 requests<br>
+                        <div
+                            style="margin-top: 1rem; padding: 0.75rem; background: var(--gray-50); border-radius: var(--radius-md);">
+                            <strong>Remaining: 5 requests</strong><br>
+                            Status: ⚠️ 95% usage - Warning!
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="architecture-cards">
+            <div class="arch-card">
+                <h3><i class="fas fa-coins"></i> Token Tracking</h3>
+                <ul>
+                    <li><strong>Atomic Counters:</strong> <code>AtomicLong</code> for each resource type (lock-free)
+                    </li>
+                    <li><strong>Real-Time Updates:</strong> Incremented during execution (no batching)</li>
+                    <li><strong>Immutable Snapshots:</strong> <code>TokenUsage</code> for safe reporting</li>
+                    <li><strong>Per-Session:</strong> Each session has dedicated <code>TokenTracker</code></li>
+                    <li><strong>No Overhead:</strong> ~5ns per increment (negligible performance impact)</li>
+                </ul>
+            </div>
+
+            <div class="arch-card">
+                <h3><i class="fas fa-chart-pie"></i> Quota Enforcement</h3>
+                <ul>
+                    <li><strong>Pre-Execution Check:</strong> Validate quota before starting session</li>
+                    <li><strong>Client-Based Limits:</strong> Per-client quotas (free/paid tiers)</li>
+                    <li><strong>Resource-Specific:</strong> Limit HTTP requests, bytes, CPU separately</li>
+                    <li><strong>Soft Limits:</strong> Warnings at 80% usage</li>
+                    <li><strong>Hard Limits:</strong> Reject execution if quota exceeded</li>
+                </ul>
+            </div>
+
+            <div class="arch-card">
+                <h3><i class="fas fa-receipt"></i> Billing Integration</h3>
+                <ul>
+                    <li><strong>Usage Export:</strong> <code>TokenUsage</code> → JSON/CSV for billing systems</li>
+                    <li><strong>Pricing Models:</strong> Per-request, per-GB, per-CPU-hour, tiered plans</li>
+                    <li><strong>Client Metadata:</strong> Attach account ID, plan tier, payment method</li>
+                    <li><strong>Aggregation:</strong> Sum tokens across sessions by client</li>
+                    <li><strong>Integration:</strong> Stripe, AWS Marketplace, custom billing API</li>
+                </ul>
+            </div>
+        </div>
+    </section>
+
+    <!-- Use Case Scenarios -->
+    <section class="container" style="margin-top: 6rem;">
+        <div class="section-header">
+            <h2>Use Case Scenarios</h2>
+            <p class="section-subtitle">How WebHarvest fits into modern data architectures</p>
+        </div>
+
+        <div class="usage-grid">
+            <div class="usage-card">
+                <h3><i class="fas fa-database"></i> Web → Data Lake Pipeline</h3>
+                <p><strong>Scenario:</strong> Extract e-commerce data from 1000+ sites → transform → load into
+                    S3/BigQuery</p>
+                <h4>Architecture:</h4>
+                <ul>
+                    <li><strong>Step 1:</strong> WebHarvest scrapes product data (parallel sessions)</li>
+                    <li><strong>Step 2:</strong> Transform to Parquet/Avro using XQuery/XSLT</li>
+                    <li><strong>Step 3:</strong> Upload to S3 bucket (batch)</li>
+                    <li><strong>Step 4:</strong> Trigger Glue/Athena for analytics</li>
+                </ul>
+                <h4>Integration:</h4>
+                <ul>
+                    <li>AWS Lambda triggers WebHarvest via REST API</li>
+                    <li>Session events → CloudWatch logs</li>
+                    <li>Token usage → Cost allocation tags</li>
+                </ul>
+            </div>
+
+            <div class="usage-card">
+                <h3><i class="fas fa-project-diagram"></i> ETL Pipeline Integration</h3>
+                <p><strong>Scenario:</strong> WebHarvest as data source in enterprise ETL/orchestration platforms</p>
+                <h4>Platforms:</h4>
+                <ul>
+                    <li><strong>Argo Workflows:</strong> Kubernetes-native orchestration</li>
+                    <li><strong>Apache Airflow:</strong> Python-based DAG scheduling</li>
+                    <li><strong>Luigi:</strong> Spotify's batch processing framework</li>
+                    <li><strong>Prefect:</strong> Modern workflow orchestration</li>
+                </ul>
+                <h4>Example: Argo Workflow</h4>
+                <ul>
+                    <li>Step 1: Trigger WebHarvest container</li>
+                    <li>Step 2: Execute scraper → export JSON</li>
+                    <li>Step 3: Transform with dbt/Spark</li>
+                    <li>Step 4: Load to warehouse (Snowflake, BigQuery)</li>
+                    <li>Monitoring: Session metrics → Prometheus</li>
+                </ul>
+            </div>
+
+            <div class="usage-card">
+                <h3><i class="fas fa-cogs"></i> Intelligent Automation</h3>
+                <p><strong>Scenario:</strong> AI-driven scraping with dynamic config generation</p>
+                <h4>Flow:</h4>
+                <ul>
+                    <li><strong>ML Model:</strong> Analyzes site → generates XPath selectors</li>
+                    <li><strong>Config Builder:</strong> Programmatic XML generation</li>
+                    <li><strong>WebHarvest:</strong> Executes generated config</li>
+                    <li><strong>Validation:</strong> AI validates extracted data quality</li>
+                    <li><strong>Feedback Loop:</strong> Retrain model on failed extractions</li>
+                </ul>
+            </div>
+
+            <div class="usage-card">
+                <h3><i class="fas fa-exchange-alt"></i> Message Transformation Hub</h3>
+                <p><strong>Scenario:</strong> Transform between formats for ESB/B2B integration</p>
+                <h4>Use Cases:</h4>
+                <ul>
+                    <li><strong>EDI Transformation:</strong> Web data → EDI X12/EDIFACT formats</li>
+                    <li><strong>HL7 Healthcare:</strong> API data → HL7 messages</li>
+                    <li><strong>B2B Integration:</strong> Supplier APIs → company format</li>
+                    <li><strong>Format Conversion:</strong> JSON ↔ XML ↔ CSV</li>
+                </ul>
+                <h4>Integration Platforms:</h4>
+                <ul>
+                    <li><strong>MuleSoft Anypoint:</strong> Custom connector</li>
+                    <li><strong>Apache Camel:</strong> WebHarvest component</li>
+                    <li><strong>IBM Integration Bus:</strong> Java processor</li>
+                    <li><strong>Kafka Connect:</strong> Source connector</li>
+                </ul>
+            </div>
+
+            <div class="usage-card">
+                <h3><i class="fas fa-robot"></i> API Aggregation</h3>
+                <p><strong>Scenario:</strong> Combine data from multiple REST APIs → unified response</p>
+                <h4>Example:</h4>
+                <ul>
+                    <li>Call 5 different APIs (weather, stock, news, traffic, currency)</li>
+                    <li>Parse JSON responses → XML</li>
+                    <li>Merge with XQuery</li>
+                    <li>Template → Custom JSON format</li>
+                    <li>Return via webhook to client app</li>
+                </ul>
+            </div>
+
+            <div class="usage-card">
+                <h3><i class="fas fa-cloud-upload-alt"></i> Data Integration Platform</h3>
+                <p><strong>Scenario:</strong> Integration with Fivetran, Airbyte, Segment</p>
+                <h4>Approach:</h4>
+                <ul>
+                    <li><strong>Custom Connector:</strong> WebHarvest as source connector</li>
+                    <li><strong>Configuration:</strong> Store scraper configs in connector settings</li>
+                    <li><strong>Scheduling:</strong> Platform triggers WebHarvest via API</li>
+                    <li><strong>Output:</strong> Normalized JSON → Platform schema mapping</li>
+                    <li><strong>Monitoring:</strong> Session metrics → Platform observability</li>
+                </ul>
+            </div>
+        </div>
+    </section>
+
+    <!-- Technology Stack -->
+    <section class="container" style="margin-top: 6rem;">
+        <div class="section-header">
+            <h2>Technology Stack</h2>
+            <p class="section-subtitle">Libraries and frameworks powering WebHarvest</p>
+        </div>
+
+        <div class="usage-grid">
+            <div class="usage-card">
+                <h3><i class="fas fa-coffee"></i> Core Technologies</h3>
+                <ul>
+                    <li><strong>Java 11+:</strong> Modern Java features, lambda expressions</li>
+                    <li><strong>Maven:</strong> Build tool, dependency management</li>
+                    <li><strong>Guice:</strong> Dependency injection framework</li>
+                    <li><strong>SLF4J + Log4j:</strong> Logging infrastructure</li>
+                </ul>
+            </div>
+
+            <div class="usage-card">
+                <h3><i class="fas fa-globe"></i> HTTP & Networking</h3>
+                <ul>
+                    <li><strong>Apache HttpClient 5:</strong> HTTP client library</li>
+                    <li><strong>Connection Pooling:</strong> Efficient resource usage</li>
+                    <li><strong>SSL/TLS Support:</strong> Secure connections</li>
+                    <li><strong>Cookie Management:</strong> Session handling</li>
+                </ul>
+            </div>
+
+            <div class="usage-card">
+                <h3><i class="fas fa-file-code"></i> XML & Data Processing</h3>
+                <ul>
+                    <li><strong>SAX Parser:</strong> Fast, memory-efficient XML parsing</li>
+                    <li><strong>XPath (Saxon):</strong> XML querying</li>
+                    <li><strong>XQuery (Saxon):</strong> Advanced XML transformations</li>
+                    <li><strong>HTMLCleaner:</strong> HTML to XML conversion</li>
+                </ul>
+            </div>
+
+            <div class="usage-card">
+                <h3><i class="fas fa-code"></i> Scripting & Templating</h3>
+                <ul>
+                    <li><strong>JavaScript (Rhino):</strong> JS scripting engine</li>
+                    <li><strong>Groovy:</strong> Dynamic scripting</li>
+                    <li><strong>BeanShell:</strong> Lightweight scripting</li>
+                    <li><strong>BaseTemplater:</strong> Variable interpolation</li>
+                </ul>
+            </div>
+
+            <div class="usage-card">
+                <h3><i class="fas fa-server"></i> IDE Technologies</h3>
+                <ul>
+                    <li><strong>Jetty 11:</strong> Embedded web server</li>
+                    <li><strong>WebSocket:</strong> Real-time communication</li>
+                    <li><strong>Monaco Editor:</strong> VS Code editor engine</li>
+                    <li><strong>Gson:</strong> JSON serialization</li>
+                </ul>
+            </div>
+
+            <div class="usage-card">
+                <h3><i class="fas fa-vial"></i> Testing</h3>
+                <ul>
+                    <li><strong>TestNG:</strong> Test framework</li>
+                    <li><strong>Mockito:</strong> Mocking framework</li>
+                    <li><strong>JaCoCo:</strong> Code coverage</li>
+                    <li><strong>2,569 Tests:</strong> Comprehensive test suite</li>
+                </ul>
+            </div>
+        </div>
+
+        <div
+            style="max-width: 900px; margin: 3rem auto; padding: 1.5rem; background: var(--lime); color: white; border-radius: var(--radius-xl); text-align: center;">
+            <h4 style="margin-bottom: 0.5rem;"><i class="fas fa-sync-alt"></i> Continuous Dependency Updates</h4>
+            <p style="font-size: 0.9375rem; margin: 0;">
+                All dependencies are actively maintained and updated to latest stable versions.
+                Apache HttpClient 5.x, Jetty 11, Guice 7.x - always current and secure.
+            </p>
+        </div>
+    </section>
+
+    <!-- Build Tools Support -->
+    <section class="container" style="margin-top: 6rem; margin-bottom: 6rem;">
+        <div class="section-header">
+            <h2>Build Tool Support</h2>
+            <p class="section-subtitle">Maven & Gradle integration</p>
+        </div>
+
+        <div class="diagram-row" style="align-items: stretch;">
+            <div class="usage-card" style="flex: 1;">
+                <h3><i class="fas fa-file-code"></i> Maven</h3>
+                <div class="code-window" style="min-height: 180px;">
+                    <div class="window-header">
+                        <div class="window-controls">
+                            <span class="control red"></span>
+                            <span class="control yellow"></span>
+                            <span class="control green"></span>
+                        </div>
+                        <span class="window-title">pom.xml</span>
+                    </div>
+                    <div class="window-content">
+                        <pre><code class="language-xml">&lt;!-- Core Library --&gt;
+&lt;dependency&gt;
+  &lt;groupId&gt;org.webharvest&lt;/groupId&gt;
+  &lt;artifactId&gt;webharvest-core&lt;/artifactId&gt;
+  &lt;version&gt;2.2.0&lt;/version&gt;
+&lt;/dependency&gt;</code></pre>
+                    </div>
+                </div>
+            </div>
+
+            <div class="usage-card" style="flex: 1;">
+                <h3><i class="fas fa-elephant"></i> Gradle</h3>
+                <div class="code-window" style="min-height: 180px;">
+                    <div class="window-header">
+                        <div class="window-controls">
+                            <span class="control red"></span>
+                            <span class="control yellow"></span>
+                            <span class="control green"></span>
+                        </div>
+                        <span class="window-title">build.gradle</span>
+                    </div>
+                    <div class="window-content">
+                        <pre><code class="language-groovy">// Core Library
+dependencies {
+    implementation 'org.webharvest:webharvest-core:2.2.0'
+}
+
+</code></pre>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="site-footer">
+        <div class="container footer-content">
+            <div class="footer-links">
+                <a href="../about.html">About</a>
+                <a href="../plugins.html">Plugins</a>
+                <a href="./">Documentation</a>
+                <a href="../examples/">Examples</a>
+                <a href="../support.html">Support</a>
+                <a href="https://sourceforge.net/projects/web-harvest/">SourceForge</a>
+            </div>
+            <div class="footer-legal">
+                <p>Copyright © 2006-2025 WebHarvest Contributors. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script src="../js/prism.js"></script>
+</body>
+
+</html>

@@ -1,0 +1,1016 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Plugin Development Guide - WebHarvest</title>
+    <meta name="description"
+        content="Learn how to create custom WebHarvest plugins. Complete guide to @CorePlugin architecture, automatic discovery, Maven setup, and best practices." />
+    <meta name="keywords"
+        content="webharvest plugin development, custom plugins, @CorePlugin, AbstractPlugin, plugin architecture, extend webharvest" />
+    <meta name="robots" content="index, follow" />
+    <link rel="stylesheet" href="../css/enterprise.css" />
+    <link rel="stylesheet" href="../css/prism.css" />
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+
+<body>
+
+    <!-- Header -->
+    <header class="site-header">
+        <div class="container header-inner">
+            <a href="../index.html" class="brand"
+                style="text-decoration: none; color: inherit; display: flex; align-items: center; gap: var(--spacing-3);">
+                <img src="../images/logo.png" alt="WebHarvest" class="logo" />
+                <span class="project-name">WebHarvest</span>
+            </a>
+            <nav class="main-nav">
+                <a href="../about.html">About</a>
+                <a href="getting-started.html"
+                    style="background: linear-gradient(135deg, var(--lime), #8BC34A); color: white; padding: 0.5rem 1rem; border-radius: var(--radius-md); font-weight: 700;"><i
+                        class="fas fa-rocket"></i> Get Started</a>
+                <a href="../plugins.html">Plugins</a>
+                <a href="../ide.html">IDE</a>
+                <a href="../cli.html">CLI</a>
+                <a href="../examples/">Examples</a>
+                <a href="./" class="active">Docs</a>
+                <a href="../news.html">News</a>
+                <a href="../support.html">Support</a>
+                <a class="cta" href="../index.html#download">Download</a>
+            </nav>
+        </div>
+    </header>
+
+    <!-- Hero -->
+    <section class="hero">
+        <div class="container hero-inner">
+            <div class="hero-content">
+                <h1>Creating Custom<br />Plugins</h1>
+                <p class="lead">Extend WebHarvest with your own functionality</p>
+                <p class="hero-description">
+                    Complete guide to building custom plugins with the modern @CorePlugin architecture.
+                    Integrate any API, service, or data source into your scraping workflows.
+                </p>
+            </div>
+            <div class="hero-visual">
+                <img src="../images/hero-icon.png" alt="Plugin Development" />
+            </div>
+        </div>
+    </section>
+
+    <!-- Introduction -->
+    <section class="container" style="margin-top: 4rem;">
+        <div class="section-header">
+            <h2>Why Create Custom Plugins?</h2>
+            <p class="section-subtitle">When the 47 core plugins aren't enough</p>
+        </div>
+
+        <div style="max-width: 900px; margin: 2rem auto;">
+            <div class="feature-card" style="background: var(--gray-50);">
+                <p style="font-size: 1.05rem; line-height: 1.7; margin-bottom: 1.5rem;">
+                    WebHarvest's 47 core plugins cover most web scraping scenarios. However, you might need custom plugins when:
+                </p>
+                <div class="features-grid" style="grid-template-columns: 1fr 1fr;">
+                    <div>
+                        <h4><i class="fas fa-check-circle" style="color: var(--lime);"></i> Integration Needs</h4>
+                        <ul style="margin-left: 1.5rem; color: var(--gray-700); line-height: 1.8;">
+                            <li>Integrate with proprietary APIs</li>
+                            <li>Connect to custom databases</li>
+                            <li>Use specialized libraries</li>
+                        </ul>
+                    </div>
+                    <div>
+                        <h4><i class="fas fa-check-circle" style="color: var(--lime);"></i> Custom Processing</h4>
+                        <ul style="margin-left: 1.5rem; color: var(--gray-700); line-height: 1.8;">
+                            <li>Implement business logic</li>
+                            <li>Add custom transformations</li>
+                            <li>Create domain-specific DSL</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Architecture Overview -->
+    <section class="container" style="margin-top: 6rem;">
+        <div class="section-header">
+            <h2>Plugin Architecture (v2.2.0)</h2>
+            <p class="section-subtitle">Modern @CorePlugin vs Legacy @Definition</p>
+        </div>
+
+        <div style="max-width: 900px; margin: 2rem auto;">
+            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 2rem;">
+                <div class="feature-card" style="background: linear-gradient(135deg, #f0fdf4, #ffffff); border-left: 4px solid var(--lime);">
+                    <h3 style="color: var(--lime); margin-top: 0;"><i class="fas fa-check-circle"></i> New Architecture (v2.2.0)</h3>
+                    <p><strong>Recommended for new plugins</strong></p>
+                    <ul style="margin-left: 1.5rem; color: var(--gray-700); line-height: 1.8;">
+                        <li>Use <code>@CorePlugin</code> annotation</li>
+                        <li>Extend <code>AbstractPlugin</code></li>
+                        <li>Automatic discovery</li>
+                        <li>Simpler, cleaner code</li>
+                        <li>Better dependency injection</li>
+                    </ul>
+                </div>
+                <div class="feature-card" style="background: var(--gray-50); border-left: 4px solid var(--gray-400);">
+                    <h3 style="color: var(--gray-600); margin-top: 0;"><i class="fas fa-archive"></i> Legacy Architecture</h3>
+                    <p><strong>Still supported</strong></p>
+                    <ul style="margin-left: 1.5rem; color: var(--gray-700); line-height: 1.8;">
+                        <li>Use <code>@Definition</code> annotation</li>
+                        <li>Extend <code>AbstractProcessor</code></li>
+                        <li>Requires definition class</li>
+                        <li>More boilerplate</li>
+                        <li>Backward compatibility</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="note" style="margin-top: 2rem;">
+                <strong>This guide focuses on the new @CorePlugin architecture.</strong> It's simpler, requires less code, and is the recommended approach for v2.2.0+.
+            </div>
+        </div>
+    </section>
+
+    <!-- Quick Start -->
+    <section class="container" style="margin-top: 6rem;">
+        <div class="section-header">
+            <h2>Quick Start (5 minutes)</h2>
+            <p class="section-subtitle">Your first custom plugin</p>
+        </div>
+
+        <div class="installation-steps">
+            <div class="install-step">
+                <div class="step-number">1</div>
+                <div class="step-content">
+                    <h3>Maven Setup</h3>
+                    <p>Add WebHarvest core dependency:</p>
+                    <div class="code-window">
+                        <div class="window-header">
+                            <div class="window-controls">
+                                <span class="control red"></span>
+                                <span class="control yellow"></span>
+                                <span class="control green"></span>
+                            </div>
+                            <span class="window-title">pom.xml</span>
+                        </div>
+                        <div class="window-content">
+                            <pre><code class="language-xml">&lt;dependency&gt;
+    &lt;groupId&gt;org.webharvest&lt;/groupId&gt;
+    &lt;artifactId&gt;webharvest-core&lt;/artifactId&gt;
+    &lt;version&gt;2.2.0&lt;/version&gt;
+&lt;/dependency&gt;</code></pre>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="install-step">
+                <div class="step-number">2</div>
+                <div class="step-content">
+                    <h3>Create Plugin Class</h3>
+                    <p>Extend <code>AbstractPlugin</code> and add <code>@CorePlugin</code> annotation:</p>
+                    <div class="code-window">
+                        <div class="window-header">
+                            <div class="window-controls">
+                                <span class="control red"></span>
+                                <span class="control yellow"></span>
+                                <span class="control green"></span>
+                            </div>
+                            <span class="window-title">HelloWorldPlugin.java</span>
+                        </div>
+                        <div class="window-content">
+                            <pre><code class="language-java">package com.example.plugins;
+
+import org.webharvest.plugin.AbstractPlugin;
+import org.webharvest.plugin.annotations.CorePlugin;
+import org.webharvest.plugin.PluginConfiguration;
+import org.webharvest.runtime.DynamicScopeContext;
+import org.webharvest.runtime.variables.Variable;
+import org.webharvest.runtime.variables.NodeVariable;
+
+@CorePlugin(elementName = "hello-world")
+public class HelloWorldPlugin extends AbstractPlugin {
+    
+    @Override
+    protected Variable doExecute(DynamicScopeContext context) 
+            throws InterruptedException {
+        return new NodeVariable("Hello from custom plugin!");
+    }
+    
+    @Override
+    protected void doValidateConfiguration(PluginConfiguration config) {
+        // Validation logic (optional)
+    }
+    
+    @Override
+    protected void doInitialize(PluginConfiguration config) {
+        // Initialization logic (optional)
+    }
+}</code></pre>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="install-step">
+                <div class="step-number">3</div>
+                <div class="step-content">
+                    <h3>Package & Deploy</h3>
+                    <p>Build JAR and add to WebHarvest classpath:</p>
+                    <div class="code-window">
+                        <div class="window-header">
+                            <div class="window-controls">
+                                <span class="control red"></span>
+                                <span class="control yellow"></span>
+                                <span class="control green"></span>
+                            </div>
+                            <span class="window-title">terminal</span>
+                        </div>
+                        <div class="window-content">
+                            <pre><code class="language-bash">mvn clean package
+cp target/my-plugin-1.0.0.jar $WEBHARVEST_HOME/lib/
+
+# Plugin is auto-discovered on next run!</code></pre>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="install-step">
+                <div class="step-number">4</div>
+                <div class="step-content">
+                    <h3>Use in Configuration</h3>
+                    <p>Your plugin is now available in XML configurations:</p>
+                    <div class="code-window">
+                        <div class="window-header">
+                            <div class="window-controls">
+                                <span class="control red"></span>
+                                <span class="control yellow"></span>
+                                <span class="control green"></span>
+                            </div>
+                            <span class="window-title">config.xml</span>
+                        </div>
+                        <div class="window-content">
+                            <pre><code class="language-xml">&lt;?xml version="1.0" encoding="UTF-8"?&gt;
+&lt;config xmlns="http://org.webharvest/schema/2.1/core"&gt;
+    &lt;def var="result"&gt;
+        &lt;hello-world/&gt;
+    &lt;/def&gt;
+&lt;/config&gt;</code></pre>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Complete Example -->
+    <section class="container" style="margin-top: 6rem;">
+        <div class="section-header">
+            <h2>Complete Example: Plugin with Parameters</h2>
+            <p class="section-subtitle">Real-world plugin with attributes, body, and validation</p>
+        </div>
+
+        <div style="max-width: 900px; margin: 2rem auto;">
+            <div class="feature-card">
+                <h3>Base64 Encoder Plugin</h3>
+                <p style="margin-bottom: 1.5rem;">This plugin encodes text to Base64:</p>
+                
+                <div class="code-window">
+                    <div class="window-header">
+                        <div class="window-controls">
+                            <span class="control red"></span>
+                            <span class="control yellow"></span>
+                            <span class="control green"></span>
+                        </div>
+                        <span class="window-title">Base64Plugin.java</span>
+                    </div>
+                    <div class="window-content">
+                        <pre><code class="language-java">package com.example.plugins;
+
+import org.webharvest.plugin.AbstractPlugin;
+import org.webharvest.plugin.annotations.CorePlugin;
+import org.webharvest.plugin.PluginConfiguration;
+import org.webharvest.plugin.PluginMetadata;
+import org.webharvest.plugin.exceptions.PluginException;
+import org.webharvest.runtime.DynamicScopeContext;
+import org.webharvest.runtime.variables.Variable;
+import org.webharvest.runtime.variables.NodeVariable;
+import java.util.Base64;
+
+/**
+ * Encodes text to Base64.
+ * 
+ * Usage:
+ * &lt;base64 charset="UTF-8"&gt;text to encode&lt;/base64&gt;
+ */
+@CorePlugin(elementName = "base64")
+public class Base64Plugin extends AbstractPlugin {
+    
+    private String charset = "UTF-8";
+    
+    @Override
+    protected void doInitialize(PluginConfiguration config) throws PluginException {
+        // Get optional charset attribute
+        this.charset = config.getAttribute("charset", "UTF-8");
+    }
+    
+    @Override
+    protected void doValidateConfiguration(PluginConfiguration config) {
+        // Validate charset if provided
+        String charsetAttr = config.getAttribute("charset");
+        if (charsetAttr != null && !isValidCharset(charsetAttr)) {
+            throw new PluginValidationException(
+                "Invalid charset: " + charsetAttr
+            );
+        }
+    }
+    
+    @Override
+    protected Variable doExecute(DynamicScopeContext context) 
+            throws InterruptedException {
+        // Get body content
+        Variable bodyResult = executeBody(context);
+        String input = bodyResult.toString();
+        
+        // Encode to Base64
+        byte[] encoded = Base64.getEncoder().encode(
+            input.getBytes(charset)
+        );
+        
+        return new NodeVariable(new String(encoded));
+    }
+    
+    @Override
+    public PluginMetadata getMetadata() {
+        return new PluginMetadata() {
+            @Override
+            public String getName() { return "base64"; }
+            
+            @Override
+            public String getDescription() { 
+                return "Encodes text to Base64"; 
+            }
+            
+            @Override
+            public String getVersion() { return "1.0.0"; }
+        };
+    }
+    
+    private boolean isValidCharset(String charset) {
+        try {
+            java.nio.charset.Charset.forName(charset);
+            return true;
+        } catch (Exception e) {
+            return false;
+        }
+    }
+}</code></pre>
+                        </div>
+                    </div>
+
+                <h4 style="margin-top: 2rem;">Usage Example:</h4>
+                <div class="code-window">
+                    <div class="window-header">
+                        <div class="window-controls">
+                            <span class="control red"></span>
+                            <span class="control yellow"></span>
+                            <span class="control green"></span>
+                        </div>
+                        <span class="window-title">config.xml</span>
+                    </div>
+                    <div class="window-content">
+                        <pre><code class="language-xml">&lt;def var="encoded"&gt;
+    &lt;base64 charset="UTF-8"&gt;
+        Hello, WebHarvest!
+    &lt;/base64&gt;
+&lt;/def&gt;
+
+&lt;!-- Result: SGVsbG8sIFdlYkhhcnZlc3Qh --&gt;</code></pre>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Auto-Discovery -->
+    <section class="container" style="margin-top: 6rem;">
+        <div class="section-header">
+            <h2>Automatic Plugin Discovery</h2>
+            <p class="section-subtitle">No manual registration required</p>
+        </div>
+
+        <div style="max-width: 900px; margin: 2rem auto;">
+            <div class="feature-card">
+                <h3>How It Works</h3>
+                <p style="margin-bottom: 1.5rem;">
+                    WebHarvest v2.2.0 automatically discovers plugins using classpath scanning.
+                    Any class annotated with <code>@CorePlugin</code> is registered automatically.
+                </p>
+
+                <h4>Method 1: Add to Classpath</h4>
+                <div class="code-window">
+                    <div class="window-header">
+                        <div class="window-controls">
+                            <span class="control red"></span>
+                            <span class="control yellow"></span>
+                            <span class="control green"></span>
+                        </div>
+                        <span class="window-title">terminal</span>
+                    </div>
+                    <div class="window-content">
+                        <pre><code class="language-bash"># Copy JAR to lib directory
+cp my-plugin.jar $WEBHARVEST_HOME/lib/
+
+# Or run with classpath
+java -cp webharvest-core.jar:my-plugin.jar \
+    org.webharvest.Main config.xml</code></pre>
+                    </div>
+                </div>
+
+                <h4 style="margin-top: 2rem;">Method 2: Package Scanning (Custom Packages)</h4>
+                <div class="code-window">
+                    <div class="window-header">
+                        <div class="window-controls">
+                            <span class="control red"></span>
+                            <span class="control yellow"></span>
+                            <span class="control green"></span>
+                        </div>
+                        <span class="window-title">terminal</span>
+                    </div>
+                    <div class="window-content">
+                        <pre><code class="language-bash"># Scan custom packages
+java -Dwebharvest.plugin.packages=com.example.plugins,com.mycompany \
+     -jar webharvest-cli.jar config.xml</code></pre>
+                    </div>
+                </div>
+
+                <h4 style="margin-top: 2rem;">Method 3: Programmatic Registration</h4>
+                <div class="code-window">
+                    <div class="window-header">
+                        <div class="window-controls">
+                            <span class="control red"></span>
+                            <span class="control yellow"></span>
+                            <span class="control green"></span>
+                        </div>
+                        <span class="window-title">Main.java</span>
+                    </div>
+                    <div class="window-content">
+                        <pre><code class="language-java">import org.webharvest.plugin.scanner.PluginPackageScanner;
+import org.webharvest.definition.CorePluginRegistry;
+
+CorePluginRegistry registry = CorePluginRegistry.getInstance();
+PluginPackageScanner scanner = new PluginPackageScanner(registry);
+
+// Scan your custom packages
+scanner.scanPackages("com.example.plugins", "com.mycompany.webharvest");</code></pre>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Plugin Lifecycle -->
+    <section class="container" style="margin-top: 6rem;">
+        <div class="section-header">
+            <h2>Plugin Lifecycle</h2>
+            <p class="section-subtitle">Understanding the execution flow</p>
+        </div>
+
+        <div style="max-width: 900px; margin: 2rem auto;">
+            <div class="feature-card">
+                <div style="display: grid; grid-template-columns: auto 1fr; gap: 2rem; align-items: start;">
+                    <div style="text-align: center;">
+                        <div style="width: 60px; height: 60px; border-radius: 50%; background: var(--primary); color: white; display: flex; align-items: center; justify-content: center; font-weight: 700; margin-bottom: 1rem;">1</div>
+                        <div style="width: 2px; height: 100px; background: var(--gray-300); margin: 0 auto;"></div>
+                    </div>
+                    <div>
+                        <h4>Initialize</h4>
+                        <p style="color: var(--gray-700);">
+                            <code>doInitialize()</code> is called once when plugin is loaded.
+                            Parse attributes, setup resources, validate configuration.
+                        </p>
+                    </div>
+                </div>
+
+                <div style="display: grid; grid-template-columns: auto 1fr; gap: 2rem; align-items: start;">
+                    <div style="text-align: center;">
+                        <div style="width: 60px; height: 60px; border-radius: 50%; background: var(--lime); color: white; display: flex; align-items: center; justify-content: center; font-weight: 700; margin-bottom: 1rem;">2</div>
+                        <div style="width: 2px; height: 100px; background: var(--gray-300); margin: 0 auto;"></div>
+                    </div>
+                    <div>
+                        <h4>Execute</h4>
+                        <p style="color: var(--gray-700);">
+                            <code>doExecute()</code> is called for each invocation.
+                            Access context, execute body, process data, return result.
+                        </p>
+                    </div>
+                </div>
+
+                <div style="display: grid; grid-template-columns: auto 1fr; gap: 2rem; align-items: start;">
+                    <div style="text-align: center;">
+                        <div style="width: 60px; height: 60px; border-radius: 50%; background: var(--gray-600); color: white; display: flex; align-items: center; justify-content: center; font-weight: 700;">3</div>
+                    </div>
+                    <div>
+                        <h4>Cleanup</h4>
+                        <p style="color: var(--gray-700);">
+                            <code>cleanup()</code> is called when plugin is unloaded.
+                            Close connections, release resources, cleanup state.
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Advanced Features -->
+    <section class="container" style="margin-top: 6rem;">
+        <div class="section-header">
+            <h2>Advanced Features</h2>
+            <p class="section-subtitle">Take your plugins to the next level</p>
+        </div>
+
+        <div class="usage-grid">
+            <div class="usage-card">
+                <h3><i class="fas fa-check-square"></i> Attributes & Parameters</h3>
+                <p>Access XML attributes in your plugin:</p>
+                <div class="code-window" style="margin-top: 1rem;">
+                    <div class="window-header">
+                        <div class="window-controls">
+                            <span class="control red"></span>
+                            <span class="control yellow"></span>
+                            <span class="control green"></span>
+                        </div>
+                        <span class="window-title">Java</span>
+                    </div>
+                    <div class="window-content">
+                        <pre><code class="language-java">String url = config.getAttribute("url");
+int timeout = Integer.parseInt(
+    config.getAttribute("timeout", "30000")
+);</code></pre>
+                    </div>
+                </div>
+            </div>
+
+            <div class="usage-card">
+                <h3><i class="fas fa-layer-group"></i> Execute Body</h3>
+                <p>Process child elements:</p>
+                <div class="code-window" style="margin-top: 1rem;">
+                    <div class="window-header">
+                        <div class="window-controls">
+                            <span class="control red"></span>
+                            <span class="control yellow"></span>
+                            <span class="control green"></span>
+                        </div>
+                        <span class="window-title">Java</span>
+                    </div>
+                    <div class="window-content">
+                        <pre><code class="language-java">// Execute all child elements
+Variable bodyResult = executeBody(context);
+String content = bodyResult.toString();</code></pre>
+                    </div>
+                </div>
+            </div>
+
+            <div class="usage-card">
+                <h3><i class="fas fa-database"></i> Access Context</h3>
+                <p>Read/write variables, get session:</p>
+                <div class="code-window" style="margin-top: 1rem;">
+                    <div class="window-header">
+                        <div class="window-controls">
+                            <span class="control red"></span>
+                            <span class="control yellow"></span>
+                            <span class="control green"></span>
+                        </div>
+                        <span class="window-title">Java</span>
+                    </div>
+                    <div class="window-content">
+                        <pre><code class="language-java">// Get variable
+Variable var = context.getVar("myVar");
+
+// Set variable
+context.setLocalVar("result", newValue);
+
+// Get session
+ScraperSession session = context.getSession();</code></pre>
+                    </div>
+                </div>
+            </div>
+
+            <div class="usage-card">
+                <h3><i class="fas fa-bell"></i> Event System</h3>
+                <p>Publish events for monitoring:</p>
+                <div class="code-window" style="margin-top: 1rem;">
+                    <div class="window-header">
+                        <div class="window-controls">
+                            <span class="control red"></span>
+                            <span class="control yellow"></span>
+                            <span class="control green"></span>
+                        </div>
+                        <span class="window-title">Java</span>
+                    </div>
+                    <div class="window-content">
+                        <pre><code class="language-java">EventBus eventBus = context.getEventBus();
+eventBus.publish(new CustomEvent(data));</code></pre>
+                    </div>
+                </div>
+            </div>
+
+            <div class="usage-card">
+                <h3><i class="fas fa-chart-line"></i> Token Tracking</h3>
+                <p>Track metrics and performance:</p>
+                <div class="code-window" style="margin-top: 1rem;">
+                    <div class="window-header">
+                        <div class="window-controls">
+                            <span class="control red"></span>
+                            <span class="control yellow"></span>
+                            <span class="control green"></span>
+                        </div>
+                        <span class="window-title">Java</span>
+                    </div>
+                    <div class="window-content">
+                        <pre><code class="language-java">ScraperSession session = context.getSession();
+session.incrementToken(TokenType.HTTP_REQUEST, 1);
+session.incrementToken(TokenType.HTTP_BYTES, bytes);</code></pre>
+                    </div>
+                </div>
+            </div>
+
+            <div class="usage-card">
+                <h3><i class="fas fa-bug"></i> Error Handling</h3>
+                <p>Proper exception handling:</p>
+                <div class="code-window" style="margin-top: 1rem;">
+                    <div class="window-header">
+                        <div class="window-controls">
+                            <span class="control red"></span>
+                            <span class="control yellow"></span>
+                            <span class="control green"></span>
+                        </div>
+                        <span class="window-title">Java</span>
+                    </div>
+                    <div class="window-content">
+                        <pre><code class="language-java">try {
+    // Plugin logic
+} catch (IOException e) {
+    throw new PluginException(
+        "Failed to process: " + e.getMessage(), e
+    );
+}</code></pre>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Extension Module -->
+    <section class="container" style="margin-top: 6rem;">
+        <div class="section-header">
+            <h2>Creating Extension Modules</h2>
+            <p class="section-subtitle">Separate Maven modules like FTP, Mail, Database</p>
+        </div>
+
+        <div style="max-width: 900px; margin: 2rem auto;">
+            <div class="feature-card">
+                <h3>Project Structure</h3>
+                <p style="margin-bottom: 1.5rem;">
+                    Extension modules are separate Maven projects with their own dependencies:
+                </p>
+                <div class="code-window">
+                    <div class="window-header">
+                        <div class="window-controls">
+                            <span class="control red"></span>
+                            <span class="control yellow"></span>
+                            <span class="control green"></span>
+                        </div>
+                        <span class="window-title">project structure</span>
+                    </div>
+                    <div class="window-content">
+                        <pre><code class="language-plaintext">webharvest-myextension/
+├── pom.xml
+├── README.md
+└── src/
+    └── main/
+        ├── java/
+        │   └── org/webharvest/plugin/myext/
+        │       ├── MyExtPlugin.java
+        │       └── MyExtException.java
+        └── resources/
+            └── META-INF/
+                └── services/
+                    └── org.webharvest.plugin.Plugin</code></pre>
+                    </div>
+                </div>
+
+                <h4 style="margin-top: 2rem;">pom.xml Example:</h4>
+                <div class="code-window">
+                    <div class="window-header">
+                        <div class="window-controls">
+                            <span class="control red"></span>
+                            <span class="control yellow"></span>
+                            <span class="control green"></span>
+                        </div>
+                        <span class="window-title">pom.xml</span>
+                    </div>
+                    <div class="window-content">
+                        <pre><code class="language-xml">&lt;project&gt;
+    &lt;groupId&gt;org.webharvest&lt;/groupId&gt;
+    &lt;artifactId&gt;webharvest-myextension&lt;/artifactId&gt;
+    &lt;version&gt;2.2.0&lt;/version&gt;
+    
+    &lt;dependencies&gt;
+        &lt;!-- Core dependency --&gt;
+        &lt;dependency&gt;
+            &lt;groupId&gt;org.webharvest&lt;/groupId&gt;
+            &lt;artifactId&gt;webharvest-core&lt;/artifactId&gt;
+            &lt;version&gt;2.2.0&lt;/version&gt;
+            &lt;scope&gt;provided&lt;/scope&gt;
+        &lt;/dependency&gt;
+        
+        &lt;!-- Your heavy dependency --&gt;
+        &lt;dependency&gt;
+            &lt;groupId&gt;com.example&lt;/groupId&gt;
+            &lt;artifactId&gt;heavy-library&lt;/artifactId&gt;
+            &lt;version&gt;1.0.0&lt;/version&gt;
+        &lt;/dependency&gt;
+    &lt;/dependencies&gt;
+&lt;/project&gt;</code></pre>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Testing -->
+    <section class="container" style="margin-top: 6rem;">
+        <div class="section-header">
+            <h2>Testing Your Plugin</h2>
+            <p class="section-subtitle">Unit tests and integration tests</p>
+        </div>
+
+        <div style="max-width: 900px; margin: 2rem auto;">
+            <div class="feature-card">
+                <h3>Unit Test Example</h3>
+                <div class="code-window">
+                    <div class="window-header">
+                        <div class="window-controls">
+                            <span class="control red"></span>
+                            <span class="control yellow"></span>
+                            <span class="control green"></span>
+                        </div>
+                        <span class="window-title">Base64PluginTest.java</span>
+                    </div>
+                    <div class="window-content">
+                        <pre><code class="language-java">import org.junit.Test;
+import static org.junit.Assert.*;
+
+public class Base64PluginTest {
+    
+    @Test
+    public void shouldEncodeText() throws Exception {
+        // Create plugin
+        Base64Plugin plugin = new Base64Plugin();
+        
+        // Create mock configuration
+        PluginConfiguration config = new MockPluginConfiguration();
+        plugin.initialize(config);
+        
+        // Create mock context with body
+        DynamicScopeContext context = createContextWithBody("Hello");
+        
+        // Execute
+        Variable result = plugin.execute(context);
+        
+        // Verify
+        assertEquals("SGVsbG8=", result.toString());
+    }
+}</code></pre>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Best Practices -->
+    <section class="container" style="margin-top: 6rem;">
+        <div class="section-header">
+            <h2>Best Practices</h2>
+            <p class="section-subtitle">Write production-ready plugins</p>
+        </div>
+
+        <div class="features-grid">
+            <div class="feature-card">
+                <div class="feature-icon">
+                    <i class="fas fa-book"></i>
+                </div>
+                <h3>Documentation</h3>
+                <ul style="margin-left: 1.5rem; color: var(--gray-700); line-height: 1.8;">
+                    <li>Write JavaDoc comments</li>
+                    <li>Include usage examples</li>
+                    <li>Document attributes</li>
+                    <li>Explain return values</li>
+                </ul>
+            </div>
+
+            <div class="feature-card">
+                <div class="feature-icon">
+                    <i class="fas fa-shield-alt"></i>
+                </div>
+                <h3>Validation</h3>
+                <ul style="margin-left: 1.5rem; color: var(--gray-700); line-height: 1.8;">
+                    <li>Validate required attributes</li>
+                    <li>Check parameter types</li>
+                    <li>Provide clear error messages</li>
+                    <li>Fail fast on invalid config</li>
+                </ul>
+            </div>
+
+            <div class="feature-card">
+                <div class="feature-icon">
+                    <i class="fas fa-code"></i>
+                </div>
+                <h3>Naming Conventions</h3>
+                <ul style="margin-left: 1.5rem; color: var(--gray-700); line-height: 1.8;">
+                    <li>Use lowercase-hyphen: <code>my-plugin</code></li>
+                    <li>Class name: <code>MyPluginPlugin</code></li>
+                    <li>Package: <code>com.example.plugins</code></li>
+                    <li>Descriptive and clear</li>
+                </ul>
+            </div>
+
+            <div class="feature-card">
+                <div class="feature-icon">
+                    <i class="fas fa-vial"></i>
+                </div>
+                <h3>Testing</h3>
+                <ul style="margin-left: 1.5rem; color: var(--gray-700); line-height: 1.8;">
+                    <li>Write unit tests</li>
+                    <li>Test edge cases</li>
+                    <li>Mock dependencies</li>
+                    <li>Test error handling</li>
+                </ul>
+            </div>
+
+            <div class="feature-card">
+                <div class="feature-icon">
+                    <i class="fas fa-sync-alt"></i>
+                </div>
+                <h3>Thread Safety</h3>
+                <ul style="margin-left: 1.5rem; color: var(--gray-700); line-height: 1.8;">
+                    <li>Avoid mutable state</li>
+                    <li>Use context for data</li>
+                    <li>Synchronize shared resources</li>
+                    <li>Handle interrupts</li>
+                </ul>
+            </div>
+
+            <div class="feature-card">
+                <div class="feature-icon">
+                    <i class="fas fa-tachometer-alt"></i>
+                </div>
+                <h3>Performance</h3>
+                <ul style="margin-left: 1.5rem; color: var(--gray-700); line-height: 1.8;">
+                    <li>Minimize object creation</li>
+                    <li>Cache expensive operations</li>
+                    <li>Use streaming for large data</li>
+                    <li>Track tokens for metrics</li>
+                </ul>
+            </div>
+        </div>
+    </section>
+
+    <!-- Real Examples -->
+    <section class="container" style="margin-top: 6rem;">
+        <div class="section-header">
+            <h2>Real-World Examples</h2>
+            <p class="section-subtitle">Learn from existing plugins</p>
+        </div>
+
+        <div style="max-width: 900px; margin: 2rem auto;">
+            <div class="feature-card">
+                <h3>Example 1: HTTP Client Plugin</h3>
+                <p>Study how <code>HttpPlugin</code> handles requests, headers, and responses:</p>
+                <div class="code-window">
+                    <div class="window-header">
+                        <div class="window-controls">
+                            <span class="control red"></span>
+                            <span class="control yellow"></span>
+                            <span class="control green"></span>
+                        </div>
+                        <span class="window-title">Reference</span>
+                    </div>
+                    <div class="window-content">
+                        <pre><code class="language-plaintext">Source: webharvest-core/src/main/java/org/webharvest/plugin/core/HttpPlugin.java
+
+Features to learn:
+• Attribute handling (url, method, timeout)
+• Child element processing (headers, params)
+• Resource management (HTTP connections)
+• Error handling (network failures)
+• Token tracking (HTTP_REQUEST, HTTP_BYTES)</code></pre>
+                    </div>
+                </div>
+            </div>
+
+            <div class="feature-card" style="margin-top: 2rem;">
+                <h3>Example 2: Template Plugin</h3>
+                <p>See how <code>TemplatePlugin</code> processes dynamic content:</p>
+                <div class="code-window">
+                    <div class="window-header">
+                        <div class="window-controls">
+                            <span class="control red"></span>
+                            <span class="control yellow"></span>
+                            <span class="control green"></span>
+                        </div>
+                        <span class="window-title">Reference</span>
+                    </div>
+                    <div class="window-content">
+                        <pre><code class="language-plaintext">Source: webharvest-core/src/main/java/org/webharvest/plugin/core/TemplatePlugin.java
+
+Features to learn:
+• Variable substitution
+• Context manipulation
+• Body execution
+• String processing</code></pre>
+                    </div>
+                </div>
+            </div>
+
+            <div class="feature-card" style="margin-top: 2rem;">
+                <h3>Example 3: Mail Extension Module</h3>
+                <p>Learn how extension modules work:</p>
+                <div class="code-window">
+                    <div class="window-header">
+                        <div class="window-controls">
+                            <span class="control red"></span>
+                            <span class="control yellow"></span>
+                            <span class="control green"></span>
+                        </div>
+                        <span class="window-title">Reference</span>
+                    </div>
+                    <div class="window-content">
+                        <pre><code class="language-plaintext">Source: webharvest-mail/src/main/java/org/webharvest/plugin/mail/MailPlugin.java
+
+Features to learn:
+• External dependencies (JavaMail)
+• Separate Maven module
+• Complex configuration
+• Resource cleanup</code></pre>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Related Resources -->
+    <section class="container" style="margin-top: 6rem; margin-bottom: 6rem;">
+        <div class="section-header">
+            <h2>Related Resources</h2>
+        </div>
+
+        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 2rem; margin-top: 3rem;">
+            <div class="feature-card" style="background: var(--gray-50);">
+                <h3><i class="fas fa-book" style="color: var(--primary);"></i> Technical Documentation</h3>
+                <ul style="color: var(--gray-700); line-height: 1.8; margin-left: 1.5rem;">
+                    <li><a href="architecture.html" style="color: var(--primary);">System Architecture</a></li>
+                    <li><a href="session-management.html" style="color: var(--primary);">Session Management</a></li>
+                    <li><a href="token-tracking.html" style="color: var(--primary);">Token Tracking</a></li>
+                    <li><a href="../plugins.html" style="color: var(--primary);">Plugin Ecosystem</a></li>
+                </ul>
+            </div>
+
+            <div class="feature-card" style="background: var(--gray-50);">
+                <h3><i class="fas fa-graduation-cap" style="color: var(--lime);"></i> More Tutorials</h3>
+                <ul style="color: var(--gray-700); line-height: 1.8; margin-left: 1.5rem;">
+                    <li><a href="getting-started.html" style="color: var(--primary);">Getting Started</a></li>
+                    <li><a href="debugging-guide.html" style="color: var(--primary);">Debugging Guide</a></li>
+                    <li><a href="2.2.0/" style="color: var(--primary);">Plugin Reference</a></li>
+                    <li><a href="../examples/" style="color: var(--primary);">Examples</a></li>
+                </ul>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="site-footer">
+        <div class="container footer-content">
+            <div class="footer-links">
+                <a href="../about.html">About</a>
+                <a href="2.2.0/">Plugins</a>
+                <a href="./">Documentation</a>
+                <a href="../examples/">Examples</a>
+                <a href="../support.html">Support</a>
+                <a href="https://sourceforge.net/projects/web-harvest/">SourceForge</a>
+            </div>
+            <div class="footer-legal">
+                <p>Copyright © 2006-2025 WebHarvest Contributors. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script src="../js/prism.js"></script>
+</body>
+
+</html>
+

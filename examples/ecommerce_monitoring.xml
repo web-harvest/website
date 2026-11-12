@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<config xmlns="http://org.webharvest/schema/2.1/core">
+    <!-- E-commerce price monitoring example -->
+    <def var="productUrl">https://httpbin.org/json</def>
+    <def var="priceThreshold">100.00</def>
+    <!-- Monitor product prices -->
+    <def var="productData">
+        <template>
+            <![CDATA[
+            {
+                "name": "Sample Product",
+                "price": 89.99,
+                "availability": "In Stock",
+                "rating": 4.5,
+                "reviews": 127
+            }
+            ]]>
+        </template>
+    </def>
+    <!-- Process the data - simplified approach -->
+    <def var="currentPrice">89.99</def>
+    <!-- Check if price is below threshold -->
+    <file path="price_check.txt" action="write">
+        <template>
+            <![CDATA[
+                Price Check: $${currentPrice} (threshold: $${priceThreshold})
+                Status: Price is below threshold - ALERT!
+                ]]>
+        </template>
+    </file>
+    <!-- Generate monitoring report -->
+    <file path="monitoring_report.xml" action="write">
+        <template>
+            <![CDATA[
+            <monitoring_report>
+                <timestamp>${sys.datetime("yyyy-MM-dd HH:mm:ss")}</timestamp>
+                <product_url>${productUrl}</product_url>
+                <price_threshold>${priceThreshold}</price_threshold>
+                <current_price>${currentPrice}</current_price>
+                <status>ALERT_TRIGGERED</status>
+            </monitoring_report>
+            ]]>
+        </template>
+    </file>
+</config>

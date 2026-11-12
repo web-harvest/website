@@ -1,0 +1,380 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>&lt;get-var&gt; - Variable retrieval processor | WebHarvest v2.2.0</title>
+    <meta name="description" content="WebHarvest get-var plugin: Variable retrieval processor. Core processor for web scraping and data extraction with XML configuration. Examples, usage, and documentation." />
+    <meta name="keywords" content="webharvest get-var, get-var plugin, web scraping, data extraction, XML configuration, core processor, webharvest plugin documentation" />
+    <meta name="robots" content="index, follow" />
+    <meta name="author" content="WebHarvest Team" />
+    
+    <!-- Open Graph / Facebook -->
+    <meta property="og:type" content="article" />
+    <meta property="og:title" content="&lt;get-var&gt; - Variable retrieval processor" />
+    <meta property="og:description" content="The <code><get-var></code> processor retrieves the value of a previously defined variable
+and returns it for use in the current execution flow. It's commonly us..." />
+    <meta property="og:url" content="https://webharvest.sourceforge.net/documentation/2.2.0/get-var.html" />
+    
+    <!-- Twitter -->
+    <meta property="twitter:card" content="summary" />
+    <meta property="twitter:title" content="&lt;get-var&gt; - Variable retrieval processor" />
+    <meta property="twitter:description" content="The <code><get-var></code> processor retrieves the value of a previously defined variable
+and returns it for use in the current execution flow. It's commonly us..." />
+    
+    <!-- Structured Data -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "TechArticle",
+      "headline": "&lt;get-var&gt; - Variable retrieval processor",
+      "description": "The <code><get-var></code> processor retrieves the value of a previously defined variable
+and returns it for use in the current execution flow. It's commonly used to pass
+data between different parts of a scraper configuration while preserving the original
+Variable type (binary data, XML structure, lists).",
+      "author": {
+        "@type": "Organization",
+        "name": "WebHarvest Team"
+      },
+      "datePublished": "2025-01-01",
+      "dateModified": "2025-01-01",
+      "publisher": {
+        "@type": "Organization",
+        "name": "WebHarvest",
+        "logo": {
+          "@type": "ImageObject",
+          "url": "https://webharvest.sourceforge.net/images/logo.png"
+        }
+      },
+      "mainEntityOfPage": {
+        "@type": "WebPage",
+        "@id": "https://webharvest.sourceforge.net/documentation/2.2.0/get-var.html"
+      },
+      "about": {
+        "@type": "SoftwareApplication",
+        "name": "WebHarvest",
+        "applicationCategory": "DeveloperApplication"
+      }
+    }
+    </script>
+    <link rel="stylesheet" href="../../css/enterprise.css">
+    <link rel="stylesheet" href="../../css/prism.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        /* Override enterprise.css background for code blocks */
+        .window-content pre[class*="language-"] {
+            background: #272822 !important;
+        }
+        .processor-content {
+            max-width: 900px;
+            margin: var(--spacing-8) auto;
+            padding: 0 var(--spacing-4);
+        }
+        .section {
+            margin-bottom: var(--spacing-8);
+        }
+        .section-title {
+            font-size: 1.75rem;
+            font-weight: 700;
+            margin-bottom: var(--spacing-4);
+        }
+        .subsection-title {
+            font-size: 1.25rem;
+            font-weight: 600;
+            margin-top: var(--spacing-6);
+            margin-bottom: var(--spacing-3);
+        }
+        .related-links {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: var(--spacing-3);
+            margin-top: var(--spacing-4);
+        }
+        .related-link {
+            padding: var(--spacing-3);
+            background: white;
+            border: 2px solid var(--gray-300);
+            border-radius: var(--radius-lg);
+            text-align: center;
+            text-decoration: none;
+            color: var(--text-primary);
+            font-weight: 600;
+            transition: all 0.3s ease;
+        }
+        .related-link:hover {
+            background: var(--gray-50);
+            border-color: var(--gray-400);
+            transform: translateY(-2px);
+        }
+    </style>
+</head>
+<body>
+    <header class="site-header">
+        <div class="container header-inner">
+            <a href="../../index.html" class="brand" style="text-decoration: none; color: inherit; display: flex; align-items: center; gap: var(--spacing-3);">
+                <img src="../../images/logo.png" alt="WebHarvest Logo - Enterprise Web Scraping Framework" class="logo" />
+                <span class="project-name">WebHarvest</span>
+            </a>
+            <nav class="main-nav">
+                <a href="../../about.html">About</a>
+                <a href="../getting-started.html" style="background: linear-gradient(135deg, var(--lime), #8BC34A); color: white; padding: 0.5rem 1rem; border-radius: var(--radius-md); font-weight: 700;"><i class="fas fa-rocket"></i> Get Started</a>
+                <a href="../../plugins.html">Plugins</a>
+                <a href="../../ide.html">IDE</a>
+                <a href="../../cli.html">CLI</a>
+                <a href="../../examples/">Examples</a>
+                <a href="../">Docs</a>
+                <a href="../../news.html">News</a>
+                <a href="../../support.html">Support</a>
+                <a class="cta" href="../../index.html#download">Download</a>
+            </nav>
+        </div>
+    </header>
+
+    <!-- Hero -->
+    <section class="hero">
+        <div class="container hero-inner">
+            <div class="hero-content">
+                <h1>&lt;get-var&gt;</h1>
+                <p class="lead">Variable retrieval processor</p>
+                <p class="hero-description">
+                    <span style="display: inline-block; margin-right: 1rem;"><i class="fas fa-cube"></i> Core</span>
+                    <span style="display: inline-block;">v2.2.0</span>
+                </p>
+            </div>
+        </div>
+    </section>
+
+    <div class="processor-content">
+        <section class="section">
+            <h2 class="section-title">Overview</h2>
+            <p>The <code><get-var></code> processor retrieves the value of a previously defined variable
+and returns it for use in the current execution flow. It's commonly used to pass
+data between different parts of a scraper configuration while preserving the original
+Variable type (binary data, XML structure, lists).</p>
+        </section>
+
+        <section class="section">
+            <h2 class="section-title">Usage Examples</h2>
+            
+            <h3 class="subsection-title">Example 1: Simple text retrieval (both syntaxes work)</h3>
+            <div class="code-window">
+                <div class="window-header">
+                    <div class="window-controls">
+                        <span class="control red"></span>
+                        <span class="control yellow"></span>
+                        <span class="control green"></span>
+                    </div>
+                    <span class="window-title">example-1.xml</span>
+                </div>
+                <div class="window-content">
+                    <pre><code class="language-xml">&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?&gt;
+&lt;config xmlns=&quot;http://org.webharvest/schema/2.1/core&quot;&gt;
+&lt;def var=&quot;apiUrl&quot; value=&quot;https://api.example.com&quot;/&gt;
+
+&lt;!-- Template syntax (simpler) --&gt;
+&lt;http url=&quot;${apiUrl}/users&quot;/&gt;
+
+&lt;!-- Processor syntax (explicit) --&gt;
+&lt;http&gt;
+  &lt;get-var var=&quot;apiUrl&quot;/&gt;/users
+&lt;/http&gt;
+&lt;/config&gt;</code></pre>
+                </div>
+            </div>
+
+            <h3 class="subsection-title">Example 2: Preserving binary data (use get-var!)</h3>
+            <div class="code-window">
+                <div class="window-header">
+                    <div class="window-controls">
+                        <span class="control red"></span>
+                        <span class="control yellow"></span>
+                        <span class="control green"></span>
+                    </div>
+                    <span class="window-title">example-2.xml</span>
+                </div>
+                <div class="window-content">
+                    <pre><code class="language-xml">&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?&gt;
+&lt;config xmlns=&quot;http://org.webharvest/schema/2.1/core&quot;&gt;
+&lt;!-- Download image as binary --&gt;
+&lt;def var=&quot;imageData&quot;&gt;
+  &lt;http url=&quot;https://example.com/logo.png&quot;/&gt;
+&lt;/def&gt;
+
+&lt;!-- CORRECT: get-var preserves byte[] array --&gt;
+&lt;file path=&quot;logo.png&quot; action=&quot;write&quot; type=&quot;binary&quot;&gt;
+  &lt;get-var var=&quot;imageData&quot;/&gt;
+&lt;/file&gt;
+
+&lt;!-- WRONG: ${imageData} converts to String, corrupts binary! --&gt;
+&lt;file path=&quot;broken.png&quot; action=&quot;write&quot; type=&quot;binary&quot;&gt;
+  ${imageData}  &lt;!-- ❌ Corrupted! --&gt;
+&lt;/file&gt;
+&lt;/config&gt;</code></pre>
+                </div>
+            </div>
+
+            <h3 class="subsection-title">Example 3: Preserving XML structure</h3>
+            <div class="code-window">
+                <div class="window-header">
+                    <div class="window-controls">
+                        <span class="control red"></span>
+                        <span class="control yellow"></span>
+                        <span class="control green"></span>
+                    </div>
+                    <span class="window-title">example-3.xml</span>
+                </div>
+                <div class="window-content">
+                    <pre><code class="language-xml">&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?&gt;
+&lt;config xmlns=&quot;http://org.webharvest/schema/2.1/core&quot;&gt;
+&lt;def var=&quot;xmlData&quot;&gt;
+  &lt;json-to-xml&gt;
+    &lt;http url=&quot;https://api.example.com/data.json&quot;/&gt;
+  &lt;/json-to-xml&gt;
+&lt;/def&gt;
+
+&lt;!-- get-var preserves XML structure for XPath --&gt;
+&lt;def var=&quot;username&quot;&gt;
+  &lt;xpath expression=&quot;//user/name/text()&quot;&gt;
+    &lt;get-var var=&quot;xmlData&quot;/&gt;
+  &lt;/xpath&gt;
+&lt;/def&gt;
+&lt;/config&gt;</code></pre>
+                </div>
+            </div>
+
+            <h3 class="subsection-title">Example 4: Working with lists</h3>
+            <div class="code-window">
+                <div class="window-header">
+                    <div class="window-controls">
+                        <span class="control red"></span>
+                        <span class="control yellow"></span>
+                        <span class="control green"></span>
+                    </div>
+                    <span class="window-title">example-4.xml</span>
+                </div>
+                <div class="window-content">
+                    <pre><code class="language-xml">&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?&gt;
+&lt;config xmlns=&quot;http://org.webharvest/schema/2.1/core&quot;&gt;
+&lt;def var=&quot;productIds&quot;&gt;
+  &lt;xpath expression=&quot;//product/@id&quot;&gt;
+    &lt;html-to-xml&gt;
+      &lt;http url=&quot;https://example.com/products&quot;/&gt;
+    &lt;/html-to-xml&gt;
+  &lt;/xpath&gt;
+&lt;/def&gt;
+
+&lt;!-- Loop needs Variable object, not String --&gt;
+&lt;loop item=&quot;id&quot;&gt;
+  &lt;get-var var=&quot;productIds&quot;/&gt;
+  
+  &lt;http url=&quot;https://example.com/product/${id}&quot;/&gt;
+&lt;/loop&gt;
+&lt;/config&gt;</code></pre>
+                </div>
+            </div>
+
+            <h3 class="subsection-title">Example 5: Dynamic variable names with template interpolation</h3>
+            <div class="code-window">
+                <div class="window-header">
+                    <div class="window-controls">
+                        <span class="control red"></span>
+                        <span class="control yellow"></span>
+                        <span class="control green"></span>
+                    </div>
+                    <span class="window-title">example-5.xml</span>
+                </div>
+                <div class="window-content">
+                    <pre><code class="language-xml">&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?&gt;
+&lt;config xmlns=&quot;http://org.webharvest/schema/2.1/core&quot;&gt;
+&lt;def var=&quot;lang&quot; value=&quot;en&quot;/&gt;
+&lt;def var=&quot;greeting_en&quot; value=&quot;Hello&quot;/&gt;
+&lt;def var=&quot;greeting_pl&quot; value=&quot;Cześć&quot;/&gt;
+&lt;def var=&quot;greeting_de&quot; value=&quot;Hallo&quot;/&gt;
+
+&lt;!-- Dynamic variable name --&gt;
+&lt;get-var var=&quot;greeting_${lang}&quot;/&gt;
+&lt;!-- Result: Hello (retrieves greeting_en) --&gt;
+&lt;/config&gt;</code></pre>
+                </div>
+            </div>
+
+            <h3 class="subsection-title">Example 6: Reusing expensive HTTP calls</h3>
+            <div class="code-window">
+                <div class="window-header">
+                    <div class="window-controls">
+                        <span class="control red"></span>
+                        <span class="control yellow"></span>
+                        <span class="control green"></span>
+                    </div>
+                    <span class="window-title">example-6.xml</span>
+                </div>
+                <div class="window-content">
+                    <pre><code class="language-xml">&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?&gt;
+&lt;config xmlns=&quot;http://org.webharvest/schema/2.1/core&quot;&gt;
+&lt;!-- Fetch API data once --&gt;
+&lt;def var=&quot;apiData&quot;&gt;
+  &lt;http url=&quot;https://api.example.com/data?key=${apiKey}&quot;/&gt;
+&lt;/def&gt;
+
+&lt;!-- Reuse the same response multiple times --&gt;
+&lt;def var=&quot;userId&quot;&gt;
+  &lt;xpath expression=&quot;//user/@id&quot;&gt;
+    &lt;json-to-xml&gt;&lt;get-var var=&quot;apiData&quot;/&gt;&lt;/json-to-xml&gt;
+  &lt;/xpath&gt;
+&lt;/def&gt;
+
+&lt;def var=&quot;userName&quot;&gt;
+  &lt;xpath expression=&quot;//user/name&quot;&gt;
+    &lt;json-to-xml&gt;&lt;get-var var=&quot;apiData&quot;/&gt;&lt;/json-to-xml&gt;
+  &lt;/xpath&gt;
+&lt;/def&gt;
+
+&lt;def var=&quot;userEmail&quot;&gt;
+  &lt;xpath expression=&quot;//user/email&quot;&gt;
+    &lt;json-to-xml&gt;&lt;get-var var=&quot;apiData&quot;/&gt;&lt;/json-to-xml&gt;
+  &lt;/xpath&gt;
+&lt;/def&gt;
+&lt;/config&gt;</code></pre>
+                </div>
+            </div>
+
+        </section>
+
+        
+
+        <section class="section">
+            <h2 class="section-title">Important Notes</h2><ul style="line-height: 1.8;"><li>Type preservation:: Preserves original Variable type (NodeVariable, ListVariable, etc.)</li><li>Variable scope:: Searches current scope, then parent scopes up to global</li><li>Template support:: The <code>var</code> attribute itself supports ${} interpolation</li><li>No fallback:: Missing variables throw error (unlike ${} which may return empty)</li><li>Performance:: O(1) variable lookup, safe to use extensively</li></ul>
+        </section>
+
+        <section class="section">
+            <h2 class="section-title">Related Processors</h2><div class="related-links">
+                <a href="def.html" class="related-link">
+                    <i class="fas fa-code"></i> &lt;def&gt;
+                </a>
+                <a href="var.html" class="related-link">
+                    <i class="fas fa-code"></i> &lt;var&gt;
+                </a>
+                <a href="empty.html" class="related-link">
+                    <i class="fas fa-code"></i> &lt;empty&gt;
+                </a></div>
+        </section>
+    </div>
+
+    <footer class="site-footer">
+        <div class="container footer-content">
+            <div class="footer-links">
+                <a href="../../about.html">About</a>
+                <a href="../">Plugins</a>
+                <a href="../">Documentation</a>
+                <a href="../../examples/">Examples</a>
+                <a href="../../support.html">Support</a>
+                <a href="https://sourceforge.net/projects/web-harvest/">SourceForge</a>
+            </div>
+            <div class="footer-legal">
+                <p>Copyright © 2006-2025 WebHarvest Contributors. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+    <script src="../../js/prism.js"></script>
+</body>
+</html>

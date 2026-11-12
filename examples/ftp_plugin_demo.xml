@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<config xmlns="http://org.webharvest/schema/2.1/core" charset="UTF-8">
+    <!-- FTP Plugin Demo - demonstrates FTP operations with new plugin architecture -->
+    
+    <!-- FTP connection configuration -->
+    <def var="ftp_host">ftp.example.com</def>
+    <def var="ftp_user">username</def>
+    <def var="ftp_password">password</def>
+    <def var="ftp_port">21</def>
+    
+    <!-- Connect to FTP server -->
+    <ftp host="${ftp_host}" user="${ftp_user}" password="${ftp_password}" port="${ftp_port}">
+        <!-- List files in root directory -->
+        <ftp-list path="/">
+            <def var="fileList">
+                <body>
+                    <loop item="file">
+                        <xpath expression="//file">
+                            <get var="fileList"/>
+                        </xpath>
+                        <body>
+                            <file_info>
+                                <!-- Use /text() to extract text content -->
+                                <name><xpath expression="name/text()"><get var="file"/></xpath></name>
+                                <size><xpath expression="size/text()"><get var="file"/></xpath></size>
+                                <type><xpath expression="type/text()"><get var="file"/></xpath></type>
+                                <modified><xpath expression="modified/text()"><get var="file"/></xpath></modified>
+                            </file_info>
+                        </body>
+                    </loop>
+                </body>
+            </def>
+        </ftp-list>
+        
+        <!-- Download a specific file -->
+        <ftp-get remote-path="/data/sample.txt" local-path="downloaded_sample.txt">
+            <def var="downloadResult">File downloaded successfully</def>
+        </ftp-get>
+        
+        <!-- Upload a file -->
+        <file action="write" path="upload_test.txt" charset="UTF-8">
+            <template>This is a test file for FTP upload - ${sys.datetime()}</template>
+        </file>
+        
+        <ftp-put local-path="upload_test.txt" remote-path="/uploads/test_${sys.datetime('yyyyMMdd_HHmmss')}.txt">
+            <def var="uploadResult">File uploaded successfully</def>
+        </ftp-put>
+    </ftp>
+    
+    <!-- Generate results -->
+    <file action="write" path="ftp_demo_results.xml" charset="UTF-8">
+        <template>
+            <ftp_demo_results>
+                <timestamp>${sys.datetime()}</timestamp>
+                <server>${ftp_host}</server>
+                <file_list>
+                    <get var="fileList"></get>
+                </file_list>
+                <download_status><get var="downloadResult"/></download_status>
+                <upload_status><get var="uploadResult"/></upload_status>
+            </ftp_demo_results>
+        </template>
+    </file>
+    
+    <text>FTP demo completed. Results saved to ftp_demo_results.xml</text>
+</config>
+
+
+
+
+
+
+
+
+
+
+
+

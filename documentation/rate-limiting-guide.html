@@ -1,0 +1,261 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Rate Limiting Guide - WebHarvest</title>
+    <link rel="stylesheet" href="../css/enterprise.css" />
+    <link rel="stylesheet" href="../css/prism.css" />
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+
+<body>
+
+    <!-- Header -->
+    <header class="site-header">
+        <div class="container header-inner">
+            <a href="../index.html" class="brand"
+                style="text-decoration: none; color: inherit; display: flex; align-items: center; gap: var(--spacing-3);">
+                <img src="../images/logo.png" alt="WebHarvest" class="logo" />
+                <span class="project-name">WebHarvest</span>
+            </a>
+            <nav class="main-nav">
+                <a href="../about.html">About</a>
+                <a href="getting-started.html"
+                    style="background: linear-gradient(135deg, var(--lime), #8BC34A); color: white; padding: 0.5rem 1rem; border-radius: var(--radius-md); font-weight: 700;"><i
+                        class="fas fa-rocket"></i> Get Started</a>
+                <a href="../plugins.html">Plugins</a>
+                <a href="../ide.html">IDE</a>
+                <a href="../cli.html">CLI</a>
+                <a href="../examples/">Examples</a>
+                <a href="./" class="active">Docs</a>
+                <a href="../news.html">News</a>
+                <a href="../support.html">Support</a>
+                <a class="cta" href="../index.html#download">Download</a>
+            </nav>
+        </div>
+    </header>
+
+    <!-- Hero -->
+    <section class="hero">
+        <div class="container hero-inner">
+            <div class="hero-content">
+                <h1>Rate Limiting<br />& Polite Scraping</h1>
+                <p class="lead">Best practices for respectful web scraping</p>
+                <p class="hero-description">
+                    Learn how to control scraping speed, avoid overloading servers,
+                    and implement responsible scraping patterns.
+                </p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Why Rate Limiting -->
+    <section class="container" style="margin-top: 4rem;">
+        <div class="section-header">
+            <h2>Why Rate Limiting Matters</h2>
+            <p class="section-subtitle">Protecting servers and ensuring reliable scraping</p>
+        </div>
+
+        <div class="features-grid">
+            <div class="feature-card">
+                <div class="feature-icon">
+                    <i class="fas fa-server"></i>
+                </div>
+                <h3>Prevent Server Overload</h3>
+                <p>Too many requests can crash small websites or trigger rate limits</p>
+            </div>
+
+            <div class="feature-card">
+                <div class="feature-icon">
+                    <i class="fas fa-ban"></i>
+                </div>
+                <h3>Avoid IP Bans</h3>
+                <p>Aggressive scraping gets your IP blocked permanently</p>
+            </div>
+
+            <div class="feature-card">
+                <div class="feature-icon">
+                    <i class="fas fa-handshake"></i>
+                </div>
+                <h3>Be Respectful</h3>
+                <p>Good scraping citizens don't abuse free services</p>
+            </div>
+
+            <div class="feature-card">
+                <div class="feature-icon">
+                    <i class="fas fa-chart-line"></i>
+                </div>
+                <h3>Better Reliability</h3>
+                <p>Slower scraping = fewer errors = more successful extractions</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Sleep Plugin -->
+    <section class="container" style="margin-top: 6rem;">
+        <div class="section-header">
+            <h2>Pattern 1: Simple Delays with Sleep</h2>
+            <p class="section-subtitle">Add pauses between requests</p>
+        </div>
+
+        <div style="max-width: 900px; margin: 2rem auto;">
+            <p style="font-size: 1.05rem; line-height: 1.7;">
+                Use <code>&lt;sleep&gt;</code> to pause execution for a specified time (in milliseconds).
+            </p>
+
+            <div class="code-window">
+                <div class="window-header">
+                    <div class="window-controls">
+                        <span class="control red"></span>
+                        <span class="control yellow"></span>
+                        <span class="control green"></span>
+                    </div>
+                    <span class="window-title">rate-limit-sleep.xml</span>
+                </div>
+                <div class="window-content">
+                    <pre><code class="language-xml">&lt;?xml version="1.0" encoding="UTF-8"?&gt;
+&lt;config xmlns="http://org.webharvest/schema/2.1/core"&gt;
+&lt;loop item="url"&gt;
+    ${urlList}
+    
+    &lt;!-- Fetch page --&gt;
+    &lt;http url="${url}"/&gt;
+    
+    &lt;!-- ⏱️ WAIT 2 seconds before next request --&gt;
+    &lt;sleep time="2000"/&gt;
+&lt;/loop&gt;
+&lt;/config&gt;</code></pre>
+                </div>
+            </div>
+
+            <div class="note">
+                <strong>💡 Recommendation:</strong> Start with 2-second delays for unknown sites, then adjust based on
+                server response.
+            </div>
+        </div>
+    </section>
+
+    <!-- Random Delays -->
+    <section class="container" style="margin-top: 6rem;">
+        <div class="section-header">
+            <h2>Pattern 2: Random Delays</h2>
+            <p class="section-subtitle">Vary delay times to appear more human</p>
+        </div>
+
+        <div style="max-width: 900px; margin: 2rem auto;">
+            <p style="font-size: 1.05rem; line-height: 1.7;">
+                Random delays (1-3 seconds) are less detectable than fixed intervals.
+            </p>
+
+            <div class="code-window">
+                <div class="window-header">
+                    <div class="window-controls">
+                        <span class="control red"></span>
+                        <span class="control yellow"></span>
+                        <span class="control green"></span>
+                    </div>
+                    <span class="window-title">rate-limit-random.xml</span>
+                </div>
+                <div class="window-content">
+                    <pre><code class="language-xml">&lt;?xml version="1.0" encoding="UTF-8"?&gt;
+&lt;config xmlns="http://org.webharvest/schema/2.1/core"&gt;
+&lt;loop item="url"&gt;
+    ${urlList}
+    
+    &lt;http url="${url}"/&gt;
+    
+    &lt;!-- Random delay between 1-3 seconds --&gt;
+    &lt;def var="randomDelay"&gt;
+        &lt;script&gt;1000 + Math.random() * 2000&lt;/script&gt;
+    &lt;/def&gt;
+    
+    &lt;sleep time="${randomDelay}"/&gt;
+&lt;/loop&gt;
+&lt;/config&gt;</code></pre>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Best Practices -->
+    <section class="container" style="margin-top: 6rem; margin-bottom: 6rem;">
+        <div class="section-header">
+            <h2>Best Practices</h2>
+        </div>
+
+        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 2rem; margin-top: 3rem;">
+            <div class="feature-card" style="background: #e8f5e9;">
+                <h3><i class="fas fa-check-circle" style="color: var(--lime);"></i> DO</h3>
+                <ul style="color: var(--gray-700); line-height: 1.8; margin-left: 1.5rem;">
+                    <li>Start with 2-3 second delays</li>
+                    <li>Use random delays when possible</li>
+                    <li>Respect robots.txt</li>
+                    <li>Set proper User-Agent header</li>
+                </ul>
+            </div>
+
+            <div class="feature-card" style="background: #ffebee;">
+                <h3><i class="fas fa-times-circle" style="color: #dc3545;"></i> DON'T</h3>
+                <ul style="color: var(--gray-700); line-height: 1.8; margin-left: 1.5rem;">
+                    <li>Never scrape at maximum speed</li>
+                    <li>Don't ignore HTTP 429 (Too Many Requests)</li>
+                    <li>Don't scrape during peak hours</li>
+                    <li>Don't pretend to be a real browser if you're not</li>
+                </ul>
+            </div>
+        </div>
+    </section>
+
+    <!-- Related Resources -->
+    <section class="container" style="margin-top: 6rem; margin-bottom: 6rem;">
+        <div class="section-header">
+            <h2>Related Resources</h2>
+        </div>
+
+        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 2rem; margin-top: 3rem;">
+            <div class="feature-card" style="background: var(--gray-50);">
+                <h3><i class="fas fa-book" style="color: var(--primary);"></i> Plugin Reference</h3>
+                <ul style="color: var(--gray-700); line-height: 1.8; margin-left: 1.5rem;">
+                    <li><a href="2.2.0/sleep.html" style="color: var(--primary);">Sleep Plugin</a></li>
+                    <li><a href="2.2.0/loop.html" style="color: var(--primary);">Loop Plugin</a></li>
+                    <li><a href="2.2.0/http.html" style="color: var(--primary);">HTTP Plugin</a></li>
+                    <li><a href="2.2.0/script.html" style="color: var(--primary);">Script Plugin</a></li>
+                </ul>
+            </div>
+
+            <div class="feature-card" style="background: var(--gray-50);">
+                <h3><i class="fas fa-graduation-cap" style="color: var(--lime);"></i> More Tutorials</h3>
+                <ul style="color: var(--gray-700); line-height: 1.8; margin-left: 1.5rem;">
+                    <li><a href="getting-started.html" style="color: var(--primary);">Getting Started</a></li>
+                    <li><a href="debugging-guide.html" style="color: var(--primary);">Debugging Guide</a></li>
+                    <li><a href="tutorial-form-submit-pagination.html" style="color: var(--primary);">Form Submit &
+                            Pagination</a></li>
+                </ul>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="site-footer">
+        <div class="container footer-content">
+            <div class="footer-links">
+                <a href="../about.html">About</a>
+                <a href="2.2.0/">Plugins</a>
+                <a href="./">Documentation</a>
+                <a href="../examples/">Examples</a>
+                <a href="../support.html">Support</a>
+                <a href="https://sourceforge.net/projects/web-harvest/">SourceForge</a>
+            </div>
+            <div class="footer-legal">
+                <p>Copyright © 2006-2025 WebHarvest Contributors. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script src="../js/prism.js"></script>
+</body>
+
+</html>

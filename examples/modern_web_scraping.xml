@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<config xmlns="http://org.webharvest/schema/2.1/core">
+    <def var="searchTerm">artificial intelligence</def>
+    <def var="maxResults">5</def>
+    
+    <!-- Modern web scraping using improved html-to-xml -->
+    <def var="searchResults">
+        <html-to-xml 
+            advancedxmlescape="true" 
+            specialentities="true" 
+            unicodechars="true" 
+            allowmultiwordattributes="true" 
+            omitunknowntags="true"
+            treatunknowntagsascontent="true">
+            <http url="https://httpbin.org/html"/>
+        </html-to-xml>
+    </def>
+    
+    <!-- Extract content using XPath -->
+    <def var="pageTitle">
+        <xpath expression="//title">
+            <script>searchResults</script>
+        </xpath>
+    </def>
+    
+    <def var="pageContent">
+        <xpath expression="//body">
+            <script>searchResults</script>
+        </xpath>
+    </def>
+    
+    <!-- Save results to file -->
+    <file path="modern_search_results.xml" action="write">
+        <template>
+            <![CDATA[
+            <search_results>
+                <query>${searchTerm}</query>
+                <timestamp>${sys.datetime("yyyy-MM-dd HH:mm:ss")}</timestamp>
+                <page_title>${pageTitle}</page_title>
+                <page_content>
+                    <script>pageContent</script>
+                </page_content>
+                <extraction_method>html-to-xml with advanced options</extraction_method>
+                <features>
+                    <feature>Advanced XML escaping</feature>
+                    <feature>Special entities handling</feature>
+                    <feature>Unicode character support</feature>
+                    <feature>Multi-word attributes</feature>
+                    <feature>Unknown tags handling</feature>
+                </features>
+            </search_results>
+            ]]>
+        </template>
+    </file>
+</config>

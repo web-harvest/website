@@ -1,0 +1,586 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>XPath Best Practices - WebHarvest</title>
+    <meta name="description"
+        content="Learn XPath best practices in WebHarvest: text extraction vs element selection, common pitfalls, and solutions with practical examples." />
+    <meta name="keywords"
+        content="xpath best practices, xpath text extraction, xpath tutorial, webharvest xpath, xpath /text(), xpath string()" />
+    <link rel="stylesheet" href="../css/enterprise.css" />
+    <link rel="stylesheet" href="../css/prism.css" />
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        .comparison-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 2rem;
+            margin: 2rem 0;
+        }
+
+        @media (max-width: 768px) {
+            .comparison-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        .comparison-header {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            margin-bottom: 1rem;
+            font-weight: 600;
+            font-size: 1.1rem;
+        }
+
+        .comparison-header.bad {
+            color: #dc2626;
+        }
+
+        .comparison-header.good {
+            color: #16a34a;
+        }
+
+        .code-window.bad .window-header {
+            background: #fef2f2;
+            border-bottom: 2px solid #dc2626;
+        }
+
+        .code-window.good .window-header {
+            background: #f0fdf4;
+            border-bottom: 2px solid #16a34a;
+        }
+
+        .reference-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 2rem 0;
+            background: white;
+            border-radius: var(--radius-md);
+            overflow: hidden;
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+        }
+
+        .reference-table th,
+        .reference-table td {
+            padding: 1rem;
+            text-align: left;
+            border-bottom: 1px solid var(--gray-200);
+        }
+
+        .reference-table th {
+            background: var(--gray-50);
+            font-weight: 600;
+        }
+
+        .reference-table tr:last-child td {
+            border-bottom: none;
+        }
+
+        .reference-table code {
+            background: var(--gray-100);
+            padding: 0.2rem 0.4rem;
+            border-radius: 0.25rem;
+            font-size: 0.9rem;
+            color: #e11d48;
+        }
+    </style>
+</head>
+
+<body>
+
+    <!-- Header -->
+    <header class="site-header">
+        <div class="container header-inner">
+            <a href="../index.html" class="brand"
+                style="text-decoration: none; color: inherit; display: flex; align-items: center; gap: var(--spacing-3);">
+                <img src="../images/logo.png" alt="WebHarvest" class="logo" />
+                <span class="project-name">WebHarvest</span>
+            </a>
+            <nav class="main-nav">
+                <a href="../about.html">About</a>
+                <a href="getting-started.html"
+                    style="background: linear-gradient(135deg, var(--lime), #8BC34A); color: white; padding: 0.5rem 1rem; border-radius: var(--radius-md); font-weight: 700;"><i
+                        class="fas fa-rocket"></i> Get Started</a>
+                <a href="../plugins.html">Plugins</a>
+                <a href="../ide.html">IDE</a>
+                <a href="../cli.html">CLI</a>
+                <a href="../examples/">Examples</a>
+                <a href="./" class="active">Docs</a>
+                <a href="../news.html">News</a>
+                <a href="../support.html">Support</a>
+                <a class="cta" href="../index.html#download">Download</a>
+            </nav>
+        </div>
+    </header>
+
+    <!-- Hero -->
+    <section class="hero">
+        <div class="container hero-inner">
+            <div class="hero-content">
+                <h1>XPath Best Practices<br />in WebHarvest</h1>
+                <p class="lead">Master text extraction vs element selection</p>
+                <p class="hero-description">
+                    Learn the most common XPath pitfall in WebHarvest and how to avoid it.
+                    Understand when to use <code>/text()</code>, <code>string()</code>, or plain element selection.
+                </p>
+            </div>
+        </div>
+    </section>
+
+    <!-- The Problem -->
+    <section class="container" style="margin-top: 4rem;">
+        <div class="section-header">
+            <h2>The Most Common XPath Issue</h2>
+            <p class="section-subtitle">Element vs Text Content</p>
+        </div>
+
+        <div style="max-width: 900px; margin: 2rem auto;">
+            <blockquote
+                style="border-left: 4px solid var(--purple); padding-left: var(--spacing-5); font-style: italic; color: var(--gray-600); margin: var(--spacing-6) 0;">
+                "When I use <code>//title</code> or <code>//h1</code>, I get
+                <code>&lt;h1&gt;Herman Melville - Moby-Dick&lt;/h1&gt;</code>
+                instead of just <code>Herman Melville - Moby-Dick</code>. How do I extract only the text?"
+                <footer style="margin-top: var(--spacing-3); font-size: 0.875rem;">— Common WebHarvest Question</footer>
+            </blockquote>
+
+            <p style="font-size: 1.05rem; line-height: 1.7; margin-top: 2rem;">
+                By default, XPath expressions like <code>//title</code> return the <strong>entire element</strong>
+                including tags.
+                To extract only the text content, you need to use <code>/text()</code> or <code>string()</code>
+                function.
+            </p>
+
+            <div class="note">
+                <strong>💡 Quick Fix:</strong> Add <code>/text()</code> to your XPath expression:
+                <code>//title/text()</code> instead of <code>//title</code>
+            </div>
+        </div>
+    </section>
+
+    <!-- Pattern 1: Basic Text Extraction -->
+    <section class="container" style="margin-top: 6rem;">
+        <div class="section-header">
+            <h2>Pattern 1: Basic Text Extraction</h2>
+            <p class="section-subtitle">Extract text content only</p>
+        </div>
+
+        <div style="max-width: 900px; margin: 2rem auto;">
+            <p style="font-size: 1.05rem; line-height: 1.7;">
+                When you want text only (for display, templates, or variables), always use <code>/text()</code>:
+            </p>
+
+            <div class="comparison-grid">
+                <div>
+                    <div class="comparison-header bad">
+                        <i class="fas fa-times-circle"></i> Incorrect (returns element with tags)
+                    </div>
+                    <div class="code-window bad">
+                        <div class="window-header">
+                            <div class="window-controls">
+                                <span class="control red"></span>
+                                <span class="control yellow"></span>
+                                <span class="control green"></span>
+                            </div>
+                            <span class="window-title">bad-example.xml</span>
+                        </div>
+                        <div class="window-content">
+                            <pre><code class="language-xml">&lt;xpath expression="//title"&gt;
+    &lt;get var="page"/&gt;
+&lt;/xpath&gt;
+
+&lt;!-- Result: &lt;title&gt;My Page&lt;/title&gt; --&gt;</code></pre>
+                        </div>
+                    </div>
+                </div>
+
+                <div>
+                    <div class="comparison-header good">
+                        <i class="fas fa-check-circle"></i> Correct (returns text only)
+                    </div>
+                    <div class="code-window good">
+                        <div class="window-header">
+                            <div class="window-controls">
+                                <span class="control red"></span>
+                                <span class="control yellow"></span>
+                                <span class="control green"></span>
+                            </div>
+                            <span class="window-title">good-example.xml</span>
+                        </div>
+                        <div class="window-content">
+                            <pre><code class="language-xml">&lt;xpath expression="//title/text()"&gt;
+    &lt;get var="page"/&gt;
+&lt;/xpath&gt;
+
+&lt;!-- Result: My Page --&gt;</code></pre>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="note" style="margin-top: 2rem;">
+                <strong>💡 Alternative:</strong> You can also use <code>string(//title)</code> which does the same
+                thing.
+            </div>
+        </div>
+    </section>
+
+    <!-- Pattern 2: Multiple Elements -->
+    <section class="container" style="margin-top: 6rem;">
+        <div class="section-header">
+            <h2>Pattern 2: Multiple Elements</h2>
+            <p class="section-subtitle">Extract text from several elements at once</p>
+        </div>
+
+        <div style="max-width: 900px; margin: 2rem auto;">
+            <p style="font-size: 1.05rem; line-height: 1.7;">
+                When selecting multiple elements with <code>|</code>, add <code>/text()</code> to each:
+            </p>
+
+            <div class="comparison-grid">
+                <div>
+                    <div class="comparison-header bad">
+                        <i class="fas fa-times-circle"></i> Incorrect
+                    </div>
+                    <div class="code-window bad">
+                        <div class="window-header">
+                            <div class="window-controls">
+                                <span class="control red"></span>
+                                <span class="control yellow"></span>
+                                <span class="control green"></span>
+                            </div>
+                            <span class="window-title">bad-multiple.xml</span>
+                        </div>
+                        <div class="window-content">
+                            <pre><code class="language-xml">&lt;xpath expression="//h1 | //h2 | //h3"&gt;</code></pre>
+                        </div>
+                    </div>
+                </div>
+
+                <div>
+                    <div class="comparison-header good">
+                        <i class="fas fa-check-circle"></i> Correct
+                    </div>
+                    <div class="code-window good">
+                        <div class="window-header">
+                            <div class="window-controls">
+                                <span class="control red"></span>
+                                <span class="control yellow"></span>
+                                <span class="control green"></span>
+                            </div>
+                            <span class="window-title">good-multiple.xml</span>
+                        </div>
+                        <div class="window-content">
+                            <pre><code class="language-xml">&lt;xpath expression="//h1/text() | //h2/text() | //h3/text()"&gt;</code></pre>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Pattern 3: Nested Paths -->
+    <section class="container" style="margin-top: 6rem;">
+        <div class="section-header">
+            <h2>Pattern 3: Nested Paths</h2>
+            <p class="section-subtitle">Extract text from nested elements</p>
+        </div>
+
+        <div style="max-width: 900px; margin: 2rem auto;">
+            <p style="font-size: 1.05rem; line-height: 1.7;">
+                Even with complex nested paths, add <code>/text()</code> at the end:
+            </p>
+
+            <div class="comparison-grid">
+                <div>
+                    <div class="comparison-header bad">
+                        <i class="fas fa-times-circle"></i> Incorrect
+                    </div>
+                    <div class="code-window bad">
+                        <div class="window-header">
+                            <div class="window-controls">
+                                <span class="control red"></span>
+                                <span class="control yellow"></span>
+                                <span class="control green"></span>
+                            </div>
+                            <span class="window-title">bad-nested.xml</span>
+                        </div>
+                        <div class="window-content">
+                            <pre><code class="language-xml">&lt;xpath expression="//div[@id='content']//span"&gt;</code></pre>
+                        </div>
+                    </div>
+                </div>
+
+                <div>
+                    <div class="comparison-header good">
+                        <i class="fas fa-check-circle"></i> Correct
+                    </div>
+                    <div class="code-window good">
+                        <div class="window-header">
+                            <div class="window-controls">
+                                <span class="control red"></span>
+                                <span class="control yellow"></span>
+                                <span class="control green"></span>
+                            </div>
+                            <span class="window-title">good-nested.xml</span>
+                        </div>
+                        <div class="window-content">
+                            <pre><code class="language-xml">&lt;xpath expression="//div[@id='content']//span/text()"&gt;</code></pre>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Pattern 4: Loop Extraction -->
+    <section class="container" style="margin-top: 6rem;">
+        <div class="section-header">
+            <h2>Pattern 4: Loop Extraction</h2>
+            <p class="section-subtitle">Extract text from child elements in loops</p>
+        </div>
+
+        <div style="max-width: 900px; margin: 2rem auto;">
+            <p style="font-size: 1.05rem; line-height: 1.7;">
+                When processing XML/HTML in a loop, use <code>/text()</code> to extract values from child elements:
+            </p>
+
+            <div class="code-window">
+                <div class="window-header">
+                    <div class="window-controls">
+                        <span class="control red"></span>
+                        <span class="control yellow"></span>
+                        <span class="control green"></span>
+                    </div>
+                    <span class="window-title">loop-extraction.xml</span>
+                </div>
+                <div class="window-content">
+                    <pre><code class="language-xml">&lt;loop item="row"&gt;
+    &lt;xpath expression="//row"&gt;
+        &lt;get var="dbResult"/&gt;
+    &lt;/xpath&gt;
+    &lt;body&gt;
+        &lt;product&gt;
+            &lt;!-- ❌ INCORRECT: Returns &lt;id&gt;123&lt;/id&gt; --&gt;
+            &lt;id&gt;&lt;xpath expression="id"&gt;&lt;get var="row"/&gt;&lt;/xpath&gt;&lt;/id&gt;
+            
+            &lt;!-- ✅ CORRECT: Returns 123 --&gt;
+            &lt;id&gt;&lt;xpath expression="id/text()"&gt;&lt;get var="row"/&gt;&lt;/xpath&gt;&lt;/id&gt;
+        &lt;/product&gt;
+    &lt;/body&gt;
+&lt;/loop&gt;</code></pre>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- When NOT to Use /text() -->
+    <section class="container" style="margin-top: 6rem;">
+        <div class="section-header">
+            <h2>When NOT to Use /text()</h2>
+            <p class="section-subtitle">Exceptions to the rule</p>
+        </div>
+
+        <div style="max-width: 900px; margin: 2rem auto;">
+            <p style="font-size: 1.05rem; line-height: 1.7; margin-bottom: 2rem;">
+                There are three situations where you should <strong>NOT</strong> use <code>/text()</code>:
+            </p>
+
+            <div class="features-grid">
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <i class="fas fa-sitemap"></i>
+                    </div>
+                    <h3>1. Node Selection for Iteration</h3>
+                    <p style="margin-bottom: 1rem;">When selecting elements for loop processing:</p>
+                    <div class="code-window">
+                        <div class="window-content">
+                            <pre><code class="language-xml">&lt;!-- OK - need node objects for iteration --&gt;
+&lt;loop item="row"&gt;
+    &lt;xpath expression="//row"&gt;
+        &lt;get var="xmlData"/&gt;
+    &lt;/xpath&gt;
+    &lt;body&gt;
+        &lt;!-- Process each row --&gt;
+    &lt;/body&gt;
+&lt;/loop&gt;</code></pre>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <i class="fas fa-layer-group"></i>
+                    </div>
+                    <h3>2. Further XPath Processing</h3>
+                    <p style="margin-bottom: 1rem;">When you need the element for nested queries:</p>
+                    <div class="code-window">
+                        <div class="window-content">
+                            <pre><code class="language-xml">&lt;!-- OK - need element for further XPath --&gt;
+&lt;def var="contentDiv"&gt;
+    &lt;xpath expression="//div[@id='content']"&gt;
+        &lt;get var="page"/&gt;
+    &lt;/xpath&gt;
+&lt;/def&gt;</code></pre>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <i class="fas fa-at"></i>
+                    </div>
+                    <h3>3. Attribute Extraction</h3>
+                    <p style="margin-bottom: 1rem;">Attributes return values directly:</p>
+                    <div class="code-window">
+                        <div class="window-content">
+                            <pre><code class="language-xml">&lt;!-- Attributes don't need /text() --&gt;
+&lt;xpath expression="//a/@href"&gt;
+    &lt;get var="page"/&gt;
+&lt;/xpath&gt;</code></pre>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Quick Reference -->
+    <section class="container" style="margin-top: 6rem;">
+        <div class="section-header">
+            <h2>Quick Reference Table</h2>
+            <p class="section-subtitle">Choose the right XPath expression</p>
+        </div>
+
+        <div style="max-width: 900px; margin: 2rem auto;">
+            <table class="reference-table">
+                <thead>
+                    <tr>
+                        <th>Goal</th>
+                        <th>XPath Expression</th>
+                        <th>Example Result</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td><strong>Get text content</strong></td>
+                        <td><code>//element/text()</code></td>
+                        <td><code>//h1/text()</code> → "Title"</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Get text (function)</strong></td>
+                        <td><code>string(//element)</code></td>
+                        <td><code>string(//h1)</code> → "Title"</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Get element</strong></td>
+                        <td><code>//element</code></td>
+                        <td><code>//h1</code> → <code>&lt;h1&gt;Title&lt;/h1&gt;</code></td>
+                    </tr>
+                    <tr>
+                        <td><strong>Get attribute</strong></td>
+                        <td><code>//element/@attr</code></td>
+                        <td><code>//a/@href</code> → "url"</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Multiple text</strong></td>
+                        <td><code>//e1/text() | //e2/text()</code></td>
+                        <td>Text from multiple elements</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </section>
+
+    <!-- Testing -->
+    <section class="container" style="margin-top: 6rem;">
+        <div class="section-header">
+            <h2>Testing Your XPath</h2>
+            <p class="section-subtitle">Verify expressions work correctly</p>
+        </div>
+
+        <div style="max-width: 900px; margin: 2rem auto;">
+            <p style="font-size: 1.05rem; line-height: 1.7;">
+                Use the <code>&lt;file&gt;</code> plugin to save extracted data and verify it's correct:
+            </p>
+
+            <div class="code-window">
+                <div class="window-header">
+                    <div class="window-controls">
+                        <span class="control red"></span>
+                        <span class="control yellow"></span>
+                        <span class="control green"></span>
+                    </div>
+                    <span class="window-title">test-xpath.xml</span>
+                </div>
+                <div class="window-content">
+                    <pre><code class="language-xml">&lt;def var="test"&gt;
+    &lt;xpath expression="//h1/text()"&gt;
+        &lt;get var="page"/&gt;
+    &lt;/xpath&gt;
+&lt;/def&gt;
+
+&lt;!-- 🐛 DEBUG: Save to file --&gt;
+&lt;file action="write" path="debug/xpath-result.txt"&gt;
+    Result: ${test}
+&lt;/file&gt;</code></pre>
+                </div>
+            </div>
+
+            <div class="note" style="margin-top: 2rem;">
+                <strong>💡 Pro Tip:</strong> Check <code>debug/xpath-result.txt</code> to verify the result matches your
+                expectations.
+                If you see XML tags in the output, you forgot <code>/text()</code>!
+            </div>
+        </div>
+    </section>
+
+    <!-- Summary -->
+    <section class="container" style="margin-top: 6rem; margin-bottom: 6rem;">
+        <div class="section-header">
+            <h2>Summary</h2>
+            <p class="section-subtitle">Key takeaways</p>
+        </div>
+
+        <div style="max-width: 900px; margin: 2rem auto;">
+            <div class="note" style="background: #fef3c7; border-left-color: #f59e0b;">
+                <h3 style="margin: 0 0 1rem 0; font-size: 1.2rem;">
+                    <i class="fas fa-star" style="color: #f59e0b;"></i> General Rule
+                </h3>
+                <p style="margin-bottom: 1rem; font-size: 1.05rem;">
+                    <strong>If you're extracting content for display, templates, or text processing,
+                        always use <code>/text()</code> or <code>string()</code> function.</strong>
+                </p>
+                <p style="margin: 0; font-size: 1.05rem;">
+                    <strong>Exception:</strong> Only use <code>//element</code> (without <code>/text()</code>)
+                    when you need the element node for further XPath processing or iteration.
+                </p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="site-footer">
+        <div class="container footer-content">
+            <div class="footer-links">
+                <a href="../about.html">About</a>
+                <a href="2.2.0/">Plugins</a>
+                <a href="./">Documentation</a>
+                <a href="../examples/">Examples</a>
+                <a href="../support.html">Support</a>
+                <a href="https://sourceforge.net/projects/web-harvest/">SourceForge</a>
+            </div>
+            <div class="footer-legal">
+                <p>Copyright © 2006-2025 WebHarvest Contributors. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Scripts -->
+    <script src="../js/prism.js"></script>
+</body>
+
+</html>

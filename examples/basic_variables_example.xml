@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<config xmlns="http://org.webharvest/schema/2.1/core" charset="UTF-8">
+    <!-- Basic Variables Example - demonstrates variable usage in Web-Harvest -->
+    
+    <!-- Define variables -->
+    <def var="greeting">Hello World!</def>
+    <def var="current_time">${sys.datetime()}</def>
+    <def var="user_name">Web-Harvest User</def>
+    
+    <!-- Use variables in output -->
+    <file action="write" path="basic_variables_output.txt" charset="UTF-8">
+        <template>
+            <greeting>${greeting}</greeting>
+            <user>Welcome, ${user_name}!</user>
+            <timestamp>Generated at: ${current_time}</timestamp>
+            <message>This example demonstrates basic variable usage in Web-Harvest.</message>
+        </template>
+    </file>
+    
+    <!-- Display variables in console -->
+    <text>Greeting: </text>
+    <get var="greeting"/>
+    <text>
+User: </text>
+    <get var="user_name"/>
+    <text>
+Time: </text>
+    <get var="current_time"/>
+</config>
+
+
+
+
+
+
+
+
+
+
+
+

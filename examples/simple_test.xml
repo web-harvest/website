@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<config xmlns="http://org.webharvest/schema/2.1/core" charset="UTF-8">
+    <!-- Simple test example -->
+    <def var="content">
+        <html-to-xml>
+            <http url="https://httpbin.org/html"/>
+        </html-to-xml>
+    </def>
+    <!-- Extract title -->
+    <def var="title">
+        <xpath expression="//h1">
+            <get var="content"/>
+        </xpath>
+    </def>
+    <!-- Save result -->
+    <file action="write" path="test_result.html" charset="UTF-8">
+        <get var="content"/>
+    </file>
+    <!-- Print title -->
+    <file action="write" path="title.txt" charset="UTF-8">
+        <get var="title"/>
+    </file>
+</config>

@@ -1,0 +1,283 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>&lt;regexp-pattern&gt; - Regexp pattern definition | WebHarvest v2.2.0</title>
+    <meta name="description" content="WebHarvest regexp-pattern plugin: Regexp pattern definition. Core processor for web scraping and data extraction with XML configuration. Examples, usage, and documentation." />
+    <meta name="keywords" content="webharvest regexp-pattern, regexp-pattern plugin, web scraping, data extraction, XML configuration, core processor, webharvest plugin documentation" />
+    <meta name="robots" content="index, follow" />
+    <meta name="author" content="WebHarvest Team" />
+    
+    <!-- Open Graph / Facebook -->
+    <meta property="og:type" content="article" />
+    <meta property="og:title" content="&lt;regexp-pattern&gt; - Regexp pattern definition" />
+    <meta property="og:description" content="The <code><regexp-pattern></code> processor defines the regular expression pattern for matching and extraction.
+Must be used as a child element of <code><regexp..." />
+    <meta property="og:url" content="https://webharvest.sourceforge.net/documentation/2.2.0/regexp-pattern.html" />
+    
+    <!-- Twitter -->
+    <meta property="twitter:card" content="summary" />
+    <meta property="twitter:title" content="&lt;regexp-pattern&gt; - Regexp pattern definition" />
+    <meta property="twitter:description" content="The <code><regexp-pattern></code> processor defines the regular expression pattern for matching and extraction.
+Must be used as a child element of <code><regexp..." />
+    
+    <!-- Structured Data -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "TechArticle",
+      "headline": "&lt;regexp-pattern&gt; - Regexp pattern definition",
+      "description": "The <code><regexp-pattern></code> processor defines the regular expression pattern for matching and extraction.
+Must be used as a child element of <code><regexp></code>. Supports Java regex syntax with capture groups.",
+      "author": {
+        "@type": "Organization",
+        "name": "WebHarvest Team"
+      },
+      "datePublished": "2025-01-01",
+      "dateModified": "2025-01-01",
+      "publisher": {
+        "@type": "Organization",
+        "name": "WebHarvest",
+        "logo": {
+          "@type": "ImageObject",
+          "url": "https://webharvest.sourceforge.net/images/logo.png"
+        }
+      },
+      "mainEntityOfPage": {
+        "@type": "WebPage",
+        "@id": "https://webharvest.sourceforge.net/documentation/2.2.0/regexp-pattern.html"
+      },
+      "about": {
+        "@type": "SoftwareApplication",
+        "name": "WebHarvest",
+        "applicationCategory": "DeveloperApplication"
+      }
+    }
+    </script>
+    <link rel="stylesheet" href="../../css/enterprise.css">
+    <link rel="stylesheet" href="../../css/prism.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        /* Override enterprise.css background for code blocks */
+        .window-content pre[class*="language-"] {
+            background: #272822 !important;
+        }
+        .processor-content {
+            max-width: 900px;
+            margin: var(--spacing-8) auto;
+            padding: 0 var(--spacing-4);
+        }
+        .section {
+            margin-bottom: var(--spacing-8);
+        }
+        .section-title {
+            font-size: 1.75rem;
+            font-weight: 700;
+            margin-bottom: var(--spacing-4);
+        }
+        .subsection-title {
+            font-size: 1.25rem;
+            font-weight: 600;
+            margin-top: var(--spacing-6);
+            margin-bottom: var(--spacing-3);
+        }
+        .related-links {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: var(--spacing-3);
+            margin-top: var(--spacing-4);
+        }
+        .related-link {
+            padding: var(--spacing-3);
+            background: white;
+            border: 2px solid var(--gray-300);
+            border-radius: var(--radius-lg);
+            text-align: center;
+            text-decoration: none;
+            color: var(--text-primary);
+            font-weight: 600;
+            transition: all 0.3s ease;
+        }
+        .related-link:hover {
+            background: var(--gray-50);
+            border-color: var(--gray-400);
+            transform: translateY(-2px);
+        }
+    </style>
+</head>
+<body>
+    <header class="site-header">
+        <div class="container header-inner">
+            <a href="../../index.html" class="brand" style="text-decoration: none; color: inherit; display: flex; align-items: center; gap: var(--spacing-3);">
+                <img src="../../images/logo.png" alt="WebHarvest Logo - Enterprise Web Scraping Framework" class="logo" />
+                <span class="project-name">WebHarvest</span>
+            </a>
+            <nav class="main-nav">
+                <a href="../../about.html">About</a>
+                <a href="../getting-started.html" style="background: linear-gradient(135deg, var(--lime), #8BC34A); color: white; padding: 0.5rem 1rem; border-radius: var(--radius-md); font-weight: 700;"><i class="fas fa-rocket"></i> Get Started</a>
+                <a href="../../plugins.html">Plugins</a>
+                <a href="../../ide.html">IDE</a>
+                <a href="../../cli.html">CLI</a>
+                <a href="../../examples/">Examples</a>
+                <a href="../">Docs</a>
+                <a href="../../news.html">News</a>
+                <a href="../../support.html">Support</a>
+                <a class="cta" href="../../index.html#download">Download</a>
+            </nav>
+        </div>
+    </header>
+
+    <!-- Hero -->
+    <section class="hero">
+        <div class="container hero-inner">
+            <div class="hero-content">
+                <h1>&lt;regexp-pattern&gt;</h1>
+                <p class="lead">Regexp pattern definition</p>
+                <p class="hero-description">
+                    <span style="display: inline-block; margin-right: 1rem;"><i class="fas fa-cube"></i> Core</span>
+                    <span style="display: inline-block;">v2.2.0</span>
+                </p>
+            </div>
+        </div>
+    </section>
+
+    <div class="processor-content">
+        <section class="section">
+            <h2 class="section-title">Overview</h2>
+            <p>The <code><regexp-pattern></code> processor defines the regular expression pattern for matching and extraction.
+Must be used as a child element of <code><regexp></code>. Supports Java regex syntax with capture groups.</p>
+        </section>
+
+        <section class="section">
+            <h2 class="section-title">Usage Examples</h2>
+            
+            <h3 class="subsection-title">Example 1: Extract links from HTML</h3>
+            <div class="code-window">
+                <div class="window-header">
+                    <div class="window-controls">
+                        <span class="control red"></span>
+                        <span class="control yellow"></span>
+                        <span class="control green"></span>
+                    </div>
+                    <span class="window-title">example-1.xml</span>
+                </div>
+                <div class="window-content">
+                    <pre><code class="language-xml">&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?&gt;
+&lt;config xmlns=&quot;http://org.webharvest/schema/2.1/core&quot;&gt;
+&lt;regexp&gt;
+  &lt;regexp-pattern&gt;&lt;![CDATA[&lt;a href=&quot;([^&quot;]+)&quot;&gt;]]&gt;&lt;/regexp-pattern&gt;
+  &lt;regexp-source&gt;${htmlPage}&lt;/regexp-source&gt;
+&lt;/regexp&gt;
+&lt;/config&gt;</code></pre>
+                </div>
+            </div>
+
+            <h3 class="subsection-title">Example 2: Extract emails</h3>
+            <div class="code-window">
+                <div class="window-header">
+                    <div class="window-controls">
+                        <span class="control red"></span>
+                        <span class="control yellow"></span>
+                        <span class="control green"></span>
+                    </div>
+                    <span class="window-title">example-2.xml</span>
+                </div>
+                <div class="window-content">
+                    <pre><code class="language-xml">&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?&gt;
+&lt;config xmlns=&quot;http://org.webharvest/schema/2.1/core&quot;&gt;
+&lt;regexp&gt;
+  &lt;regexp-pattern&gt;&lt;![CDATA[([a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,})]]&gt;&lt;/regexp-pattern&gt;
+  &lt;regexp-source&gt;${textContent}&lt;/regexp-source&gt;
+&lt;/regexp&gt;
+&lt;/config&gt;</code></pre>
+                </div>
+            </div>
+
+            <h3 class="subsection-title">Example 3: Price extraction with capture groups</h3>
+            <div class="code-window">
+                <div class="window-header">
+                    <div class="window-controls">
+                        <span class="control red"></span>
+                        <span class="control yellow"></span>
+                        <span class="control green"></span>
+                    </div>
+                    <span class="window-title">example-3.xml</span>
+                </div>
+                <div class="window-content">
+                    <pre><code class="language-xml">&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?&gt;
+&lt;config xmlns=&quot;http://org.webharvest/schema/2.1/core&quot;&gt;
+&lt;regexp&gt;
+  &lt;regexp-pattern&gt;&lt;![CDATA[Price:\s*\$(\d+)\.(\d{2})]]&gt;&lt;/regexp-pattern&gt;
+  &lt;regexp-source&gt;Price: $19.99&lt;/regexp-source&gt;
+  &lt;regexp-result index=&quot;1&quot;/&gt;&lt;!-- Returns &quot;19&quot; --&gt;
+  &lt;regexp-result index=&quot;2&quot;/&gt;&lt;!-- Returns &quot;99&quot; --&gt;
+&lt;/regexp&gt;
+&lt;/config&gt;</code></pre>
+                </div>
+            </div>
+
+            <h3 class="subsection-title">Example 4: Complex pattern with multiple groups</h3>
+            <div class="code-window">
+                <div class="window-header">
+                    <div class="window-controls">
+                        <span class="control red"></span>
+                        <span class="control yellow"></span>
+                        <span class="control green"></span>
+                    </div>
+                    <span class="window-title">example-4.xml</span>
+                </div>
+                <div class="window-content">
+                    <pre><code class="language-xml">&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?&gt;
+&lt;config xmlns=&quot;http://org.webharvest/schema/2.1/core&quot;&gt;
+&lt;regexp&gt;
+  &lt;regexp-pattern&gt;&lt;![CDATA[&lt;div class=&quot;product&quot; data-id=&quot;(\d+)&quot; data-name=&quot;([^&quot;]+)&quot; data-price=&quot;([\d.]+)&quot;&gt;]]&gt;&lt;/regexp-pattern&gt;
+  &lt;regexp-source&gt;${productHtml}&lt;/regexp-source&gt;
+&lt;/regexp&gt;
+&lt;!-- Access groups with &lt;regexp-result index=&quot;1&quot;/&gt;, &lt;regexp-result index=&quot;2&quot;/&gt;, etc. --&gt;
+&lt;/config&gt;</code></pre>
+                </div>
+            </div>
+
+        </section>
+
+        <section class="section">
+            <h2 class="section-title">Parameters</h2><ul style="line-height: 1.8;"><li><strong>Content (body)</strong>: : The regular expression pattern</li></ul>
+        </section>
+
+        <section class="section">
+            <h2 class="section-title">Important Notes</h2><ul style="line-height: 1.8;"><li>Parent Element: : Must be used as child of <code><regexp></code> element</li><li>Pattern Syntax: : Uses Java regular expression syntax (java.util.regex)</li><li>CDATA Usage: : Use CDATA for patterns with special XML characters (&lt;, &gt;, &amp;)</li><li>Capture Groups: : Use parentheses () for capturing matched text</li><li>Escaping: : Backslash \ must be escaped in XML (or use CDATA)</li></ul>
+        </section>
+
+        <section class="section">
+            <h2 class="section-title">Related Processors</h2><div class="related-links">
+                <a href="regexp.html" class="related-link">
+                    <i class="fas fa-code"></i> &lt;regexp&gt;
+                </a>
+                <a href="regexp-source.html" class="related-link">
+                    <i class="fas fa-code"></i> &lt;regexp-source&gt;
+                </a>
+                <a href="regexp-result.html" class="related-link">
+                    <i class="fas fa-code"></i> &lt;regexp-result&gt;
+                </a></div>
+        </section>
+    </div>
+
+    <footer class="site-footer">
+        <div class="container footer-content">
+            <div class="footer-links">
+                <a href="../../about.html">About</a>
+                <a href="../">Plugins</a>
+                <a href="../">Documentation</a>
+                <a href="../../examples/">Examples</a>
+                <a href="../../support.html">Support</a>
+                <a href="https://sourceforge.net/projects/web-harvest/">SourceForge</a>
+            </div>
+            <div class="footer-legal">
+                <p>Copyright © 2006-2025 WebHarvest Contributors. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+    <script src="../../js/prism.js"></script>
+</body>
+</html>

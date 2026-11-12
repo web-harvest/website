@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<config xmlns="http://org.webharvest/schema/2.1/core" charset="UTF-8">
+    <!-- Mail Plugin Demo - demonstrates email operations with new plugin architecture -->
+    
+    <!-- SMTP configuration -->
+    <def var="smtp_host">smtp.gmail.com</def>
+    <def var="smtp_port">587</def>
+    <def var="smtp_user">your-email@gmail.com</def>
+    <def var="smtp_password">your-app-password</def>
+    <def var="smtp_ssl">true</def>
+    
+    <!-- Email content -->
+    <def var="recipient">recipient@example.com</def>
+    <def var="subject">Web-Harvest 2.2.0 - Plugin Demo</def>
+    <def var="message_body">
+        <template>
+            <html>
+                <body>
+                    <h2>Web-Harvest 2.2.0 Plugin Demo</h2>
+                    <p>This email was sent using the new Mail plugin architecture.</p>
+                    <p><strong>Features demonstrated:</strong></p>
+                    <ul>
+                        <li>Modern plugin system with @Plugin annotations</li>
+                        <li>Dependency injection with Guice</li>
+                        <li>Automatic plugin discovery</li>
+                        <li>PluginProcessorAdapter bridge</li>
+                    </ul>
+                    <p>Generated at: ${sys.datetime()}</p>
+                </body>
+            </html>
+        </template>
+    </def>
+    
+    <!-- Send email -->
+    <mail host="${smtp_host}" port="${smtp_port}" user="${smtp_user}" password="${smtp_password}" ssl="${smtp_ssl}">
+        <mail-to>${recipient}</mail-to>
+        <mail-subject>${subject}</mail-subject>
+        <mail-body type="html">
+            <get var="message_body"/>
+        </mail-body>
+        <def var="mailResult">Email sent successfully</def>
+    </mail>
+    
+    <!-- Generate results -->
+    <file action="write" path="mail_demo_results.xml" charset="UTF-8">
+        <template>
+            <mail_demo_results>
+                <timestamp>${sys.datetime()}</timestamp>
+                <smtp_server>${smtp_host}:${smtp_port}</smtp_server>
+                <recipient>${recipient}</recipient>
+                <subject>${subject}</subject>
+                <status><get var="mailResult"/></status>
+                <plugin_architecture>Modern @Plugin-based system</plugin_architecture>
+            </mail_demo_results>
+        </template>
+    </file>
+    
+    <text>Mail demo completed. Results saved to mail_demo_results.xml</text>
+</config>
+
+
+
+
+
+
+
+
+
+
+
+

@@ -1,0 +1,117 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<config xmlns="http://org.webharvest/schema/2.1/core" charset="UTF-8">
+    <!-- WebBrowser Plugin Demo - demonstrates headless browser operations with new plugin architecture -->
+    
+    <!-- Target URL -->
+    <def var="target_url">https://httpbin.org/html</def>
+    
+    <!-- Use WebBrowser plugin for JavaScript-heavy sites -->
+    <web-browser>
+        <http url="${target_url}" method="GET">
+            <http-header name="User-Agent" value="Web-Harvest Bot 2.2.0"/>
+        </http>
+        
+        <!-- Extract content using JavaScript -->
+        <def var="browserContent">
+            <body>
+                <script>
+                    // JavaScript code to extract content
+                    var title = document.title;
+                    var headings = [];
+                    var paragraphs = [];
+                    var links = [];
+                    
+                    // Extract headings
+                    var hElements = document.querySelectorAll('h1, h2, h3, h4, h5, h6');
+                    for (var i = 0; i < hElements.length; i++) {
+                        headings.push(hElements[i].textContent.trim());
+                    }
+                    
+                    // Extract paragraphs
+                    var pElements = document.querySelectorAll('p');
+                    for (var i = 0; i < pElements.length; i++) {
+                        paragraphs.push(pElements[i].textContent.trim());
+                    }
+                    
+                    // Extract links
+                    var aElements = document.querySelectorAll('a[href]');
+                    for (var i = 0; i < aElements.length; i++) {
+                        links.push({
+                            text: aElements[i].textContent.trim(),
+                            href: aElements[i].href
+                        });
+                    }
+                    
+                    // Return structured data
+                    return {
+                        title: title,
+                        headings: headings,
+                        paragraphs: paragraphs,
+                        links: links,
+                        timestamp: new Date().toISOString()
+                    };
+                </script>
+            </body>
+        </def>
+    </web-browser>
+    
+    <!-- Alternative: Use html-to-xml for simple HTML -->
+    <http url="${target_url}" method="GET">
+        <http-header name="User-Agent" value="Web-Harvest Bot 2.2.0"/>
+    </http>
+    
+    <html-to-xml>
+        <def var="simpleContent">
+            <body>
+                <xpath expression="//title"/>
+                <xpath expression="//h1"/>
+                <xpath expression="//p"/>
+            </body>
+        </def>
+    </html-to-xml>
+    
+    <!-- Generate comparison results -->
+    <file action="write" path="webbrowser_demo_results.xml" charset="UTF-8">
+        <template>
+            <webbrowser_demo_results>
+                <timestamp>${sys.datetime()}</timestamp>
+                <url>${target_url}</url>
+                <browser_extraction>
+                    <get var="browserContent"/>
+                </browser_extraction>
+                <simple_extraction>
+                    <get var="simpleContent"/>
+                </simple_extraction>
+                <comparison>
+                    <method name="web-browser">
+                        <description>Uses JavaScript to extract content</description>
+                        <advantages>Handles JavaScript, better for modern sites</advantages>
+                        <disadvantages>Slower, requires browser engine</disadvantages>
+                    </method>
+                    <method name="html-to-xml">
+                        <description>Direct HTML to XML conversion</description>
+                        <advantages>Faster, simpler</advantages>
+                        <disadvantages>May struggle with malformed HTML</disadvantages>
+                    </method>
+                </comparison>
+                <recommendation>
+                    Use web-browser for JavaScript-heavy sites, html-to-xml for simple HTML
+                </recommendation>
+            </webbrowser_demo_results>
+        </template>
+    </file>
+    
+    <text>WebBrowser demo completed. Results saved to webbrowser_demo_results.xml</text>
+</config>
+
+
+
+
+
+
+
+
+
+
+
+

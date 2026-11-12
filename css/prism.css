@@ -1,0 +1,438 @@
+/* Prism.js theme for Web-Harvest documentation */
+
+code[class*="language-"],
+pre[class*="language-"] {
+    color: #f8f8f2;
+    background: none;
+    text-shadow: 0 1px rgba(0, 0, 0, 0.3);
+    font-family: 'Fira Code', 'Monaco', 'Consolas', 'Ubuntu Mono', monospace;
+    font-size: 1em;
+    text-align: left;
+    white-space: pre;
+    word-spacing: normal;
+    word-break: normal;
+    word-wrap: normal;
+    line-height: 1.5;
+    -moz-tab-size: 4;
+    -o-tab-size: 4;
+    tab-size: 4;
+    -webkit-hyphens: none;
+    -moz-hyphens: none;
+    -ms-hyphens: none;
+    hyphens: none;
+}
+
+pre[class*="language-"] {
+    padding: 1em;
+    margin: .5em 0;
+    overflow: auto;
+    border-radius: 0.3em;
+    background: #272822;
+}
+
+:not(pre)>code[class*="language-"],
+pre[class*="language-"] {
+    background: #272822;
+}
+
+:not(pre)>code[class*="language-"] {
+    padding: .1em;
+    border-radius: .3em;
+    white-space: normal;
+}
+
+.token.comment,
+.token.prolog,
+.token.doctype,
+.token.cdata {
+    color: #75715e;
+}
+
+.token.punctuation {
+    color: #f8f8f2;
+}
+
+.token.namespace {
+    opacity: .7;
+}
+
+.token.property,
+.token.tag,
+.token.constant,
+.token.symbol,
+.token.deleted {
+    color: #f92672;
+}
+
+.token.boolean,
+.token.number {
+    color: #ae81ff;
+}
+
+.token.selector,
+.token.attr-name,
+.token.string,
+.token.char,
+.token.builtin,
+.token.inserted {
+    color: #a6e22e;
+}
+
+.token.operator,
+.token.entity,
+.token.url,
+.language-css .token.string,
+.style .token.string,
+.token.variable {
+    color: #f8f8f2;
+}
+
+.token.atrule,
+.token.attr-value,
+.token.function,
+.token.class-name {
+    color: #e6db74;
+}
+
+.token.keyword {
+    color: #66d9ef;
+}
+
+.token.regex,
+.token.important {
+    color: #fd971f;
+}
+
+.token.important,
+.token.bold {
+    font-weight: bold;
+}
+
+.token.italic {
+    font-style: italic;
+}
+
+.token.entity {
+    cursor: help;
+}
+
+/* XML specific highlighting */
+.language-xml .token.tag {
+    color: #f92672;
+}
+
+.language-xml .token.attr-name {
+    color: #a6e22e;
+}
+
+.language-xml .token.attr-value {
+    color: #e6db74;
+}
+
+.language-xml .token.punctuation {
+    color: #f8f8f2;
+}
+
+.language-xml .token.comment {
+    color: #75715e;
+}
+
+.language-xml .token.cdata {
+    color: #75715e;
+}
+
+/* JSON specific highlighting */
+.language-json .token.property {
+    color: #a6e22e;
+}
+
+.language-json .token.string {
+    color: #e6db74;
+}
+
+.language-json .token.number {
+    color: #ae81ff;
+}
+
+.language-json .token.boolean {
+    color: #ae81ff;
+}
+
+.language-json .token.null {
+    color: #f92672;
+}
+
+/* JavaScript specific highlighting */
+.language-javascript .token.function {
+    color: #e6db74;
+}
+
+.language-javascript .token.keyword {
+    color: #66d9ef;
+}
+
+.language-javascript .token.operator {
+    color: #f92672;
+}
+
+/* CSS specific highlighting */
+.language-css .token.selector {
+    color: #a6e22e;
+}
+
+.language-css .token.property {
+    color: #f8f8f2;
+}
+
+.language-css .token.function {
+    color: #e6db74;
+}
+
+/* Bash specific highlighting */
+.language-bash .token.function {
+    color: #a6e22e;
+}
+
+.language-bash .token.keyword {
+    color: #66d9ef;
+}
+
+/* Line numbers */
+.line-numbers .line-numbers-rows {
+    position: absolute;
+    pointer-events: none;
+    top: 0;
+    font-size: 100%;
+    left: -3.8em;
+    width: 3em;
+    letter-spacing: -1px;
+    border-right: 1px solid #999;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+}
+
+.line-numbers-rows>span {
+    pointer-events: none;
+    display: block;
+    counter-increment: linenumber;
+}
+
+.line-numbers-rows>span:before {
+    content: counter(linenumber);
+    color: #999;
+    display: block;
+    padding-right: 0.8em;
+    text-align: right;
+}
+
+/* Copy button styling */
+.code-copy-button {
+    position: absolute;
+    top: 0.5rem;
+    right: 0.5rem;
+    background: rgba(255, 255, 255, 0.1);
+    border: none;
+    border-radius: 0.25rem;
+    color: #f8f8f2;
+    cursor: pointer;
+    font-size: 0.875rem;
+    padding: 0.5rem;
+    transition: background-color 0.2s ease;
+    opacity: 0;
+    transition: opacity 0.2s ease;
+}
+
+.code-copy-button:hover {
+    background: rgba(255, 255, 255, 0.2);
+}
+
+pre[class*="language-"]:hover .code-copy-button {
+    opacity: 1;
+}
+
+/* Dark theme adjustments */
+@media (prefers-color-scheme: dark) {
+
+    code[class*="language-"],
+    pre[class*="language-"] {
+        color: #e6e6e6;
+        text-shadow: 0 1px rgba(0, 0, 0, 0.5);
+    }
+
+    pre[class*="language-"] {
+        background: #1a1a1a;
+    }
+
+    :not(pre)>code[class*="language-"],
+    pre[class*="language-"] {
+        background: #1a1a1a;
+    }
+}
+
+/* Print styles */
+@media print {
+
+    code[class*="language-"],
+    pre[class*="language-"] {
+        text-shadow: none;
+        background: #f5f5f5;
+        color: #333;
+    }
+
+    .code-copy-button {
+        display: none;
+    }
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+    pre[class*="language-"] {
+        font-size: 0.875rem;
+        padding: 0.75rem;
+    }
+
+    .line-numbers .line-numbers-rows {
+        left: -2.5em;
+        width: 2em;
+    }
+}
+
+/* Custom Web-Harvest specific highlighting */
+.language-xml .token.tag-name {
+    color: #f92672;
+}
+
+.language-xml .token.attribute-name {
+    color: #a6e22e;
+}
+
+.language-xml .token.attribute-value {
+    color: #e6db74;
+}
+
+.language-xml .token.punctuation.tag {
+    color: #f8f8f2;
+}
+
+/* XQuery specific highlighting */
+.language-xquery .token.keyword {
+    color: #66d9ef;
+}
+
+.language-xquery .token.function {
+    color: #e6db74;
+}
+
+.language-xquery .token.variable {
+    color: #f92672;
+}
+
+.language-xquery .token.string {
+    color: #a6e22e;
+}
+
+/* XPath specific highlighting */
+.language-xpath .token.function {
+    color: #e6db74;
+}
+
+.language-xpath .token.axis {
+    color: #66d9ef;
+}
+
+.language-xpath .token.predicate {
+    color: #f92672;
+}
+
+/* Highlighting for inline code */
+:not(pre)>code[class*="language-"] {
+    background: #f4f4f4;
+    color: #e83e8c;
+    padding: 0.2em 0.4em;
+    border-radius: 0.3em;
+    font-size: 0.9em;
+}
+
+/* Code block titles */
+.code-block-title {
+    background: #3c3c3c;
+    color: #f8f8f2;
+    padding: 0.5rem 1rem;
+    margin: 0;
+    font-size: 0.875rem;
+    font-weight: 600;
+    border-radius: 0.3em 0.3em 0 0;
+    border-bottom: 1px solid #555;
+}
+
+.code-block-title+pre[class*="language-"] {
+    border-radius: 0 0 0.3em 0.3em;
+    margin-top: 0;
+}
+
+/* Loading state for code blocks */
+.code-block-loading {
+    position: relative;
+}
+
+.code-block-loading::after {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 20px;
+    height: 20px;
+    margin: -10px 0 0 -10px;
+    border: 2px solid #f3f3f3;
+    border-top: 2px solid #3498db;
+    border-radius: 50%;
+    animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+    0% {
+        transform: rotate(0deg);
+    }
+
+    100% {
+        transform: rotate(360deg);
+    }
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

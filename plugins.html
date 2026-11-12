@@ -1,0 +1,538 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>WebHarvest Plugins - 57 Ready-to-Use Components | Core & Extensions</title>
+    <meta name="description"
+        content="Complete list of 57 WebHarvest plugins: 47 core plugins (HTTP, XPath, XQuery, Regex) + 10 extension modules (FTP, Mail, Browser, ZIP, Database). Enterprise-ready data extraction components." />
+    <meta name="keywords"
+        content="webharvest plugins, HTTP plugin, XPath plugin, XQuery plugin, regex plugin, FTP plugin, mail plugin, browser plugin, data extraction plugins" />
+    <meta name="robots" content="index, follow" />
+    <link rel="stylesheet" href="css/enterprise.css" />
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="css/prism.css">
+</head>
+
+<body>
+
+    <!-- Header -->
+    <header class="site-header">
+        <div class="container header-inner">
+            <a href="index.html" class="brand"
+                style="text-decoration: none; color: inherit; display: flex; align-items: center; gap: var(--spacing-3);">
+                <img src="images/logo.png" alt="WebHarvest" class="logo" />
+                <span class="project-name">WebHarvest</span>
+            </a>
+            <nav class="main-nav">
+                <a href="about.html">About</a>
+                <a href="documentation/getting-started.html"
+                    style="background: linear-gradient(135deg, var(--lime), #8BC34A); color: white; padding: 0.5rem 1rem; border-radius: var(--radius-md); font-weight: 700;"><i
+                        class="fas fa-rocket"></i> Get Started</a>
+                <a href="plugins.html" class="active">Plugins</a>
+                <a href="ide.html">IDE</a>
+                <a href="cli.html">CLI</a>
+                <a href="examples/">Examples</a>
+                <a href="documentation/">Docs</a>
+                <a href="news.html">News</a>
+                <a href="support.html">Support</a>
+                <a class="cta" href="#download">Download</a>
+            </nav>
+        </div>
+    </header>
+
+    <!-- Hero -->
+    <section class="hero">
+        <div class="container hero-inner">
+            <div class="hero-content">
+                <h1>WebHarvest<br />Plugin Ecosystem</h1>
+                <p class="lead">57 production-ready plugins for web scraping</p>
+                <p class="hero-description">
+                    47 core plugins built-in, 10 optional extensions for specialized needs.
+                    Modern architecture with automatic discovery and dependency injection.
+                </p>
+                <div class="hero-buttons" style="margin-top: 2rem;">
+                    <a href="documentation/2.2.0/" class="btn btn-primary btn-large">
+                        <i class="fas fa-book"></i> View All 57 Plugins
+                    </a>
+                    <a href="documentation/getting-started.html" class="btn btn-secondary btn-large">
+                        <i class="fas fa-rocket"></i> Get Started
+                    </a>
+                </div>
+            </div>
+            <div class="hero-visual">
+                <img src="images/hero-icon.png" alt="WebHarvest Plugins" />
+            </div>
+        </div>
+    </section>
+
+    <!-- Quick Links -->
+    <section class="container" style="margin-top: 4rem;">
+        <div
+            style="max-width: 900px; margin: 0 auto 4rem; padding: 2rem; background: var(--blue-50); border-radius: 0.75rem; border-left: 4px solid var(--primary);">
+            <h3 style="margin-bottom: 1.5rem;"><i class="fas fa-map"></i> Looking for something specific?</h3>
+            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 2rem;">
+                <div>
+                    <h4 style="font-size: 1.1rem; margin-bottom: 0.75rem;">
+                        <i class="fas fa-book"></i> Technical Documentation
+                    </h4>
+                    <p style="color: var(--gray-700); margin-bottom: 1rem; font-size: 0.95rem;">
+                        Complete reference for all 57 plugins with examples, parameters, and usage details.
+                    </p>
+                    <a href="documentation/2.2.0/" class="btn btn-primary">
+                        View Plugin Reference →
+                    </a>
+                </div>
+                <div>
+                    <h4 style="font-size: 1.1rem; margin-bottom: 0.75rem;">
+                        <i class="fas fa-rocket"></i> Getting Started
+                    </h4>
+                    <p style="color: var(--gray-700); margin-bottom: 1rem; font-size: 0.95rem;">
+                        New to WebHarvest? Start with our step-by-step tutorial and examples.
+                    </p>
+                    <a href="documentation/getting-started.html" class="btn btn-secondary">
+                        Start Tutorial →
+                    </a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Plugin Ecosystem Overview -->
+    <section class="container" style="margin-top: 0rem;">
+        <div class="section-header">
+            <h2>Powerful, Modular, Production-Ready</h2>
+            <p class="section-subtitle">47 core plugins built-in, optional extensions when you need them</p>
+        </div>
+
+        <div
+            style="max-width: 55rem; margin: 0 auto 3rem; padding: 2rem; background: linear-gradient(135deg, #f8f9ff, #fff9f9); border-radius: 0.75rem; border-left: 4px solid var(--primary);">
+            <p style="font-size: 1.125rem; color: var(--gray-700); margin-bottom: 1.5rem; line-height: 1.7;">
+                WebHarvest delivers <strong>47 production-ready core plugins</strong> right out of the box - everything
+                you need for web scraping with <strong>zero external dependencies</strong>.
+            </p>
+            <p style="margin-bottom: 1rem; line-height: 1.7;">
+                The framework's modular architecture allows you to add <strong>10 optional extension modules</strong>
+                only when your project needs them:
+            </p>
+            <ul style="line-height: 1.8; margin-left: 1.5rem; margin-bottom: 1.5rem;">
+                <li><strong>Database operations</strong> (2 plugins) - requires JDBC drivers</li>
+                <li><strong>FTP file transfer</strong> (4 plugins) - requires Apache Commons Net</li>
+                <li><strong>Email operations</strong> (1 plugin) - requires JavaMail</li>
+                <li><strong>ZIP file handling</strong> (2 plugins) - requires Apache Commons Compress</li>
+                <li><strong>Web browser automation</strong> (1 plugin) - requires HtmlUnit</li>
+            </ul>
+            <p style="line-height: 1.7;">
+                <strong>Why this architecture?</strong> This keeps your core lightweight and lets you add only the
+                dependencies you actually need - smaller JARs, faster startup, and reduced complexity.
+            </p>
+        </div>
+
+        <div class="features-grid">
+            <div class="feature-card">
+                <div class="feature-icon">
+                    <i class="fas fa-cube"></i>
+                </div>
+                <h3>Core Plugins (47)</h3>
+                <p>Ready to use immediately</p>
+                <p style="margin-bottom: 1rem;">
+                    Everything you need for web scraping:
+                </p>
+                <div
+                    style="display: grid; grid-template-columns: 1fr 1fr; gap: 0.5rem; margin-bottom: 1rem; font-size: 0.9rem;">
+                    <div><i class="fas fa-globe"></i> HTTP/HTTPS requests</div>
+                    <div><i class="fas fa-search"></i> XPath & XQuery</div>
+                    <div><i class="fas fa-code"></i> Regular expressions</div>
+                    <div><i class="fas fa-exchange-alt"></i> JSON/XML transform</div>
+                    <div><i class="fas fa-sitemap"></i> Control flow</div>
+                    <div><i class="fas fa-cogs"></i> Variables & functions</div>
+                    <div><i class="fas fa-file-code"></i> JavaScript/Groovy</div>
+                    <div><i class="fas fa-folder-open"></i> File I/O</div>
+                </div>
+                <div class="feature-tags">
+                    <a href="documentation/2.2.0/" class="btn btn-primary">
+                        <i class="fas fa-arrow-right"></i> Explore All 46 Core Plugins
+                    </a>
+                </div>
+            </div>
+
+            <div class="feature-card">
+                <div class="feature-icon">
+                    <i class="fas fa-plug"></i>
+                </div>
+                <h3>Extension Modules (10)</h3>
+                <p>Optional add-ons with specific dependencies</p>
+                <p style="margin-bottom: 1rem;">
+                    Specialized capabilities for enterprise use:
+                </p>
+                <div
+                    style="display: grid; grid-template-columns: 1fr 1fr; gap: 0.5rem; margin-bottom: 1rem; font-size: 0.9rem;">
+                    <div><i class="fas fa-database"></i> Database (JDBC)</div>
+                    <div><i class="fas fa-envelope"></i> Email (SMTP/IMAP)</div>
+                    <div><i class="fas fa-cloud-upload-alt"></i> FTP/FTPS</div>
+                    <div><i class="fas fa-file-archive"></i> ZIP archives</div>
+                    <div><i class="fas fa-desktop"></i> Browser automation</div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Benefits & Stats -->
+    <section class="container"
+        style="margin-top: 6rem; padding: 3rem 0; background: var(--gray-50); border-radius: var(--radius-xl);">
+        <div class="section-header">
+            <h2>Why Choose WebHarvest's Plugin Architecture?</h2>
+            <p class="section-subtitle">Proven in production, trusted by developers worldwide</p>
+        </div>
+
+        <div
+            style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 2rem; margin-top: 3rem;">
+            <div style="text-align: center; padding: 1.5rem;">
+                <div style="font-size: 2.5rem; font-weight: bold; margin-bottom: 0.5rem;">46</div>
+                <div style="font-weight: 600;">Built-in Plugins</div>
+                <div style="font-size: 0.9rem; margin-top: 0.25rem;">Zero setup required</div>
+            </div>
+            <div style="text-align: center; padding: 1.5rem;">
+                <div style="font-size: 2.5rem; font-weight: bold; margin-bottom: 0.5rem;">15+</div>
+                <div style="font-weight: 600;">Years in Production</div>
+                <div style="font-size: 0.9rem; margin-top: 0.25rem;">Battle-tested</div>
+            </div>
+            <div style="text-align: center; padding: 1.5rem;">
+                <div style="font-size: 2.5rem; font-weight: bold; margin-bottom: 0.5rem;">2.6k+</div>
+                <div style="font-weight: 600;">Test Cases</div>
+                <div style="font-size: 0.9rem; margin-top: 0.25rem;">Comprehensive coverage</div>
+            </div>
+            <div style="text-align: center; padding: 1.5rem;">
+                <div style="font-size: 2.5rem; font-weight: bold; margin-bottom: 0.5rem;">8</div>
+                <div style="font-weight: 600;">Extension Modules</div>
+                <div style="font-size: 0.9rem; margin-top: 0.25rem;">Enterprise capabilities</div>
+            </div>
+        </div>
+
+        <div style="max-width: 55rem; margin: 3rem auto 0;">
+            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 2rem;">
+                <div>
+                    <h4 style="margin-bottom: 1rem;"><i class="fas fa-rocket"></i> Developer Benefits</h4>
+                    <ul style="line-height: 1.8;">
+                        <li>Start scraping in minutes, not hours</li>
+                        <li>No dependency hell or version conflicts</li>
+                        <li>Clean, intuitive XML configuration</li>
+                        <li>Extensive documentation and examples</li>
+                    </ul>
+                </div>
+                <div>
+                    <h4 style="margin-bottom: 1rem;"><i class="fas fa-chart-line"></i> Production Benefits</h4>
+                    <ul style="line-height: 1.8;">
+                        <li>Proven reliability in enterprise deployments</li>
+                        <li>Small footprint, fast deployment</li>
+                        <li>Stable core with evolving extensions</li>
+                        <li>Production-ready with comprehensive testing</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Available Extension Modules -->
+    <section class="container" style="margin-top: 6rem;">
+        <div class="section-header">
+            <h2>Extension Modules</h2>
+            <p class="section-subtitle">Optional modules with heavy dependencies - add only what your project needs</p>
+        </div>
+
+        <div
+            style="max-width: 55rem; margin: 0 auto 3rem; padding: 2rem; background: var(--gray-50); border-radius: 0.5rem; text-align: center;">
+            <p style="font-size: 1.125rem; color: var(--gray-700); margin-bottom: 1rem;">
+                <strong>Ready to extend your scraping power?</strong> Each module is a single Maven dependency
+                that adds specialized enterprise capabilities to your WebHarvest projects.
+            </p>
+            <p style="color: var(--gray-600);">
+                <i class="fas fa-info-circle" style="color: var(--primary);"></i>
+                <strong>Tip:</strong> Add only the modules you need - keep your project lightweight and focused.
+            </p>
+        </div>
+
+        <div class="usage-grid">
+            <!-- Database Plugin -->
+            <div class="usage-card">
+                <h3><i class="fas fa-database"></i> Database Plugin</h3>
+                <p><strong>Module:</strong> <code>webharvest-database</code></p>
+                <p style="color: var(--gray-700); margin-bottom: 1rem;">
+                    <strong>Connect to any database seamlessly.</strong> Execute SQL queries, store scraped data,
+                    and integrate with your existing data infrastructure. Perfect for data warehouses,
+                    analytics pipelines, and enterprise applications.
+                </p>
+
+                <div style="margin: var(--spacing-3) 0;">
+                    <a href="documentation/2.2.0/#database" class="btn btn-primary">
+                        <i class="fas fa-book"></i> View Documentation
+                    </a>
+                </div>
+
+                <h4>Key Features:</h4>
+                <ul>
+                    <li><strong>Universal JDBC support</strong> - MySQL, PostgreSQL, Oracle, SQL Server, SQLite</li>
+                    <li><strong>Connection pooling</strong> - Efficient resource management</li>
+                    <li><strong>Named connections</strong> - Reuse across multiple queries</li>
+                    <li><strong>XML result mapping</strong> - Seamless integration with WebHarvest data flow</li>
+                    <li><strong>Transaction support</strong> - ACID compliance for critical operations</li>
+                </ul>
+            </div>
+
+            <!-- FTP Plugin -->
+            <div class="usage-card">
+                <h3><i class="fas fa-server"></i> FTP Plugin</h3>
+                <p><strong>Module:</strong> <code>webharvest-ftp</code></p>
+                <p style="color: var(--gray-700); margin-bottom: 1rem;">
+                    <strong>Secure file transfers made simple.</strong> Upload scraped data, download resources,
+                    and manage files on remote servers. Essential for data pipelines, backup systems,
+                    and distributed scraping architectures.
+                </p>
+
+                <div style="margin: var(--spacing-3) 0;">
+                    <a href="documentation/2.2.0/external/ftp.html" class="btn btn-primary">
+                        <i class="fas fa-book"></i> View Documentation
+                    </a>
+                </div>
+
+                <h4>Key Features:</h4>
+                <ul>
+                    <li><strong>FTP & FTPS support</strong> - Secure file transfers with encryption</li>
+                    <li><strong>Directory operations</strong> - Create, list, and navigate remote directories</li>
+                    <li><strong>Binary & text modes</strong> - Handle any file type correctly</li>
+                    <li><strong>Connection modes</strong> - Passive/active for firewall compatibility</li>
+                    <li><strong>Progress tracking</strong> - Monitor large file transfers</li>
+                </ul>
+            </div>
+
+            <!-- Mail Plugin -->
+            <div class="usage-card">
+                <h3><i class="fas fa-envelope"></i> Mail Plugin</h3>
+                <p><strong>Module:</strong> <code>webharvest-mail</code></p>
+                <p style="color: var(--gray-700); margin-bottom: 1rem;">
+                    <strong>Automate email workflows with style.</strong> Send notifications, reports, and alerts
+                    with rich HTML formatting. Perfect for monitoring systems, data delivery pipelines,
+                    and automated customer communications.
+                </p>
+
+                <div style="margin: var(--spacing-3) 0;">
+                    <a href="documentation/2.2.0/external/mail.html" class="btn btn-primary">
+                        <i class="fas fa-book"></i> View Documentation
+                    </a>
+                </div>
+
+                <h4>Key Features:</h4>
+                <ul>
+                    <li><strong>Universal SMTP support</strong> - Gmail, Office365, custom servers</li>
+                    <li><strong>Rich content</strong> - HTML emails with embedded images and styling</li>
+                    <li><strong>Attachment support</strong> - Send scraped data as files</li>
+                    <li><strong>Authentication</strong> - OAuth2, SSL/TLS, and basic auth</li>
+                    <li><strong>Template system</strong> - Dynamic content with variables</li>
+                    <li>Authentication support</li>
+                </ul>
+            </div>
+
+            <!-- ZIP Plugin -->
+            <div class="usage-card">
+                <h3><i class="fas fa-file-archive"></i> ZIP Plugin</h3>
+                <p><strong>Module:</strong> <code>webharvest-zip</code></p>
+                <p style="color: var(--gray-700); margin-bottom: 1rem;">
+                    <strong>Compress, organize, and distribute data efficiently.</strong> Create archives from
+                    scraped content, extract downloaded files, and manage data packages. Essential for
+                    backup systems, data distribution, and storage optimization.
+                </p>
+
+                <div style="margin: var(--spacing-3) 0;">
+                    <a href="documentation/2.2.0/external/zip.html" class="btn btn-primary">
+                        <i class="fas fa-book"></i> View Documentation
+                    </a>
+                </div>
+
+                <h4>Features:</h4>
+                <ul>
+                    <li>Create ZIP archives</li>
+                    <li>Extract ZIP contents</li>
+                    <li>List archive contents</li>
+                    <li>Compression levels</li>
+                </ul>
+            </div>
+
+            <!-- Web Browser Plugin -->
+            <div class="usage-card">
+                <h3><i class="fas fa-globe"></i> Web Browser Plugin</h3>
+                <p><strong>Module:</strong> <code>webharvest-webbrowser</code></p>
+                <p style="color: var(--gray-700); margin-bottom: 1rem;">
+                    <strong>Handle modern web applications with ease.</strong> Execute JavaScript, interact with
+                    dynamic content, and scrape Single Page Applications (SPAs). Perfect for React, Vue,
+                    Angular apps, and sites with complex AJAX interactions.
+                </p>
+
+                <div style="margin: var(--spacing-3) 0;">
+                    <a href="documentation/2.2.0/external/web-browser.html" class="btn btn-primary">
+                        <i class="fas fa-book"></i> View Documentation
+                    </a>
+                </div>
+
+                <h4>Features:</h4>
+                <ul>
+                    <li>Headless browser automation</li>
+                    <li>JavaScript execution</li>
+                    <li>DOM interaction</li>
+                    <li>Screenshot capture</li>
+                </ul>
+            </div>
+        </div>
+    </section>
+
+    <!-- Plugin System Overview -->
+    <section class="container" style="margin-top: 6rem;">
+        <div class="section-header">
+            <h2>How the Plugin System Works</h2>
+            <p class="section-subtitle">Auto-discovery, registration, and dependency injection</p>
+        </div>
+
+        <div class="architecture-cards">
+            <div class="arch-card">
+                <h3><i class="fas fa-search"></i> Auto-Discovery</h3>
+                <ul>
+                    <li><strong>Classpath Scanning:</strong> Plugins discovered automatically at startup</li>
+                    <li><strong>Annotations:</strong> <code>@Autoscanned</code> + <code>@Definition</code></li>
+                    <li><strong>No Configuration:</strong> Just add JAR to classpath</li>
+                    <li><strong>Namespace Support:</strong> Multiple XML namespaces</li>
+                </ul>
+            </div>
+
+            <div class="arch-card">
+                <h3><i class="fas fa-cogs"></i> Dependency Injection</h3>
+                <ul>
+                    <li><strong>Guice Integration:</strong> Full DI support via <code>@Inject</code></li>
+                    <li><strong>Service Location:</strong> <code>InjectorHelper</code> for manual lookup</li>
+                    <li><strong>HttpService:</strong> Shared HTTP client with connection pooling</li>
+                    <li><strong>Lifecycle Management:</strong> Automatic initialization and cleanup</li>
+                </ul>
+            </div>
+
+            <div class="arch-card">
+                <h3><i class="fas fa-file-code"></i> XSD Generation</h3>
+                <ul>
+                    <li><strong>Automatic Schemas:</strong> XSD generated from plugin annotations</li>
+                    <li><strong>IDE Support:</strong> Auto-completion in XML editors</li>
+                    <li><strong>Validation:</strong> Compile-time configuration checking</li>
+                    <li><strong>Documentation:</strong> Self-documenting plugins</li>
+                </ul>
+            </div>
+        </div>
+    </section>
+
+    <!-- Building Custom Plugins CTA -->
+    <section class="container" style="margin-top: 6rem;">
+        <div class="download-card">
+            <h2>Want to Build Custom Plugins?</h2>
+            <p>Extend WebHarvest with your own functionality using the modern @CorePlugin architecture</p>
+            <div class="download-buttons" style="margin-top: 2rem;">
+                <a class="btn btn-primary btn-large" href="documentation/plugin-development.html">
+                    <i class="fas fa-code"></i>
+                    Complete Plugin Development Guide
+                </a>
+                <a class="btn btn-secondary btn-large" href="documentation/architecture.html">
+                    <i class="fas fa-book"></i>
+                    Architecture Overview
+                </a>
+            </div>
+            <p style="margin-top: 1.5rem; font-size: 0.9375rem; opacity: 0.85;">
+                Learn @CorePlugin architecture • Automatic discovery • Real examples • Best practices
+            </p>
+        </div>
+    </section>
+
+    <!-- Getting Started -->
+    <section class="container" style="margin-top: 6rem;">
+        <div class="section-header">
+            <h2>Ready to Get Started?</h2>
+            <p class="section-subtitle">From zero to scraping in minutes</p>
+        </div>
+
+        <div class="usage-grid">
+            <div class="usage-card">
+                <h3><i class="fas fa-cube"></i> Start with Core</h3>
+                <p>
+                    Begin with the 47 built-in plugins. No setup required - just start scraping immediately.
+                </p>
+                <div style="margin-top: var(--spacing-4);">
+                    <a href="examples/" class="btn btn-primary">
+                        <i class="fas fa-play"></i> Try Examples
+                    </a>
+                </div>
+            </div>
+
+            <div class="usage-card">
+                <h3><i class="fas fa-plug"></i> Add Extensions</h3>
+                <p>
+                    Need databases or email? Add the modules you need with a single Maven dependency.
+                </p>
+                <div style="margin-top: var(--spacing-4);">
+                    <a href="documentation/" class="btn btn-primary">
+                        <i class="fas fa-book"></i> Read Docs
+                    </a>
+                </div>
+            </div>
+
+            <div class="usage-card">
+                <h3><i class="fas fa-code"></i> Build Custom</h3>
+                <p>
+                    Create your own plugins with the @CorePlugin annotation. Integrate any API or service.
+                </p>
+                <div style="margin-top: var(--spacing-4);">
+                    <a href="documentation/plugin-development.html" class="btn btn-primary">
+                        <i class="fas fa-arrow-right"></i> Plugin Development Guide
+                    </a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Download CTA -->
+    <section class="download container" id="download" style="margin-top: 6rem;">
+        <div class="download-card">
+            <h2>Ready to Extend?</h2>
+            <p>Download extension modules or build your own custom plugins</p>
+            <div class="download-buttons">
+                <a class="btn btn-primary btn-large"
+                    href="https://sourceforge.net/projects/web-harvest/files/webhervest/2.2.0/">
+                    <i class="fas fa-download"></i>
+                    Download v2.2.0
+                </a>
+                <a class="btn btn-secondary btn-large" href="examples/">
+                    <i class="fas fa-code"></i>
+                    View Examples
+                </a>
+            </div>
+            <p style="margin-top: 1.5rem; font-size: 0.9375rem; opacity: 0.85;">
+                All Plugins • Apache License 2.0 • Production Ready
+            </p>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="site-footer">
+        <div class="container footer-content">
+            <div class="footer-links">
+                <a href="about.html">About</a>
+                <a href="documentation/2.2.0/">Plugins</a>
+                <a href="documentation/">Documentation</a>
+                <a href="examples/">Examples</a>
+                <a href="support.html">Support</a>
+                <a href="https://sourceforge.net/projects/web-harvest/">SourceForge</a>
+            </div>
+            <div class="footer-legal">
+                <p>Copyright © 2006-2025 WebHarvest Contributors. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script src="js/prism.js"></script>
+</body>
+
+</html>
