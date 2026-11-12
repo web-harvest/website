@@ -7,8 +7,8 @@
 		onlyUnread (true or false))
 		numOfPages (integer)
 -->
-    <def var="username">test@example.com</def>
-    <def var="password">testpassword</def>
+    <def var="username" overwrite="false">YOUR_YAHOO_EMAIL</def>
+    <def var="password" overwrite="false">YOUR_YAHOO_PASSWORD</def>
     <def var="onlyUnread">false</def>
     <def var="numOfPages">1</def>
     <include path="functions.xml"/>
