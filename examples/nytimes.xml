@@ -1,13 +1,15 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <config xmlns="http://org.webharvest/schema/2.1/core" charset="ISO-8859-1">
-    <!-- sends post request with needed login information -->
+    <!-- Supply username and password as initial variables before running this legacy example. -->
+    <def var="username" overwrite="false">YOUR_NYTIMES_USERNAME</def>
+    <def var="password" overwrite="false">YOUR_NYTIMES_PASSWORD</def>
     <http method="post" url="http://www.nytimes.com/auth/login">
         <http-param name="is_continue">true</http-param>
         <http-param name="URI">http://</http-param>
         <http-param name="OQ"></http-param>
         <http-param name="OP"></http-param>
-        <http-param name="USERID">web-harvest</http-param>
-        <http-param name="PASSWORD">web-harvest</http-param>
+        <http-param name="USERID">${username}</http-param>
+        <http-param name="PASSWORD">${password}</http-param>
     </http>
     <def var="startUrl">http://www.nytimes.com/pages/todayspaper/index.html</def>
     <file action="write" path="nytimes/nytimes${sys.date()}.xml" charset="UTF-8">
