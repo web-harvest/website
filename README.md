@@ -36,6 +36,12 @@ python3 scripts/generate_sitemap.py --base-url https://example.invalid
 
 Replace the example URL only after the production hostname has been selected. The generator also accepts `WEBSITE_BASE_URL`.
 
+The website-only legacy example repair helper supports a safe check mode:
+
+\`\`\`sh
+python3 scripts/fix_html_examples.py --check
+\`\`\`
+
 Run its tests from the repository root:
 
 ```sh
