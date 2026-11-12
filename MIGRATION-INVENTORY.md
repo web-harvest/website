@@ -66,6 +66,96 @@ Local validation on 2026-11-12, from this repository root, after commit `3e406a6
 
 This was a local run, not CI.
 
+## Clean-checkout validation (2026-11-12)
+
+Branch verified: `migration/website-source-inventory` at `3003642bdbe3a700f82c888fe6999242b287c4e9`, tracking `origin/migration/website-source-inventory`, clean working tree after `git fetch` + `git pull --ff-only`.
+
+Genuine clean checkout (temporary clone, not this working tree):
+
+```sh
+git clone --branch migration/website-source-inventory --single-branch \
+  https://github.com/web-harvest/website.git /tmp/website-clean-checkout-*/website
+cd /tmp/website-clean-checkout-*/website
+git rev-parse HEAD   # 3003642bdbe3a700f82c888fe6999242b287c4e9
+```
+
+Commands and exit codes from that checkout:
+
+| Command | Exit code | Result |
+|---|---:|---|
+| `python3 -m unittest discover -s tests -v` | 0 | 14 tests, OK |
+| `python3 scripts/fix_html_examples.py --check` | 0 | 0 pages need repair |
+| `git diff --check` | 0 | clean |
+| `python3 scripts/optimize_images.py --html-only` | 0 | 0 images / 0 HTML files changed |
+| Focused `<picture>` path + loading check | 0 | 86 blocks; missing paths 0; anomalies 0 |
+| `python3 -m http.server 8765 --bind 127.0.0.1` smoke (`/`, `/examples/`, `/examples/simple_test.xml`, `/documentation/2.2.0/stylesheet.html`, `/css/enterprise.css`, `/images/logo.webp`) | 0 | HTTP 200 |
+| Same preview for `/documentation/2.2.0/param.html` | 0 | HTTP 404 (expected; see link audit) |
+
+Website tests and helpers used only this repository tree. No Maven reactor, Java classes, or application-root paths were required for the clean-checkout checks. `scripts/optimize_images.py` needs Pillow with WebP only when re-encoding binaries; `--html-only` and the unit tests do not.
+
+## Internal-link audit (clean checkout)
+
+Scanned 79 HTML files and 4 CSS files. Checked **2261** references:
+
+| Category | Count |
+|---|---:|
+| HTML `href` / `src` | 2175 |
+| HTML `srcset` | 86 |
+| CSS `url(...)` / `@import` | 0 (no such references in current CSS) |
+| Stylesheet links | 454 |
+| Script sources | 74 |
+| Image `src` + `srcset` | 172 |
+| Downloadable XML `href` | 45 (all resolve) |
+| Directory / trailing-slash links | 417 (all resolve via `index.html`) |
+| Same-page anchors checked | 13 |
+| Resolving / OK internal targets | 2049 |
+| Intentional external links | 105 |
+| Legacy SourceForge / old-host URLs | 101 |
+| Unresolved / defective internal references | 6 unique |
+
+### Classified unresolved references
+
+| Classification | Count | References |
+|---|---:|---|
+| Confirmed defect | 5 | `about.html` → `#download`; `news.html` → `#download`; `support.html` → `#download`; `documentation/getting-started.html` → `../plugins.html#external`; `plugins.html` → `documentation/2.2.0/#database` |
+| Source snapshot defect | 1 | `documentation/2.2.0/stylesheet.html` → `param.html` |
+| Intentional external | 105 | CDN / fonts / third-party (not defects) |
+| Legacy URL awaiting hosting decision | 101 | `sourceforge.net` / `webharvest.sourceforge.net` canonicals, downloads, footers, sitemap locs |
+| False positive | 0 | — |
+
+Notes:
+
+- `index.html` and `plugins.html` both define `id="download"`; the three confirmed `#download` failures are header CTAs on pages that never define that section. Present identically in the application `docs/web` tree.
+- `plugins.html#external` and `documentation/2.2.0/#database` point at real pages that lack those fragment ids. Present identically in the application tree.
+- `examples/nytimes.xml` exists, is listed in `sitemap.xml`, and returns HTTP 200, but `examples/index.html` links `improved_nytimes.xml` instead. This is not a broken href; it is an unlinked example file retained in the snapshot.
+- No replacement was invented for missing targets.
+
+### `stylesheet.html` → `param.html`
+
+- The related-link `<a href="param.html">` is present in both this repository and application `docs/web/documentation/2.2.0/stylesheet.html`.
+- No `param.html` exists under website `documentation/2.2.0/` or application `docs/web/documentation/2.2.0/`.
+- Application core plugins include `HttpParamPlugin`, `CallParamPlugin`, and `XQParamPlugin` only. There is no `ParamPlugin` Java class and no `param` entry in `docs/scripts/generate_core_plugin_docs.py` `PLUGIN_NAMES`.
+- `StylesheetPlugin` javadoc lists `{@code <param>}` under Related Processors; the generator emits `href="{rel}.html"` from that list, which produced the dangling `param.html` link.
+- Correct target from available website source: **none**. Do not invent a page or retarget to `http-param` / `call-param` / `xq-param` without an explicit content decision outside this gate.
+
+## Application / Maven dependency findings
+
+Inspected a local application checkout (`web-harvest-git`) without modifying or deleting anything.
+
+Remaining dependencies if `docs/web/**` were removed from the application repository before a coordinated cutover:
+
+| Dependency | Finding | Decision |
+|---|---|---|
+| Root reactor `pom.xml` `<module>docs</module>` | Docs module still part of the Maven reactor | Keep until cutover PR |
+| `docs/pom.xml` `maven-resources-plugin` `copy-web-docs` | Copies `docs/web` → `${project.build.directory}/site` during `generate-resources` | Moving `docs/web` would break this packaging step |
+| `docs/src/main/assembly/docs.xml` | Packages `${project.build.directory}/site` and also `web/` as `/source` | Docs assembly ZIP/tar still requires `docs/web` |
+| `upload-docs.sh` | `DOCS_DIR="docs/web"` | Legacy upload path; retire only after replacement hosting workflow |
+| `docs/scripts/generate_*plugin*.py`, `regenerate_all_with_seo.py`, old sitemap/fix helpers | Read/write under `docs/web/...` and/or Java sources | Keep in application repository |
+| Java modules (`webharvest-core`, IDE, etc.) | No compile/package dependency on `docs/web` files found; IDE comments mention docs styling only | Application JAR builds are not blocked by website-repo independence |
+| This website repository tests/helpers | No Maven/Java/application-root path usage | Website clean-checkout validation is independent |
+
+Conclusion: the website repository can be validated independently, but the application docs module **still packages and uploads `docs/web`**. Do not remove `docs/web` from the application repository yet.
+
 ## Findings from source inspection
 
 - The homepage `docs/web/index.html` has canonical, Open Graph, Twitter and structured-data URLs pointing to `https://webharvest.sourceforge.net/`.
@@ -97,11 +187,16 @@ No workflow in this branch deploys or modifies production.
 - [x] Move/adapt website-only helper scripts and add focused tests.
 - [ ] Select hosting target and canonical production URL.
 - [ ] Replace old SourceForge URLs only after target URL is confirmed.
-- [ ] Add clean-checkout preview and complete internal-link validation (one pre-existing missing target remains documented).
+- [x] Clean-checkout preview and complete internal-link validation (6 unresolved internal references classified; no fixes applied in this gate).
 - [ ] Add deployment workflow with no embedded credentials and no destructive sync by default.
-- [ ] Verify application Maven build no longer packages/depends on the moved public-site tree.
+- [ ] Verify application Maven build no longer packages/depends on the moved public-site tree (inspection shows it still does; cutover not started).
 - [ ] Remove migrated website source from the application repository only in a coordinated PR after destination validation.
 - [ ] Complete license, NOTICE and secrets review before either repository becomes public.
+
+### Next-phase recommendation
+
+- **GO** for the next migration-validation phase: triage/fix the five confirmed HTML/anchor defects, decide content ownership for the `param.html` source-snapshot defect in the application generators/javadoc, and continue publication-readiness work.
+- **STOP** for deployment, production hosting assumptions, repository visibility changes, merging PR #2, and deletion of application `docs/web/**`. Hosting, canonical URL, licensing, and publication-readiness gates are not satisfied.
 
 ## History preservation
 
