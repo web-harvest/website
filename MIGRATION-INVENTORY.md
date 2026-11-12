@@ -22,7 +22,7 @@ Tracking issue: [#1 — Migrate the WebHarvest project website and deployment to
 |---|---|---|
 | `docs/web/**` | Public website pages/assets; currently includes three large PNGs not transferred | Move all 115 files; finish binary transfer before considering snapshot complete |
 | `docs/scripts/generate_sitemap.py` | Website-only, but old script hard-codes SourceForge URL and assumes application-root paths | Replaced here by `scripts/generate_sitemap.py`; requires explicit `--base-url` / `WEBSITE_BASE_URL` |
-| `docs/scripts/fix_html_examples.py` | Edits only four HTML pages under `docs/web/documentation/` | Website-only candidate; move/adapt after review |
+| `docs/scripts/fix_html_examples.py` | Edits only four HTML pages under `docs/web/documentation/` | Adapted and moved to `scripts/fix_html_examples.py`; now site-root-relative and supports `--check` |
 | `docs/scripts/fix_javadoc_examples.py` | Edits Java source files across core/database/FTP/mail/browser/ZIP modules | Keep in application repository |
 | `docs/scripts/generate_core_plugin_docs.py` | Reads Java plugin source/Javadocs from application modules | Keep in application repository |
 | `docs/scripts/generate_external_plugin_docs.py` | Reads Java plugin source/Javadocs from external application modules | Keep in application repository |
@@ -39,7 +39,8 @@ Tracking issue: [#1 — Migrate the WebHarvest project website and deployment to
 ## Current website-specific tooling
 
 - `scripts/generate_sitemap.py`: standard-library-only generator; scans all HTML pages and downloadable XML examples, requires an explicit canonical base URL, and writes `sitemap.xml`.
-- `tests/test_generate_sitemap.py`: tests URL discovery, output and rejection of non-HTTP(S) base URLs.
+- `scripts/fix_html_examples.py`: adapted website-only repair helper for the four legacy tutorial pages; supports a non-writing `--check` mode.
+- `tests/test_generate_sitemap.py` and `tests/test_fix_html_examples.py`: focused unit tests added; not yet executed in a clean local checkout.
 
 The tests have been added but have **not yet been executed in a clean local checkout**. Do not claim CI or test success.
 
