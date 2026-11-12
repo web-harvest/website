@@ -55,7 +55,7 @@ Inspected every `<picture>` block after the HTML rewrite pass:
 
 No below-the-fold rewritten images exist in the current snapshot, so no `loading="lazy"` attributes were required on live pages. Classification is covered by unit tests with synthetic below-the-fold markup. Homepage hero keeps `fetchpriority="high"`. Explicit width/height and existing alt text are preserved. Image binaries were not re-encoded in this follow-up.
 
-Local validation on 2026-11-12, from this repository root:
+Local validation on 2026-11-12, from this repository root, after commit `3e406a66a3149012ce0f8fc119cfe8697f99ef8f`:
 
 - `python3 -m unittest discover -s tests -v` — 14 tests, OK (includes 7 optimizer HTML tests and sitemap `lastmod` omission/reproducibility coverage).
 - `python3 scripts/fix_html_examples.py --check` — 0 pages need repair.
@@ -94,10 +94,10 @@ No workflow in this branch deploys or modifies production.
 - [x] Transfer and verify the three missing PNG assets, then keep display-sized PNG fallbacks plus lossless WebP. AVIF was not added: lossy encodes changed alpha, and lossless AVIF was larger than WebP.
 - [ ] Decide whether to replace this API snapshot with a local history-preserving extraction.
 - [ ] Complete file-level review of generated vs hand-maintained website content.
-- [ ] Move/adapt website-only helper scripts and add tests.
+- [x] Move/adapt website-only helper scripts and add focused tests.
 - [ ] Select hosting target and canonical production URL.
 - [ ] Replace old SourceForge URLs only after target URL is confirmed.
-- [ ] Add clean-checkout preview and internal-link validation.
+- [ ] Add clean-checkout preview and complete internal-link validation (one pre-existing missing target remains documented).
 - [ ] Add deployment workflow with no embedded credentials and no destructive sync by default.
 - [ ] Verify application Maven build no longer packages/depends on the moved public-site tree.
 - [ ] Remove migrated website source from the application repository only in a coordinated PR after destination validation.
