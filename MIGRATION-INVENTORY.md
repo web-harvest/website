@@ -193,7 +193,7 @@ No workflow in this branch deploys or modifies production.
 - [ ] Add deployment workflow with no embedded credentials and no destructive sync by default.
 - [ ] Verify application Maven build no longer packages/depends on the moved public-site tree (inspection shows it still does; cutover not started).
 - [ ] Remove migrated website source from the application repository only in a coordinated PR after destination validation.
-- [ ] Complete secrets review and file-level review of independently authored/third-party website assets before either repository becomes public. Project-level BSD LICENSE, upstream NOTICE and the upstream `licences/` texts have now been added to the website repository; this does not establish the license of every embedded asset.
+- [ ] Complete a full secrets/history review and file-level review of independently authored/third-party website assets before either repository becomes public. The Yahoo Mail XML example now uses explicit `YOUR_YAHOO_EMAIL` / `YOUR_YAHOO_PASSWORD` placeholders with `overwrite="false"` (commit `ada6806`); this is a targeted hygiene fix, not a complete secrets review. Project-level BSD LICENSE, upstream NOTICE and the upstream `licences/` texts have been added; this does not establish the license of every embedded asset.
 
 ### Next-phase recommendation
 
