@@ -38,16 +38,31 @@ Tracking issue: [#1 — Migrate the WebHarvest project website and deployment to
 
 ## Current website-specific tooling
 
-- `scripts/generate_sitemap.py`: standard-library-only generator; scans all HTML pages and downloadable XML examples, requires an explicit canonical base URL, and writes `sitemap.xml`.
+- `scripts/generate_sitemap.py`: standard-library-only generator; scans all HTML pages and downloadable XML examples, requires an explicit canonical base URL, and writes `sitemap.xml`. `lastmod` is omitted because filesystem mtimes are not stable across clean checkouts/build agents and no deterministic substitute has been established yet.
 - `scripts/fix_html_examples.py`: adapted website-only repair helper for the four legacy tutorial pages; supports a non-writing `--check` mode.
-- `tests/test_generate_sitemap.py` and `tests/test_fix_html_examples.py`: focused unit tests.
-- `scripts/optimize_images.py`: resizes the three transferred PNGs and writes lossless WebP. Requires Pillow with WebP support. It is not a site runtime dependency.
+- `tests/test_generate_sitemap.py`, `tests/test_fix_html_examples.py`, and `tests/test_optimize_images.py`: focused unit tests.
+- `scripts/optimize_images.py`: resizes the three transferred PNGs and writes lossless WebP. Requires Pillow with WebP support only when encoding images. HTML rewriting is pure and testable; `--html-only` updates markup without re-encoding binaries. Eager loading is limited to header logos and `hero-visual` imagery; other placements are lazy.
+
+### Picture loading classification (all 86 rewritten occurrences)
+
+Inspected every `<picture>` block after the HTML rewrite pass:
+
+| Placement | Count | `loading` |
+|---|---:|---|
+| Header logo (`logo.png` / `logo-white-bg.png` inside `<header>`) | 79 | `eager` |
+| Hero imagery (`hero-icon.png` inside `.hero-visual`) | 7 | `eager` |
+| Below-the-fold / other | 0 | n/a |
+
+No below-the-fold rewritten images exist in the current snapshot, so no `loading="lazy"` attributes were required on live pages. Classification is covered by unit tests with synthetic below-the-fold markup. Homepage hero keeps `fetchpriority="high"`. Explicit width/height and existing alt text are preserved. Image binaries were not re-encoded in this follow-up.
 
 Local validation on 2026-11-12, from this repository root:
 
-- `python3 -m unittest discover -s tests -v` — 6 tests, OK.
+- `python3 -m unittest discover -s tests -v` — 14 tests, OK (includes 7 optimizer HTML tests and sitemap `lastmod` omission/reproducibility coverage).
 - `python3 scripts/fix_html_examples.py --check` — 0 pages need repair.
-- Local HTML/CSS reference check — 1,967 relative references resolved. The only miss is the pre-existing `documentation/2.2.0/stylesheet.html` link to `param.html`, which is also absent in the source snapshot.
+- `git diff --check` — clean.
+- Focused `<picture>` check — 86 blocks; all referenced PNG/WebP paths resolve; classification anomalies: 0.
+- `python3 scripts/optimize_images.py --html-only` — 0 HTML files changed (markup already matched the classifier).
+- Image tree (`images/`) — unchanged in this follow-up.
 
 This was a local run, not CI.
 

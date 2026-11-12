@@ -2,565 +2,471 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url>
     <loc>https://webharvest.sourceforge.net/</loc>
-    <lastmod>2025-10-16</lastmod>
     <changefreq>daily</changefreq>
     <priority>1.0</priority>
   </url>
   <url>
     <loc>https://webharvest.sourceforge.net/about.html</loc>
-    <lastmod>2025-10-16</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.9</priority>
   </url>
   <url>
     <loc>https://webharvest.sourceforge.net/plugins.html</loc>
-    <lastmod>2025-10-16</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.9</priority>
   </url>
   <url>
     <loc>https://webharvest.sourceforge.net/ide.html</loc>
-    <lastmod>2025-10-16</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.9</priority>
   </url>
   <url>
     <loc>https://webharvest.sourceforge.net/cli.html</loc>
-    <lastmod>2025-10-16</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.9</priority>
   </url>
   <url>
     <loc>https://webharvest.sourceforge.net/support.html</loc>
-    <lastmod>2025-10-16</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
     <loc>https://webharvest.sourceforge.net/news.html</loc>
-    <lastmod>2025-10-16</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
     <loc>https://webharvest.sourceforge.net/documentation/</loc>
-    <lastmod>2025-10-16</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.9</priority>
   </url>
   <url>
     <loc>https://webharvest.sourceforge.net/documentation/getting-started.html</loc>
-    <lastmod>2025-10-16</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.9</priority>
   </url>
   <url>
     <loc>https://webharvest.sourceforge.net/documentation/architecture.html</loc>
-    <lastmod>2025-10-16</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
     <loc>https://webharvest.sourceforge.net/documentation/debugging-guide.html</loc>
-    <lastmod>2025-10-16</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
     <loc>https://webharvest.sourceforge.net/documentation/pause-resume.html</loc>
-    <lastmod>2025-10-16</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
     <loc>https://webharvest.sourceforge.net/documentation/plugin-development.html</loc>
-    <lastmod>2025-10-17</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
     <loc>https://webharvest.sourceforge.net/documentation/session-management.html</loc>
-    <lastmod>2025-10-16</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
     <loc>https://webharvest.sourceforge.net/documentation/rate-limiting-guide.html</loc>
-    <lastmod>2025-10-16</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
     <loc>https://webharvest.sourceforge.net/documentation/token-tracking.html</loc>
-    <lastmod>2025-10-16</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
     <loc>https://webharvest.sourceforge.net/cli.html</loc>
-    <lastmod>2025-10-16</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
     <loc>https://webharvest.sourceforge.net/documentation/css-selectors-guide.html</loc>
-    <lastmod>2025-10-16</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
     <loc>https://webharvest.sourceforge.net/documentation/file-advanced-patterns.html</loc>
-    <lastmod>2025-10-16</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
     <loc>https://webharvest.sourceforge.net/documentation/xpath-best-practices.html</loc>
-    <lastmod>2025-10-17</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
     <loc>https://webharvest.sourceforge.net/documentation/session-history.html</loc>
-    <lastmod>2025-10-16</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
     <loc>https://webharvest.sourceforge.net/documentation/tutorial-form-submit-pagination.html</loc>
-    <lastmod>2025-10-16</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
     <loc>https://webharvest.sourceforge.net/documentation/bug-fixes-v2.2.0.html</loc>
-    <lastmod>2025-10-16</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
   </url>
   <url>
     <loc>https://webharvest.sourceforge.net/documentation/2.2.0/http.html</loc>
-    <lastmod>2025-10-16</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
     <loc>https://webharvest.sourceforge.net/documentation/2.2.0/xpath.html</loc>
-    <lastmod>2025-10-16</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
     <loc>https://webharvest.sourceforge.net/documentation/2.2.0/regexp.html</loc>
-    <lastmod>2025-10-16</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
     <loc>https://webharvest.sourceforge.net/documentation/2.2.0/tokenize.html</loc>
-    <lastmod>2025-10-16</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
     <loc>https://webharvest.sourceforge.net/documentation/2.2.0/while.html</loc>
-    <lastmod>2025-10-16</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
     <loc>https://webharvest.sourceforge.net/documentation/2.2.0/function.html</loc>
-    <lastmod>2025-10-16</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
     <loc>https://webharvest.sourceforge.net/documentation/2.2.0/call.html</loc>
-    <lastmod>2025-10-16</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
     <loc>https://webharvest.sourceforge.net/documentation/2.2.0/html-to-xml.html</loc>
-    <lastmod>2025-10-16</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
     <loc>https://webharvest.sourceforge.net/documentation/2.2.0/file.html</loc>
-    <lastmod>2025-10-16</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
     <loc>https://webharvest.sourceforge.net/documentation/2.2.0/def.html</loc>
-    <lastmod>2025-10-16</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
     <loc>https://webharvest.sourceforge.net/documentation/2.2.0/get-var.html</loc>
-    <lastmod>2025-10-16</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
     <loc>https://webharvest.sourceforge.net/documentation/2.2.0/set-var.html</loc>
-    <lastmod>2025-10-16</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
     <loc>https://webharvest.sourceforge.net/documentation/2.2.0/loop.html</loc>
-    <lastmod>2025-10-16</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
     <loc>https://webharvest.sourceforge.net/documentation/2.2.0/script.html</loc>
-    <lastmod>2025-10-16</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
     <loc>https://webharvest.sourceforge.net/documentation/2.2.0/template.html</loc>
-    <lastmod>2025-10-16</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
     <loc>https://webharvest.sourceforge.net/documentation/2.2.0/if.html</loc>
-    <lastmod>2025-10-16</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
     <loc>https://webharvest.sourceforge.net/documentation/2.2.0/empty.html</loc>
-    <lastmod>2025-10-16</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
     <loc>https://webharvest.sourceforge.net/documentation/2.2.0/sleep.html</loc>
-    <lastmod>2025-10-16</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
     <loc>https://webharvest.sourceforge.net/documentation/2.2.0/exit.html</loc>
-    <lastmod>2025-10-16</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
     <loc>https://webharvest.sourceforge.net/documentation/2.2.0/try.html</loc>
-    <lastmod>2025-10-16</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
     <loc>https://webharvest.sourceforge.net/documentation/2.2.0/catch.html</loc>
-    <lastmod>2025-10-16</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
     <loc>https://webharvest.sourceforge.net/documentation/2.2.0/return.html</loc>
-    <lastmod>2025-10-16</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
     <loc>https://webharvest.sourceforge.net/documentation/2.2.0/text.html</loc>
-    <lastmod>2025-10-16</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
     <loc>https://webharvest.sourceforge.net/documentation/2.2.0/case.html</loc>
-    <lastmod>2025-10-16</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
     <loc>https://webharvest.sourceforge.net/documentation/2.2.0/constant.html</loc>
-    <lastmod>2025-10-16</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
     <loc>https://webharvest.sourceforge.net/documentation/2.2.0/var.html</loc>
-    <lastmod>2025-10-16</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
     <loc>https://webharvest.sourceforge.net/documentation/2.2.0/json-to-xml.html</loc>
-    <lastmod>2025-10-16</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
     <loc>https://webharvest.sourceforge.net/documentation/2.2.0/xml-to-json.html</loc>
-    <lastmod>2025-10-16</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
     <loc>https://webharvest.sourceforge.net/documentation/2.2.0/xquery.html</loc>
-    <lastmod>2025-10-16</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
     <loc>https://webharvest.sourceforge.net/documentation/2.2.0/include.html</loc>
-    <lastmod>2025-10-16</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
     <loc>https://webharvest.sourceforge.net/documentation/2.2.0/config.html</loc>
-    <lastmod>2025-10-16</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
     <loc>https://webharvest.sourceforge.net/documentation/2.2.0/value-of.html</loc>
-    <lastmod>2025-10-16</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
     <loc>https://webharvest.sourceforge.net/documentation/2.2.0/xml.html</loc>
-    <lastmod>2025-10-16</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
     <loc>https://webharvest.sourceforge.net/documentation/2.2.0/xq-expression.html</loc>
-    <lastmod>2025-10-16</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
     <loc>https://webharvest.sourceforge.net/documentation/2.2.0/xq-param.html</loc>
-    <lastmod>2025-10-16</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
     <loc>https://webharvest.sourceforge.net/documentation/2.2.0/xslt.html</loc>
-    <lastmod>2025-10-16</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
     <loc>https://webharvest.sourceforge.net/documentation/2.2.0/stylesheet.html</loc>
-    <lastmod>2025-10-16</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
     <loc>https://webharvest.sourceforge.net/documentation/2.2.0/http-header.html</loc>
-    <lastmod>2025-10-16</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
     <loc>https://webharvest.sourceforge.net/documentation/2.2.0/http-param.html</loc>
-    <lastmod>2025-10-16</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
     <loc>https://webharvest.sourceforge.net/documentation/2.2.0/call-param.html</loc>
-    <lastmod>2025-10-16</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
     <loc>https://webharvest.sourceforge.net/documentation/2.2.0/else.html</loc>
-    <lastmod>2025-10-16</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
     <loc>https://webharvest.sourceforge.net/documentation/2.2.0/regexp-pattern.html</loc>
-    <lastmod>2025-10-16</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
     <loc>https://webharvest.sourceforge.net/documentation/2.2.0/regexp-source.html</loc>
-    <lastmod>2025-10-16</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
     <loc>https://webharvest.sourceforge.net/documentation/2.2.0/regexp-result.html</loc>
-    <lastmod>2025-10-16</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
     <loc>https://webharvest.sourceforge.net/documentation/2.2.0/list.html</loc>
-    <lastmod>2025-10-16</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
     <loc>https://webharvest.sourceforge.net/documentation/2.2.0/body-processor.html</loc>
-    <lastmod>2025-10-16</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
     <loc>https://webharvest.sourceforge.net/documentation/2.2.0/external/ftp.html</loc>
-    <lastmod>2025-10-16</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
   </url>
   <url>
     <loc>https://webharvest.sourceforge.net/documentation/2.2.0/external/ftp-get.html</loc>
-    <lastmod>2025-10-16</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
   </url>
   <url>
     <loc>https://webharvest.sourceforge.net/documentation/2.2.0/external/ftp-list.html</loc>
-    <lastmod>2025-10-16</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
   </url>
   <url>
     <loc>https://webharvest.sourceforge.net/documentation/2.2.0/external/ftp-put.html</loc>
-    <lastmod>2025-10-16</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
   </url>
   <url>
     <loc>https://webharvest.sourceforge.net/documentation/2.2.0/external/mail.html</loc>
-    <lastmod>2025-10-16</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
   </url>
   <url>
     <loc>https://webharvest.sourceforge.net/documentation/2.2.0/external/web-browser.html</loc>
-    <lastmod>2025-10-16</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
   </url>
   <url>
     <loc>https://webharvest.sourceforge.net/documentation/2.2.0/external/zip.html</loc>
-    <lastmod>2025-10-16</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
   </url>
   <url>
     <loc>https://webharvest.sourceforge.net/documentation/2.2.0/external/zip-entry.html</loc>
-    <lastmod>2025-10-16</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
   </url>
   <url>
     <loc>https://webharvest.sourceforge.net/examples/amazon_test.xml</loc>
-    <lastmod>2025-10-16</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
     <loc>https://webharvest.sourceforge.net/examples/api_integration.xml</loc>
-    <lastmod>2025-10-16</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
     <loc>https://webharvest.sourceforge.net/examples/canon.xml</loc>
-    <lastmod>2025-10-16</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
     <loc>https://webharvest.sourceforge.net/examples/canon_with_namespace.xml</loc>
-    <lastmod>2025-10-16</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
     <loc>https://webharvest.sourceforge.net/examples/crawler.xml</loc>
-    <lastmod>2025-10-16</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
     <loc>https://webharvest.sourceforge.net/examples/data_processing_pipeline.xml</loc>
-    <lastmod>2025-10-16</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
     <loc>https://webharvest.sourceforge.net/examples/ecommerce_monitoring.xml</loc>
-    <lastmod>2025-10-16</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
     <loc>https://webharvest.sourceforge.net/examples/flickr.xml</loc>
-    <lastmod>2025-10-16</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
     <loc>https://webharvest.sourceforge.net/examples/functions.xml</loc>
-    <lastmod>2025-10-16</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
     <loc>https://webharvest.sourceforge.net/examples/google_images.xml</loc>
-    <lastmod>2025-10-16</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
     <loc>https://webharvest.sourceforge.net/examples/improved_nytimes.xml</loc>
-    <lastmod>2025-10-16</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
     <loc>https://webharvest.sourceforge.net/examples/modern_web_scraping.xml</loc>
-    <lastmod>2025-10-16</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
     <loc>https://webharvest.sourceforge.net/examples/nytimes.xml</loc>
-    <lastmod>2025-10-16</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
     <loc>https://webharvest.sourceforge.net/examples/product_catalog.xml</loc>
-    <lastmod>2025-10-16</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
     <loc>https://webharvest.sourceforge.net/examples/social_media_analytics.xml</loc>
-    <lastmod>2025-10-16</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
     <loc>https://webharvest.sourceforge.net/examples/xquery.xml</loc>
-    <lastmod>2025-10-16</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
     <loc>https://webharvest.sourceforge.net/examples/yahoomail.xml</loc>
-    <lastmod>2025-10-16</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.5</priority>
   </url>

@@ -42,6 +42,24 @@ class GenerateSitemapTests(unittest.TestCase):
                     "https://example.test/index.html",
                 ],
             )
+            self.assertEqual(
+                document.findall(f".//{{{SITEMAP_NS}}}lastmod"),
+                [],
+            )
+
+    def test_omits_lastmod_for_reproducible_output(self):
+        with tempfile.TemporaryDirectory() as temporary:
+            root = Path(temporary)
+            (root / "index.html").write_text("<html></html>", encoding="utf-8")
+            output = root / "sitemap.xml"
+
+            generate_sitemap(root, "https://example.test", output)
+            first = output.read_bytes()
+            generate_sitemap(root, "https://example.test", output)
+            second = output.read_bytes()
+
+            self.assertEqual(first, second)
+            self.assertNotIn(b"lastmod", first)
 
     def test_rejects_non_http_base_url(self):
         with tempfile.TemporaryDirectory() as temporary:

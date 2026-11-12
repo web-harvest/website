@@ -4,13 +4,16 @@
 The canonical base URL is deliberately explicit: pass --base-url or set
 WEBSITE_BASE_URL. This prevents accidentally publishing a sitemap for the
 legacy hosting domain after the site has moved.
+
+``lastmod`` is omitted on purpose. Filesystem modification times are not
+stable across clean checkouts or build agents, and inventing timestamps
+would be misleading. The sitemap protocol treats ``lastmod`` as optional.
 """
 
 from __future__ import annotations
 
 import argparse
 import os
-from datetime import datetime, timezone
 from pathlib import Path
 from urllib.parse import quote
 import xml.etree.ElementTree as ET
@@ -44,11 +47,6 @@ def generate_sitemap(site_root: Path, base_url: str, output: Path) -> int:
         url = ET.SubElement(root, f"{{{SITEMAP_NS}}}url")
         loc = ET.SubElement(url, f"{{{SITEMAP_NS}}}loc")
         loc.text = base + quote(relative, safe="/:@")
-        lastmod = ET.SubElement(url, f"{{{SITEMAP_NS}}}lastmod")
-        modified = datetime.fromtimestamp(
-            page.stat().st_mtime, tz=timezone.utc
-        ).date()
-        lastmod.text = modified.isoformat()
 
     output.parent.mkdir(parents=True, exist_ok=True)
     ET.indent(root, space="  ")

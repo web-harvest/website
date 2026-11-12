@@ -34,7 +34,7 @@ The standard-library-only generator requires an explicit canonical URL:
 python3 scripts/generate_sitemap.py --base-url https://example.invalid
 ```
 
-Replace the example URL only after the production hostname has been selected. The generator also accepts `WEBSITE_BASE_URL`.
+Replace the example URL only after the production hostname has been selected. The generator also accepts `WEBSITE_BASE_URL`. It omits `lastmod` so clean checkouts produce identical sitemaps.
 
 The website-only legacy example repair helper supports a safe check mode:
 
@@ -46,6 +46,12 @@ Regenerate the display-sized PNG fallbacks and lossless WebP files with Pillow (
 
 ```sh
 python3 scripts/optimize_images.py
+```
+
+Rewrite picture markup without touching image binaries:
+
+```sh
+python3 scripts/optimize_images.py --html-only
 ```
 
 Run its tests from the repository root:
