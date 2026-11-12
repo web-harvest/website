@@ -10,9 +10,9 @@ Tracking issue: [#1 — Migrate the WebHarvest project website and deployment to
 
 ## Current transfer status
 
-- 112 of 115 files under `docs/web/**` have been copied into this repository.
-- Every copied file has the same Git blob SHA as the source file.
-- Three PNG assets larger than 1 MB could not be retrieved through the text-only GitHub file-content interface. They are listed in `SOURCE-SNAPSHOT.md`; no placeholder files were created.
+- All 115 files under `docs/web/**` now have a destination representation.
+- 32 files still have the same Git blob SHA as the source file.
+- 83 source files differ on purpose: 79 HTML pages and `css/enterprise.css` now use `<picture>` for the logo and hero assets, and the three PNGs are display-sized fallbacks. The original PNG blobs are in commit `5e0b98d4eb85972cefe4a26eeaab06783b851107`. See `SOURCE-SNAPSHOT.md`.
 - The copied snapshot does not preserve per-file commit history. The source commit is recorded. A local `git filter-repo` / `git subtree split` extraction remains the preferred history-preserving alternative.
 - No source files have been deleted or changed in the application repository.
 
@@ -20,7 +20,7 @@ Tracking issue: [#1 — Migrate the WebHarvest project website and deployment to
 
 | Source path | Dependency finding | Decision |
 |---|---|---|
-| `docs/web/**` | Public website pages/assets; currently includes three large PNGs not transferred | Move all 115 files; finish binary transfer before considering snapshot complete |
+| `docs/web/**` | Public website pages/assets, including the three PNGs transferred from the local source object database | All 115 files are represented; image fallbacks are optimized and the original blobs stay in Git history |
 | `docs/scripts/generate_sitemap.py` | Website-only, but old script hard-codes SourceForge URL and assumes application-root paths | Replaced here by `scripts/generate_sitemap.py`; requires explicit `--base-url` / `WEBSITE_BASE_URL` |
 | `docs/scripts/fix_html_examples.py` | Edits only four HTML pages under `docs/web/documentation/` | Adapted and moved to `scripts/fix_html_examples.py`; now site-root-relative and supports `--check` |
 | `docs/scripts/fix_javadoc_examples.py` | Edits Java source files across core/database/FTP/mail/browser/ZIP modules | Keep in application repository |
@@ -40,9 +40,16 @@ Tracking issue: [#1 — Migrate the WebHarvest project website and deployment to
 
 - `scripts/generate_sitemap.py`: standard-library-only generator; scans all HTML pages and downloadable XML examples, requires an explicit canonical base URL, and writes `sitemap.xml`.
 - `scripts/fix_html_examples.py`: adapted website-only repair helper for the four legacy tutorial pages; supports a non-writing `--check` mode.
-- `tests/test_generate_sitemap.py` and `tests/test_fix_html_examples.py`: focused unit tests added; not yet executed in a clean local checkout.
+- `tests/test_generate_sitemap.py` and `tests/test_fix_html_examples.py`: focused unit tests.
+- `scripts/optimize_images.py`: resizes the three transferred PNGs and writes lossless WebP. Requires Pillow with WebP support. It is not a site runtime dependency.
 
-The tests have been added but have **not yet been executed in a clean local checkout**. Do not claim CI or test success.
+Local validation on 2026-11-12, from this repository root:
+
+- `python3 -m unittest discover -s tests -v` — 6 tests, OK.
+- `python3 scripts/fix_html_examples.py --check` — 0 pages need repair.
+- Local HTML/CSS reference check — 1,967 relative references resolved. The only miss is the pre-existing `documentation/2.2.0/stylesheet.html` link to `param.html`, which is also absent in the source snapshot.
+
+This was a local run, not CI.
 
 ## Findings from source inspection
 
@@ -69,7 +76,7 @@ No workflow in this branch deploys or modifies production.
 
 ## Migration validation checklist
 
-- [ ] Transfer and verify the three missing PNG assets.
+- [x] Transfer and verify the three missing PNG assets, then keep display-sized PNG fallbacks plus lossless WebP. AVIF was not added: lossy encodes changed alpha, and lossless AVIF was larger than WebP.
 - [ ] Decide whether to replace this API snapshot with a local history-preserving extraction.
 - [ ] Complete file-level review of generated vs hand-maintained website content.
 - [ ] Move/adapt website-only helper scripts and add tests.

@@ -126,6 +126,11 @@ body {
     gap: var(--spacing-3);
 }
 
+.brand picture {
+    display: flex;
+    line-height: 0;
+}
+
 .logo {
     width: 56px;
     height: 56px;
@@ -237,9 +242,16 @@ body {
     gap: var(--spacing-6);
 }
 
+.hero-visual picture {
+    display: block;
+    width: 100%;
+    max-width: 320px;
+}
+
 .hero-visual img {
     width: 100%;
     max-width: 320px;
+    height: auto;
     filter: drop-shadow(0 20px 40px rgba(0, 0, 0, 0.3));
     transition: transform 0.5s cubic-bezier(0.34, 1.56, 0.64, 1);
 }

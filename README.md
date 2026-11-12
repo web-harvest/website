@@ -8,7 +8,7 @@ The application and IDE source code lives in [web-harvest](https://github.com/we
 
 The website source migration is in progress and tracked in [Issue #1](https://github.com/web-harvest/website/issues/1).
 
-A partial source snapshot from `web-harvest/web-harvest:2.2.x` is present on the migration branch. It contains 112 of 115 files from `docs/web/**`; three large PNG assets remain to be transferred. See [SOURCE-SNAPSHOT.md](SOURCE-SNAPSHOT.md) and [MIGRATION-INVENTORY.md](MIGRATION-INVENTORY.md) for exact provenance and limitations.
+A source snapshot from `web-harvest/web-harvest:2.2.x` is present on the migration branch. All 115 files from `docs/web/**` are represented. The three large PNGs were transferred from the source Git object database and then replaced with display-sized PNG fallbacks and lossless WebP variants. The original blobs remain in Git history. See [SOURCE-SNAPSHOT.md](SOURCE-SNAPSHOT.md) and [MIGRATION-INVENTORY.md](MIGRATION-INVENTORY.md).
 
 The application repository remains the source of truth for any website files not yet transferred. No source files have been deleted there.
 
@@ -38,9 +38,15 @@ Replace the example URL only after the production hostname has been selected. Th
 
 The website-only legacy example repair helper supports a safe check mode:
 
-\`\`\`sh
+```sh
 python3 scripts/fix_html_examples.py --check
-\`\`\`
+```
+
+Regenerate the display-sized PNG fallbacks and lossless WebP files with Pillow (WebP support required):
+
+```sh
+python3 scripts/optimize_images.py
+```
 
 Run its tests from the repository root:
 
