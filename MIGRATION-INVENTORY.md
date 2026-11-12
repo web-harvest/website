@@ -201,3 +201,17 @@ No workflow in this branch deploys or modifies production.
 ## History preservation
 
 This API snapshot preserves exact Git blob content for the 112 transferred files, but does not preserve their commit history. The original source commit is recorded in `SOURCE-SNAPSHOT.md`. Prefer a local `git filter-repo` or `git subtree split` extraction if a local checkout is available. Do not rewrite the application repository's shared branch history.
+
+
+## Navigation defect closure (2026-11-12)
+
+Applied in commit `75732458e796a27dced88720272bfbbee5fa6c96`:
+
+- The About, News, and Support header Download CTAs now target the existing homepage download section (`index.html#download`).
+- The Getting Started extension link now targets the explicit `#extensions` section on `plugins.html`.
+- The Database module documentation CTA now targets the existing Database card anchor on `plugins.html`, rather than a non-existent fragment in the core plugin index.
+- Removed the dangling `param.html` related-processor link from the website snapshot. No replacement page or target was invented.
+
+A post-commit content check confirmed all six destination references/targets. This is a source-snapshot correction: the application-side JavaDoc/generator source was not changed, so a future regeneration from the application repository must preserve this omission or correct the generator separately. Application `docs/web/**` remains untouched.
+
+These checks validate the exact changed references only; the full 14-test suite and clean-checkout link audit must be rerun before the migration PR can be considered complete.
