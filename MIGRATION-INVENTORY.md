@@ -196,7 +196,7 @@ No workflow in this branch deploys or modifies production.
 ### Next-phase recommendation
 
 - **GO** for the next migration-validation phase: triage/fix the five confirmed HTML/anchor defects, decide content ownership for the `param.html` source-snapshot defect in the application generators/javadoc, and continue publication-readiness work.
-- **STOP** for deployment, production hosting assumptions, repository visibility changes, merging PR #2, and deletion of application `docs/web/**`. Hosting, canonical URL, licensing, and publication-readiness gates are not satisfied.
+- **STOP** for deployment, production hosting assumptions, repository visibility changes, merging PR #2, and deletion of application `docs/web/**`. Hosting and canonical URL are undecided; file-level third-party asset provenance and secrets review remain incomplete. Project-level BSD LICENSE and NOTICE documentation has been added.
 
 ## History preservation
 
