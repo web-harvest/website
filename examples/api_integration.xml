@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <config xmlns="http://org.webharvest/schema/2.1/core">
     <!-- API integration and data processing example -->
-    <def var="apiKey">demo_key_12345</def>
+    <def var="apiKey" overwrite="false">YOUR_API_KEY</def>
     <def var="baseUrl">https://httpbin.org</def>
     
     <!-- Fetch data from REST API -->
