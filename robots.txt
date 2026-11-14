@@ -27,5 +27,4 @@ Disallow: /target/
 Disallow: /*.tmp
 Disallow: /*.log
 
-# Sitemap location
-Sitemap: https://webharvest.sourceforge.net/sitemap.xml
+# No sitemap is advertised until a production hostname is explicitly selected.
