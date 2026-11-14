@@ -40,6 +40,17 @@ jobs:
           python scripts/optimize_images.py --html-only
           git diff --exit-code -- '*.html'
 
+      - name: Reject unapproved checked-in sitemap metadata
+        run: |
+          if [ -e sitemap.xml ]; then
+            echo "Do not commit a generated sitemap before the production hostname is approved."
+            exit 1
+          fi
+          if grep -Eiq '^[[:space:]]*Sitemap:' robots.txt; then
+            echo "robots.txt must not advertise a sitemap before the production hostname is approved."
+            exit 1
+          fi
+
       - name: Generate and parse sitemap
         run: |
           python scripts/generate_sitemap.py \
