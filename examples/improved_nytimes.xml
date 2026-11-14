@@ -1,0 +1,140 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<config xmlns="http://org.webharvest/schema/2.1/core">
+    <!-- Improved New York Times scraper with better HTML handling -->
+    <def var="startUrl">https://httpbin.org/html</def>
+    
+    <!-- Use improved html-to-xml for better HTML parsing -->
+    <def var="pageContent">
+        <html-to-xml 
+            advancedxmlescape="true" 
+            specialentities="true" 
+            unicodechars="true" 
+            allowmultiwordattributes="true" 
+            omitunknowntags="true"
+            treatunknowntagsascontent="true"
+            omitdeprtags="true"
+            treatdeprtagsascontent="true"
+            omitcomments="true"
+            omittermlenvelope="true">
+            <http url="${startUrl}"/>
+        </html-to-xml>
+    </def>
+    
+    <!-- Extract content using XPath -->
+    <!-- Note: Use /text() to extract TEXT content, not the element -->
+    <def var="pageTitle">
+        <xpath expression="//title/text()">
+            <script>pageContent</script>
+        </xpath>
+    </def>
+    
+    <def var="headings">
+        <xpath expression="//h1/text() | //h2/text() | //h3/text() | //h4/text() | //h5/text() | //h6/text()">
+            <script>pageContent</script>
+        </xpath>
+    </def>
+    
+    <def var="paragraphs">
+        <xpath expression="//p">
+            <script>pageContent</script>
+        </xpath>
+    </def>
+    
+    <def var="links">
+        <xpath expression="//a[@href]">
+            <script>pageContent</script>
+        </xpath>
+    </def>
+    
+    <!-- Process the content -->
+    <def var="processedContent">
+        <template>
+            <![CDATA[
+            <news_article>
+                <title>${pageTitle}</title>
+                <extraction_date>${sys.datetime("yyyy-MM-dd HH:mm:ss")}</extraction_date>
+                <headings>
+                    <script>headings</script>
+                </headings>
+                <paragraphs>
+                    <script>paragraphs</script>
+                </paragraphs>
+                <links>
+                    <script>links</script>
+                </links>
+            </news_article>
+            ]]>
+        </template>
+    </def>
+    
+    <!-- Save the processed content -->
+    <file path="improved_news_article.xml" action="write">
+        <script>processedContent</script>
+    </file>
+    
+    <!-- Alternative approach using improved html-to-xml -->
+    <def var="alternativeContent">
+        <html-to-xml 
+            advancedxmlescape="true" 
+            specialentities="true" 
+            unicodechars="true" 
+            allowmultiwordattributes="true" 
+            omitunknowntags="true"
+            treatunknowntagsascontent="true"
+            omitdeprtags="true"
+            treatdeprtagsascontent="true"
+            omitcomments="true"
+            omittermlenvelope="true">
+            <http url="${startUrl}"/>
+        </html-to-xml>
+    </def>
+    
+    <!-- Extract content using XPath -->
+    <def var="extractedContent">
+        <xpath expression="//body">
+            <script>alternativeContent</script>
+        </xpath>
+    </def>
+    
+    <!-- Save alternative content -->
+    <file path="alternative_content.xml" action="write">
+        <template>
+            <![CDATA[
+            <alternative_extraction>
+                <timestamp>${sys.datetime("yyyy-MM-dd HH:mm:ss")}</timestamp>
+                <method>html-to-xml</method>
+                <content>
+                    <script>extractedContent</script>
+                </content>
+            </alternative_extraction>
+            ]]>
+        </template>
+    </file>
+    
+    <!-- Generate comparison report -->
+    <file path="extraction_comparison.xml" action="write">
+        <template>
+            <![CDATA[
+            <extraction_comparison>
+                <timestamp>${sys.datetime("yyyy-MM-dd HH:mm:ss")}</timestamp>
+                <url>${startUrl}</url>
+                <methods>
+                    <method name="web-browser">
+                        <description>Uses JavaScript to extract content</description>
+                        <advantages>Handles JavaScript, better for modern sites</advantages>
+                        <disadvantages>Slower, requires browser engine</disadvantages>
+                    </method>
+                    <method name="html-to-xml">
+                        <description>Direct HTML to XML conversion</description>
+                        <advantages>Faster, simpler</advantages>
+                        <disadvantages>May struggle with malformed HTML</disadvantages>
+                    </method>
+                </methods>
+                <recommendation>
+                    Use web-browser for JavaScript-heavy sites, html-to-xml for simple HTML
+                </recommendation>
+            </extraction_comparison>
+            ]]>
+        </template>
+    </file>
+</config>

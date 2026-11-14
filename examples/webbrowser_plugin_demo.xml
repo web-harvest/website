@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<config xmlns="http://org.webharvest/schema/2.1/core" charset="UTF-8">
+    <!-- HTML fetch + html-to-xml demo (filename retained for stable download links; not a headless-browser workflow). -->
+
+    <!-- Target URL -->
+    <def var="target_url">https://httpbin.org/html</def>
+
+    <!-- Fetch HTML content -->
+    <def var="rawHtml">
+        <http url="${target_url}" method="GET">
+            <http-header name="User-Agent" value="Web-Harvest Bot 2.2.0"/>
+        </http>
+    </def>
+
+    <!-- Convert HTML to XML using html-to-xml -->
+    <def var="xmlContent">
+        <html-to-xml>
+            <get var="rawHtml"/>
+        </html-to-xml>
+    </def>
+
+    <!-- Extract title using XPath -->
+    <def var="pageTitle">
+        <xpath expression="//title">
+            <get var="xmlContent"/>
+        </xpath>
+    </def>
+
+    <!-- Extract all headings -->
+    <def var="headings">
+        <xpath expression="//h1 | //h2 | //h3">
+            <get var="xmlContent"/>
+        </xpath>
+    </def>
+
+    <!-- Extract paragraphs -->
+    <def var="paragraphs">
+        <xpath expression="//p">
+            <get var="xmlContent"/>
+        </xpath>
+    </def>
+
+    <!-- Generate results -->
+    <file action="write" path="webbrowser_demo_results.xml" charset="UTF-8">
+        <template>
+            <![CDATA[<web_scraping_results>
+                <timestamp>${sys.datetime()}</timestamp>
+                <url>${target_url}</url>
+                <page_title>${pageTitle}</page_title>
+                <extracted_content>
+                    <headings>${headings}</headings>
+                    <paragraphs>${paragraphs}</paragraphs>
+                </extracted_content>
+                <demo_info>
+                    <description>This demo shows HTML to XML conversion and XPath extraction</description>
+                    <plugins_used>http, html-to-xml, xpath, template</plugins_used>
+                </demo_info>
+            </web_scraping_results>]]>
+        </template>
+    </file>
+
+    <text>Web scraping demo completed. Results saved to webbrowser_demo_results.xml</text>
+</config>
+
+
+
+
+
+
+
+
+
+
+
+

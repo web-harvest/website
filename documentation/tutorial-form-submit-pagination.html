@@ -1,0 +1,349 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Tutorial: Form Submit & Pagination - WebHarvest</title>
+    <link rel="stylesheet" href="../css/enterprise.css" />
+    <link rel="stylesheet" href="../css/prism.css" />
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+
+<body>
+
+    <!-- Header -->
+    <header class="site-header">
+        <div class="container header-inner">
+            <a href="../index.html" class="brand"
+                style="text-decoration: none; color: inherit; display: flex; align-items: center; gap: var(--spacing-3);">
+                <picture>
+                    <source type="image/webp" srcset="../images/logo.webp" />
+                    <img src="../images/logo.png" alt="WebHarvest" class="logo" width="56" height="56" loading="eager" />
+                </picture>
+                <span class="project-name">WebHarvest</span>
+            </a>
+            <nav class="main-nav">
+                <a href="../about.html">About</a>
+                <a href="getting-started.html"
+                    style="background: linear-gradient(135deg, var(--lime), #8BC34A); color: white; padding: 0.5rem 1rem; border-radius: var(--radius-md); font-weight: 700;"><i
+                        class="fas fa-rocket"></i> Get Started</a>
+                <a href="../plugins.html">Plugins</a>
+                <a href="../ide.html">IDE</a>
+                <a href="../cli.html">CLI</a>
+                <a href="../examples/">Examples</a>
+                <a href="./" class="active">Docs</a>
+                <a href="../news.html">News</a>
+                <a href="../support.html">Support</a>
+                <a class="cta" href="../index.html#download">Download</a>
+            </nav>
+        </div>
+    </header>
+
+    <!-- Hero -->
+    <section class="hero">
+        <div class="container hero-inner">
+            <div class="hero-content">
+                <h1>Tutorial: Form Submit<br />& Pagination</h1>
+                <p class="lead">Master advanced scraping patterns</p>
+                <p class="hero-description">
+                    Step-by-step guide for login, form submission, pagination handling,
+                    and detail page scraping.
+                </p>
+            </div>
+        </div>
+    </section>
+
+    <!-- What You'll Learn -->
+    <section class="container" style="margin-top: 4rem;">
+        <div class="section-header">
+            <h2>What You'll Learn</h2>
+            <p class="section-subtitle">Complete workflow from login to data extraction</p>
+        </div>
+
+        <div class="features-grid">
+            <div class="feature-card">
+                <div class="feature-icon">
+                    <i class="fas fa-sign-in-alt"></i>
+                </div>
+                <h3>Form Submission</h3>
+                <p>Submit login forms with POST requests</p>
+            </div>
+
+            <div class="feature-card">
+                <div class="feature-icon">
+                    <i class="fas fa-forward"></i>
+                </div>
+                <h3>Pagination</h3>
+                <p>Iterate through multiple pages automatically</p>
+            </div>
+
+            <div class="feature-card">
+                <div class="feature-icon">
+                    <i class="fas fa-link"></i>
+                </div>
+                <h3>Detail Pages</h3>
+                <p>Extract links and scrape individual detail pages</p>
+            </div>
+
+            <div class="feature-card">
+                <div class="feature-icon">
+                    <i class="fas fa-save"></i>
+                </div>
+                <h3>Save Results</h3>
+                <p>Store extracted data to files</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Step 1: Login -->
+    <section class="container" style="margin-top: 6rem;">
+        <div class="section-header">
+            <h2>Step 1: Submit Login Form</h2>
+            <p class="section-subtitle">Authenticate with POST request</p>
+        </div>
+
+        <div style="max-width: 900px; margin: 2rem auto;">
+            <div class="code-window">
+                <div class="window-header">
+                    <div class="window-controls">
+                        <span class="control red"></span>
+                        <span class="control yellow"></span>
+                        <span class="control green"></span>
+                    </div>
+                    <span class="window-title">step1-login.xml</span>
+                </div>
+                <div class="window-content">
+                    <pre><code class="language-xml">&lt;?xml version="1.0" encoding="UTF-8"?&gt;
+&lt;config xmlns="http://org.webharvest/schema/2.1/core"&gt;
+&lt;!-- Submit login form --&gt;
+&lt;def var="loginResponse"&gt;
+    &lt;http url="https://example.com/login" method="POST"&gt;
+        &lt;http-param name="username" value="myuser"/&gt;
+        &lt;http-param name="password" value="mypass"/&gt;
+    &lt;/http&gt;
+&lt;/def&gt;
+
+&lt;!-- Save for debugging --&gt;
+&lt;file path="output/login-response.html" action="write"&gt;
+    ${loginResponse}
+&lt;/file&gt;
+&lt;/config&gt;</code></pre>
+                </div>
+            </div>
+
+            <div class="note">
+                <strong>💡 Key Points:</strong> Use <code>method="POST"</code> for form submission.
+                HTTP session cookies are automatically maintained across requests.
+            </div>
+        </div>
+    </section>
+
+    <!-- Step 2: Extract Links -->
+    <section class="container" style="margin-top: 6rem;">
+        <div class="section-header">
+            <h2>Step 2: Extract Product Links</h2>
+            <p class="section-subtitle">Get all detail page URLs</p>
+        </div>
+
+        <div style="max-width: 900px; margin: 2rem auto;">
+            <div class="code-window">
+                <div class="window-header">
+                    <div class="window-controls">
+                        <span class="control red"></span>
+                        <span class="control yellow"></span>
+                        <span class="control green"></span>
+                    </div>
+                    <span class="window-title">step2-extract-links.xml</span>
+                </div>
+                <div class="window-content">
+                    <pre><code class="language-xml">&lt;?xml version="1.0" encoding="UTF-8"?&gt;
+&lt;config xmlns="http://org.webharvest/schema/2.1/core"&gt;
+&lt;!-- Fetch results page --&gt;
+&lt;def var="resultsPage"&gt;
+    &lt;http url="https://example.com/products"/&gt;
+&lt;/def&gt;
+
+&lt;!-- Extract all product links --&gt;
+&lt;def var="productLinks"&gt;
+    &lt;xpath expression="//a[@class='product-link']/@href"&gt;
+        &lt;html-to-xml&gt;${resultsPage}&lt;/html-to-xml&gt;
+    &lt;/xpath&gt;
+&lt;/def&gt;
+
+&lt;log message="Found ${productLinks.length} product links"/&gt;
+&lt;/config&gt;</code></pre>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Step 3: Loop Through -->
+    <section class="container" style="margin-top: 6rem;">
+        <div class="section-header">
+            <h2>Step 3: Loop Through Detail Pages</h2>
+            <p class="section-subtitle">Scrape each product page</p>
+        </div>
+
+        <div style="max-width: 900px; margin: 2rem auto;">
+            <div class="code-window">
+                <div class="window-header">
+                    <div class="window-controls">
+                        <span class="control red"></span>
+                        <span class="control yellow"></span>
+                        <span class="control green"></span>
+                    </div>
+                    <span class="window-title">step3-detail-pages.xml</span>
+                </div>
+                <div class="window-content">
+                    <pre><code class="language-xml">&lt;?xml version="1.0" encoding="UTF-8"?&gt;
+&lt;config xmlns="http://org.webharvest/schema/2.1/core"&gt;
+&lt;!-- Loop through each product link --&gt;
+&lt;loop item="link" index="i"&gt;
+    ${productLinks}
+    
+    &lt;!-- Fetch detail page --&gt;
+    &lt;def var="detailPage"&gt;
+        &lt;http url="${link}"/&gt;
+    &lt;/def&gt;
+    
+    &lt;!-- Extract product data --&gt;
+    &lt;def var="productName"&gt;
+        &lt;xpath expression="//h1[@class='title']/text()"&gt;
+            &lt;html-to-xml&gt;${detailPage}&lt;/html-to-xml&gt;
+        &lt;/xpath&gt;
+    &lt;/def&gt;
+    
+    &lt;def var="price"&gt;
+        &lt;xpath expression="//span[@class='price']/text()"&gt;
+            &lt;html-to-xml&gt;${detailPage}&lt;/html-to-xml&gt;
+        &lt;/xpath&gt;
+    &lt;/def&gt;
+    
+    &lt;!-- Save to file --&gt;
+    &lt;file path="output/product-${i}.txt" action="write"&gt;
+        Name: ${productName}
+        Price: ${price}
+    &lt;/file&gt;
+    
+    &lt;!-- Be polite - wait 2 seconds --&gt;
+    &lt;sleep time="2000"/&gt;
+&lt;/loop&gt;
+&lt;/config&gt;</code></pre>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Step 4: Pagination -->
+    <section class="container" style="margin-top: 6rem;">
+        <div class="section-header">
+            <h2>Step 4: Handle Pagination</h2>
+            <p class="section-subtitle">Automatically navigate through multiple pages</p>
+        </div>
+
+        <div style="max-width: 900px; margin: 2rem auto;">
+            <div class="code-window">
+                <div class="window-header">
+                    <div class="window-controls">
+                        <span class="control red"></span>
+                        <span class="control yellow"></span>
+                        <span class="control green"></span>
+                    </div>
+                    <span class="window-title">step4-pagination.xml</span>
+                </div>
+                <div class="window-content">
+                    <pre><code class="language-xml">&lt;?xml version="1.0" encoding="UTF-8"?&gt;
+&lt;config xmlns="http://org.webharvest/schema/2.1/core"&gt;
+&lt;def var="currentPage"&gt;1&lt;/def&gt;
+&lt;def var="hasNextPage"&gt;true&lt;/def&gt;
+
+&lt;while condition="${hasNextPage}"&gt;
+    &lt;!-- Fetch page --&gt;
+    &lt;def var="page"&gt;
+        &lt;http url="https://example.com/products?page=${currentPage}"/&gt;
+    &lt;/def&gt;
+    
+    &lt;!-- Extract and process products on this page --&gt;
+    &lt;!-- ... your extraction logic ... --&gt;
+    
+    &lt;!-- Check if "Next" button exists --&gt;
+    &lt;def var="nextButton"&gt;
+        &lt;xpath expression="//a[@class='next-page']"&gt;
+            &lt;html-to-xml&gt;${page}&lt;/html-to-xml&gt;
+        &lt;/xpath&gt;
+    &lt;/def&gt;
+    
+    &lt;!-- Update loop condition --&gt;
+    &lt;set-var name="hasNextPage"&gt;
+        &lt;script&gt;!context.getVar('nextButton').isEmpty()&lt;/script&gt;
+    &lt;/set-var&gt;
+    
+    &lt;!-- Increment page counter --&gt;
+    &lt;set-var name="currentPage"&gt;
+        &lt;script&gt;parseInt(context.getVar('currentPage')) + 1&lt;/script&gt;
+    &lt;/set-var&gt;
+    
+    &lt;sleep time="2000"/&gt;
+&lt;/while&gt;
+&lt;/config&gt;</code></pre>
+                </div>
+            </div>
+
+            <div class="note">
+                <strong>💡 How This Works:</strong> The <code>&lt;while&gt;</code> loop continues as long as
+                the "Next" button exists on the page. When there's no next page, the loop stops.
+            </div>
+        </div>
+    </section>
+
+    <!-- Related -->
+    <section class="container" style="margin-top: 6rem; margin-bottom: 6rem;">
+        <div class="section-header">
+            <h2>Related Resources</h2>
+        </div>
+
+        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 2rem; margin-top: 3rem;">
+            <div class="feature-card" style="background: var(--gray-50);">
+                <h3><i class="fas fa-book" style="color: var(--primary);"></i> Plugin Reference</h3>
+                <ul style="color: var(--gray-700); line-height: 1.8; margin-left: 1.5rem;">
+                    <li><a href="2.2.0/http.html" style="color: var(--primary);">HTTP Plugin</a></li>
+                    <li><a href="2.2.0/loop.html" style="color: var(--primary);">Loop Plugin</a></li>
+                    <li><a href="2.2.0/while.html" style="color: var(--primary);">While Plugin</a></li>
+                    <li><a href="2.2.0/file.html" style="color: var(--primary);">File Plugin</a></li>
+                </ul>
+            </div>
+
+            <div class="feature-card" style="background: var(--gray-50);">
+                <h3><i class="fas fa-graduation-cap" style="color: var(--lime);"></i> More Tutorials</h3>
+                <ul style="color: var(--gray-700); line-height: 1.8; margin-left: 1.5rem;">
+                    <li><a href="getting-started.html" style="color: var(--primary);">Getting Started</a></li>
+                    <li><a href="debugging-guide.html" style="color: var(--primary);">Debugging Guide</a></li>
+                    <li><a href="rate-limiting-guide.html" style="color: var(--primary);">Rate Limiting</a></li>
+                </ul>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="site-footer">
+        <div class="container footer-content">
+            <div class="footer-links">
+                <a href="../about.html">About</a>
+                <a href="2.2.0/">Plugins</a>
+                <a href="./">Documentation</a>
+                <a href="../examples/">Examples</a>
+                <a href="../support.html">Support</a>
+                <a href="https://sourceforge.net/projects/web-harvest/">SourceForge</a>
+            </div>
+            <div class="footer-legal">
+                <p>Copyright © 2006-2025 WebHarvest Contributors. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script src="../js/prism.js"></script>
+</body>
+
+</html>

@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<config xmlns="http://org.webharvest/schema/2.1/core" charset="UTF-8">
+    <!-- Test with Amazon search -->
+    <def var="content">
+        <html-to-xml advancedxmlescape="true" specialentities="true" allowmultiwordattributes="true" omitunknowntags="true" unicodechars="true" treatunknowntagsascontent="true" omitdeprtags="true" treatdeprtagsascontent="true" omitcomments="true" omitdoctypedeclaration="true" omitxmlns="true" omitxmlprocessinginstruction="true">
+            <http url="https://www.amazon.com/s?k=canon+camera"/>
+        </html-to-xml>
+    </def>
+    <!-- Extract product titles -->
+    <!-- Note: Use /text() to extract TEXT content from span elements -->
+    <def var="products">
+        <xpath expression="//h2[contains(@class, 's-size-small')]//span/text()">
+            <get var="content"/>
+        </xpath>
+    </def>
+    <!-- Save result -->
+    <file action="write" path="amazon_products.html" charset="UTF-8">
+        <get var="content"/>
+    </file>
+    <!-- Save product list -->
+    <file action="write" path="products.txt" charset="UTF-8">
+        <get var="products"/>
+    </file>
+</config>

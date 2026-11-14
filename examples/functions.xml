@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<config xmlns="http://org.webharvest/schema/2.1/core">
+    <!-- 
+        Download multi-page list of items.
+        
+        @param pageUrl       - URL of starting page
+        @param itemXPath     - XPath expression to obtain single item in the list
+        @param nextXPath     - XPath expression to URL for the next page
+        @param maxloops      - maximum number of pages downloaded
+        
+        @return list of all downloaded items
+     -->
+    <function name="download-multipage-list">
+        <return>
+            <while condition="${pageUrl.toString().length() != 0}" maxloops="${maxloops}" index="i">
+                <def var="content">
+                    <html-to-xml advancedxmlescape="true" specialentities="true" unicodechars="true" allowmultiwordattributes="true" omitunknowntags="true">
+                        <http url="${pageUrl}"/>
+                    </html-to-xml>
+                </def>
+                <def var="nextLinkUrl">
+                    <xpath expression="${nextXPath}">
+                        <get var="content"/>
+                    </xpath>
+                </def>
+                <def var="pageUrl">
+                    <template>${sys.fullUrl(pageUrl.toString(), nextLinkUrl.toString())}</template>
+                </def>
+                <xpath expression="${itemXPath}">
+                    <get var="content"/>
+                </xpath>
+            </while>
+        </return>
+    </function>
+</config>

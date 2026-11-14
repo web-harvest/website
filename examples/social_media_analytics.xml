@@ -1,0 +1,128 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<config xmlns="http://org.webharvest/schema/2.1/core">
+    <!-- Social media analytics and sentiment analysis -->
+    <def var="hashtag">#technology</def>
+    <def var="maxPosts">10</def>
+    
+    <!-- Simulate social media data extraction -->
+    <def var="socialData">
+        <template>
+            <![CDATA[
+            [
+                {"platform": "Twitter", "user": "@techuser1", "content": "Great new AI developments! #technology #AI", "likes": 45, "retweets": 12, "sentiment": "positive"},
+                {"platform": "Twitter", "user": "@techuser2", "content": "Technology is changing everything #technology", "likes": 23, "retweets": 8, "sentiment": "positive"},
+                {"platform": "LinkedIn", "user": "Tech Professional", "content": "Latest tech trends are amazing #technology", "likes": 67, "retweets": 15, "sentiment": "positive"},
+                {"platform": "Twitter", "user": "@skeptic", "content": "Not sure about this new tech #technology", "likes": 5, "retweets": 2, "sentiment": "neutral"},
+                {"platform": "Facebook", "user": "Tech Enthusiast", "content": "Technology rocks! #technology #innovation", "likes": 89, "retweets": 20, "sentiment": "positive"}
+            ]
+            ]]>
+        </template>
+    </def>
+    
+    <!-- Convert JSON to XML for processing -->
+    <def var="postsXml">
+        <json-to-xml>
+            <script>socialData</script>
+        </json-to-xml>
+    </def>
+    
+    <!-- Analyze sentiment -->
+    <def var="sentimentAnalysis">
+        <xquery>
+            <xq-param name="posts">
+                <script>postsXml</script>
+            </xq-param>
+            <xq-expression>
+                <![CDATA[
+                declare variable $posts as node() external;
+                
+                let $positive := count($posts//item[sentiment = "positive"])
+                let $negative := count($posts//item[sentiment = "negative"])
+                let $neutral := count($posts//item[sentiment = "neutral"])
+                let $total := count($posts//item)
+                
+                return
+                <sentiment_analysis>
+                    <total_posts>{$total}</total_posts>
+                    <positive_posts>{$positive}</positive_posts>
+                    <negative_posts>{$negative}</negative_posts>
+                    <neutral_posts>{$neutral}</neutral_posts>
+                    <positive_percentage>{if ($total > 0) then round($positive div $total * 100) else 0}</positive_percentage>
+                    <negative_percentage>{if ($total > 0) then round($negative div $total * 100) else 0}</negative_percentage>
+                    <neutral_percentage>{if ($total > 0) then round($neutral div $total * 100) else 0}</neutral_percentage>
+                </sentiment_analysis>
+                ]]>
+            </xq-expression>
+        </xquery>
+    </def>
+    
+    <!-- Calculate engagement metrics -->
+    <def var="engagementMetrics">
+        <xquery>
+            <xq-param name="posts">
+                <script>postsXml</script>
+            </xq-param>
+            <xq-expression>
+                <![CDATA[
+                declare variable $posts as node() external;
+                
+                let $totalLikes := sum($posts//item/likes)
+                let $totalRetweets := sum($posts//item/retweets)
+                let $avgLikes := if (count($posts//item) > 0) then round($totalLikes div count($posts//item)) else 0
+                let $avgRetweets := if (count($posts//item) > 0) then round($totalRetweets div count($posts//item)) else 0
+                
+                return
+                <engagement_metrics>
+                    <total_likes>{$totalLikes}</total_likes>
+                    <total_retweets>{$totalRetweets}</total_retweets>
+                    <average_likes>{$avgLikes}</average_likes>
+                    <average_retweets>{$avgRetweets}</average_retweets>
+                </engagement_metrics>
+                ]]>
+            </xq-expression>
+        </xquery>
+    </def>
+    
+    <!-- Generate analytics report -->
+    <file path="social_analytics_report.xml" action="write">
+        <template>
+            <![CDATA[
+            <social_media_analytics>
+                <hashtag>${hashtag}</hashtag>
+                <analysis_date>${sys.datetime("yyyy-MM-dd HH:mm:ss")}</analysis_date>
+                <sentiment_analysis>
+                    <script>sentimentAnalysis</script>
+                </sentiment_analysis>
+                <engagement_metrics>
+                    <script>engagementMetrics</script>
+                </engagement_metrics>
+                <top_posts>
+                    <loop item="post" index="i">
+                        <list>
+                            <xpath expression="//item[position() <= 3]">
+                                <script>postsXml</script>
+                            </xpath>
+                        </list>
+                    </loop>
+                </top_posts>
+            </social_media_analytics>
+            ]]>
+        </template>
+    </file>
+    
+    <!-- Generate CSV report for business intelligence -->
+    <file path="social_analytics.csv" action="write">
+        <template>
+            <![CDATA[
+            Platform,User,Content,Likes,Retweets,Sentiment
+            <loop item="post" index="i">
+                <list>
+                    <xpath expression="//item">
+                        <script>postsXml</script>
+                    </xpath>
+                </list>
+            </loop>
+            ]]>
+        </template>
+    </file>
+</config>

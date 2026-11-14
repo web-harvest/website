@@ -1,0 +1,419 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>&lt;file&gt; - File I/O processor | WebHarvest v2.2.0</title>
+    <meta name="description" content="WebHarvest file plugin: File I/O processor. Core processor for web scraping and data extraction with XML configuration. Examples, usage, and documentation." />
+    <meta name="keywords" content="webharvest file, file plugin, web scraping, data extraction, XML configuration, core processor, webharvest plugin documentation" />
+    <meta name="robots" content="index, follow" />
+    <meta name="author" content="WebHarvest Team" />
+    
+    <!-- Open Graph / Facebook -->
+    <meta property="og:type" content="article" />
+    <meta property="og:title" content="&lt;file&gt; - File I/O processor" />
+    <meta property="og:description" content="The <code><file></code> processor provides complete file system operations for both
+text and binary files. It supports reading files, writing output, appending ..." />
+    <meta property="og:url" content="https://webharvest.sourceforge.net/documentation/2.2.0/file.html" />
+    
+    <!-- Twitter -->
+    <meta property="twitter:card" content="summary" />
+    <meta property="twitter:title" content="&lt;file&gt; - File I/O processor" />
+    <meta property="twitter:description" content="The <code><file></code> processor provides complete file system operations for both
+text and binary files. It supports reading files, writing output, appending ..." />
+    
+    <!-- Structured Data -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "TechArticle",
+      "headline": "&lt;file&gt; - File I/O processor",
+      "description": "The <code><file></code> processor provides complete file system operations for both
+text and binary files. It supports reading files, writing output, appending data,
+and listing directory contents with filtering.",
+      "author": {
+        "@type": "Organization",
+        "name": "WebHarvest Team"
+      },
+      "datePublished": "2025-01-01",
+      "dateModified": "2025-01-01",
+      "publisher": {
+        "@type": "Organization",
+        "name": "WebHarvest",
+        "logo": {
+          "@type": "ImageObject",
+          "url": "https://webharvest.sourceforge.net/images/logo.png"
+        }
+      },
+      "mainEntityOfPage": {
+        "@type": "WebPage",
+        "@id": "https://webharvest.sourceforge.net/documentation/2.2.0/file.html"
+      },
+      "about": {
+        "@type": "SoftwareApplication",
+        "name": "WebHarvest",
+        "applicationCategory": "DeveloperApplication"
+      }
+    }
+    </script>
+    <link rel="stylesheet" href="../../css/enterprise.css">
+    <link rel="stylesheet" href="../../css/prism.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        /* Override enterprise.css background for code blocks */
+        .window-content pre[class*="language-"] {
+            background: #272822 !important;
+        }
+        .processor-content {
+            max-width: 900px;
+            margin: var(--spacing-8) auto;
+            padding: 0 var(--spacing-4);
+        }
+        .section {
+            margin-bottom: var(--spacing-8);
+        }
+        .section-title {
+            font-size: 1.75rem;
+            font-weight: 700;
+            margin-bottom: var(--spacing-4);
+        }
+        .subsection-title {
+            font-size: 1.25rem;
+            font-weight: 600;
+            margin-top: var(--spacing-6);
+            margin-bottom: var(--spacing-3);
+        }
+        .related-links {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: var(--spacing-3);
+            margin-top: var(--spacing-4);
+        }
+        .related-link {
+            padding: var(--spacing-3);
+            background: white;
+            border: 2px solid var(--gray-300);
+            border-radius: var(--radius-lg);
+            text-align: center;
+            text-decoration: none;
+            color: var(--text-primary);
+            font-weight: 600;
+            transition: all 0.3s ease;
+        }
+        .related-link:hover {
+            background: var(--gray-50);
+            border-color: var(--gray-400);
+            transform: translateY(-2px);
+        }
+    </style>
+</head>
+<body>
+    <header class="site-header">
+        <div class="container header-inner">
+            <a href="../../index.html" class="brand" style="text-decoration: none; color: inherit; display: flex; align-items: center; gap: var(--spacing-3);">
+                <picture>
+                    <source type="image/webp" srcset="../../images/logo.webp" />
+                    <img src="../../images/logo.png" alt="WebHarvest Logo - Enterprise Web Scraping Framework" class="logo" width="56" height="56" loading="eager" />
+                </picture>
+                <span class="project-name">WebHarvest</span>
+            </a>
+            <nav class="main-nav">
+                <a href="../../about.html">About</a>
+                <a href="../getting-started.html" style="background: linear-gradient(135deg, var(--lime), #8BC34A); color: white; padding: 0.5rem 1rem; border-radius: var(--radius-md); font-weight: 700;"><i class="fas fa-rocket"></i> Get Started</a>
+                <a href="../../plugins.html">Plugins</a>
+                <a href="../../ide.html">IDE</a>
+                <a href="../../cli.html">CLI</a>
+                <a href="../../examples/">Examples</a>
+                <a href="../">Docs</a>
+                <a href="../../news.html">News</a>
+                <a href="../../support.html">Support</a>
+                <a class="cta" href="../../index.html#download">Download</a>
+            </nav>
+        </div>
+    </header>
+
+    <!-- Hero -->
+    <section class="hero">
+        <div class="container hero-inner">
+            <div class="hero-content">
+                <h1>&lt;file&gt;</h1>
+                <p class="lead">File I/O processor</p>
+                <p class="hero-description">
+                    <span style="display: inline-block; margin-right: 1rem;"><i class="fas fa-cube"></i> Core</span>
+                    <span style="display: inline-block;">v2.2.0</span>
+                </p>
+            </div>
+        </div>
+    </section>
+
+    <div class="processor-content">
+        <section class="section">
+            <h2 class="section-title">Overview</h2>
+            <p>The <code><file></code> processor provides complete file system operations for both
+text and binary files. It supports reading files, writing output, appending data,
+and listing directory contents with filtering.</p>
+        </section>
+
+        <section class="section">
+            <h2 class="section-title">Usage Examples</h2>
+            
+            <h3 class="subsection-title">Example 1: Read text file</h3>
+            <div class="code-window">
+                <div class="window-header">
+                    <div class="window-controls">
+                        <span class="control red"></span>
+                        <span class="control yellow"></span>
+                        <span class="control green"></span>
+                    </div>
+                    <span class="window-title">example-1.xml</span>
+                </div>
+                <div class="window-content">
+                    <pre><code class="language-xml">&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?&gt;
+&lt;config xmlns=&quot;http://org.webharvest/schema/2.1/core&quot;&gt;
+&lt;def var=&quot;config&quot;&gt;
+  &lt;file path=&quot;config.txt&quot; action=&quot;read&quot;/&gt;
+&lt;/def&gt;
+
+&lt;!-- File content is now in ${config} variable --&gt;
+&lt;/config&gt;</code></pre>
+                </div>
+            </div>
+
+            <h3 class="subsection-title">Example 2: Write text file</h3>
+            <div class="code-window">
+                <div class="window-header">
+                    <div class="window-controls">
+                        <span class="control red"></span>
+                        <span class="control yellow"></span>
+                        <span class="control green"></span>
+                    </div>
+                    <span class="window-title">example-2.xml</span>
+                </div>
+                <div class="window-content">
+                    <pre><code class="language-xml">&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?&gt;
+&lt;config xmlns=&quot;http://org.webharvest/schema/2.1/core&quot;&gt;
+&lt;file path=&quot;output.txt&quot; action=&quot;write&quot;&gt;
+  This is the file content
+  with multiple lines
+&lt;/file&gt;
+&lt;/config&gt;</code></pre>
+                </div>
+            </div>
+
+            <h3 class="subsection-title">Example 3: Write HTML from HTTP response</h3>
+            <div class="code-window">
+                <div class="window-header">
+                    <div class="window-controls">
+                        <span class="control red"></span>
+                        <span class="control yellow"></span>
+                        <span class="control green"></span>
+                    </div>
+                    <span class="window-title">example-3.xml</span>
+                </div>
+                <div class="window-content">
+                    <pre><code class="language-xml">&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?&gt;
+&lt;config xmlns=&quot;http://org.webharvest/schema/2.1/core&quot;&gt;
+&lt;def var=&quot;htmlPage&quot;&gt;
+  &lt;http url=&quot;https://example.com&quot;/&gt;
+&lt;/def&gt;
+
+&lt;file path=&quot;page.html&quot; action=&quot;write&quot; charset=&quot;UTF-8&quot;&gt;
+  ${htmlPage}
+&lt;/file&gt;
+&lt;/config&gt;</code></pre>
+                </div>
+            </div>
+
+            <h3 class="subsection-title">Example 4: Save JSON API response</h3>
+            <div class="code-window">
+                <div class="window-header">
+                    <div class="window-controls">
+                        <span class="control red"></span>
+                        <span class="control yellow"></span>
+                        <span class="control green"></span>
+                    </div>
+                    <span class="window-title">example-4.xml</span>
+                </div>
+                <div class="window-content">
+                    <pre><code class="language-xml">&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?&gt;
+&lt;config xmlns=&quot;http://org.webharvest/schema/2.1/core&quot;&gt;
+&lt;file path=&quot;data/products.json&quot; action=&quot;write&quot;&gt;
+  &lt;http url=&quot;https://api.example.com/products&quot;&gt;
+    &lt;http-header name=&quot;Accept&quot;&gt;application/json&lt;/http-header&gt;
+  &lt;/http&gt;
+&lt;/file&gt;
+&lt;/config&gt;</code></pre>
+                </div>
+            </div>
+
+            <h3 class="subsection-title">Example 5: Download binary file (image, PDF, ZIP)</h3>
+            <div class="code-window">
+                <div class="window-header">
+                    <div class="window-controls">
+                        <span class="control red"></span>
+                        <span class="control yellow"></span>
+                        <span class="control green"></span>
+                    </div>
+                    <span class="window-title">example-5.xml</span>
+                </div>
+                <div class="window-content">
+                    <pre><code class="language-xml">&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?&gt;
+&lt;config xmlns=&quot;http://org.webharvest/schema/2.1/core&quot;&gt;
+&lt;file path=&quot;downloads/document.pdf&quot; action=&quot;write&quot; type=&quot;binary&quot;&gt;
+  &lt;http url=&quot;https://example.com/report.pdf&quot;/&gt;
+&lt;/file&gt;
+
+&lt;!-- Works with images, ZIPs, executables, etc. --&gt;
+&lt;file path=&quot;archive.zip&quot; action=&quot;write&quot; type=&quot;binary&quot;&gt;
+  &lt;http url=&quot;https://example.com/data.zip&quot;/&gt;
+&lt;/file&gt;
+&lt;/config&gt;</code></pre>
+                </div>
+            </div>
+
+            <h3 class="subsection-title">Example 6: Append to log file</h3>
+            <div class="code-window">
+                <div class="window-header">
+                    <div class="window-controls">
+                        <span class="control red"></span>
+                        <span class="control yellow"></span>
+                        <span class="control green"></span>
+                    </div>
+                    <span class="window-title">example-6.xml</span>
+                </div>
+                <div class="window-content">
+                    <pre><code class="language-xml">&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?&gt;
+&lt;config xmlns=&quot;http://org.webharvest/schema/2.1/core&quot;&gt;
+&lt;loop item=&quot;url&quot; index=&quot;i&quot;&gt;
+  &lt;def var=&quot;urls&quot;&gt;http://example.com/page1&amp;#10;http://example.com/page2&lt;/def&gt;
+  
+  &lt;def var=&quot;page&quot;&gt;
+    &lt;http url=&quot;${url}&quot;/&gt;
+  &lt;/def&gt;
+  
+  &lt;!-- Append each result to log --&gt;
+  &lt;file path=&quot;scraping.log&quot; action=&quot;append&quot;&gt;
+    Processed ${url} at ${_date}
+  &lt;/file&gt;
+&lt;/loop&gt;
+&lt;/config&gt;</code></pre>
+                </div>
+            </div>
+
+            <h3 class="subsection-title">Example 7: List directory files</h3>
+            <div class="code-window">
+                <div class="window-header">
+                    <div class="window-controls">
+                        <span class="control red"></span>
+                        <span class="control yellow"></span>
+                        <span class="control green"></span>
+                    </div>
+                    <span class="window-title">example-7.xml</span>
+                </div>
+                <div class="window-content">
+                    <pre><code class="language-xml">&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?&gt;
+&lt;config xmlns=&quot;http://org.webharvest/schema/2.1/core&quot;&gt;
+&lt;!-- List all files in directory --&gt;
+&lt;def var=&quot;fileList&quot;&gt;
+  &lt;file path=&quot;downloads/&quot; action=&quot;list&quot;/&gt;
+&lt;/def&gt;
+
+&lt;!-- Process each file --&gt;
+&lt;loop item=&quot;filename&quot;&gt;
+  ${fileList}
+  
+  &lt;file path=&quot;downloads/${filename}&quot; action=&quot;read&quot;/&gt;
+&lt;/loop&gt;
+&lt;/config&gt;</code></pre>
+                </div>
+            </div>
+
+            <h3 class="subsection-title">Example 8: List with filter (wildcard pattern)</h3>
+            <div class="code-window">
+                <div class="window-header">
+                    <div class="window-controls">
+                        <span class="control red"></span>
+                        <span class="control yellow"></span>
+                        <span class="control green"></span>
+                    </div>
+                    <span class="window-title">example-8.xml</span>
+                </div>
+                <div class="window-content">
+                    <pre><code class="language-xml">&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?&gt;
+&lt;config xmlns=&quot;http://org.webharvest/schema/2.1/core&quot;&gt;
+&lt;!-- List only .xml files --&gt;
+&lt;def var=&quot;xmlFiles&quot;&gt;
+  &lt;file path=&quot;configs/&quot; 
+        action=&quot;list&quot; 
+        listfilter=&quot;*.xml&quot;
+        listfiles=&quot;true&quot;
+        listdirs=&quot;false&quot;/&gt;
+&lt;/def&gt;
+&lt;/config&gt;</code></pre>
+                </div>
+            </div>
+
+            <h3 class="subsection-title">Example 9: Recursive directory listing</h3>
+            <div class="code-window">
+                <div class="window-header">
+                    <div class="window-controls">
+                        <span class="control red"></span>
+                        <span class="control yellow"></span>
+                        <span class="control green"></span>
+                    </div>
+                    <span class="window-title">example-9.xml</span>
+                </div>
+                <div class="window-content">
+                    <pre><code class="language-xml">&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?&gt;
+&lt;config xmlns=&quot;http://org.webharvest/schema/2.1/core&quot;&gt;
+&lt;!-- List all Java files recursively --&gt;
+&lt;def var=&quot;javaFiles&quot;&gt;
+  &lt;file path=&quot;src/&quot; 
+        action=&quot;list&quot;
+        listfilter=&quot;*.java&quot;
+        listrecursive=&quot;true&quot;/&gt;
+&lt;/def&gt;
+&lt;/config&gt;</code></pre>
+                </div>
+            </div>
+
+        </section>
+
+        
+
+        <section class="section">
+            <h2 class="section-title">Important Notes</h2><ul style="line-height: 1.8;"><li>Write safety:: Write action overwrites existing files without warning</li><li>Append behavior:: Creates file if it doesn't exist</li><li>Binary vs Text:: Use <code>type="binary"</code> for images, ZIPs, PDFs to avoid corruption</li><li>Performance:: Large files are read entirely into memory - consider file size</li><li>Thread safety:: Multiple threads can write to different files safely</li></ul>
+        </section>
+
+        <section class="section">
+            <h2 class="section-title">Related Processors</h2><div class="related-links">
+                <a href="http.html" class="related-link">
+                    <i class="fas fa-code"></i> &lt;http&gt;
+                </a>
+                <a href="def.html" class="related-link">
+                    <i class="fas fa-code"></i> &lt;def&gt;
+                </a>
+                <a href="template.html" class="related-link">
+                    <i class="fas fa-code"></i> &lt;template&gt;
+                </a></div>
+        </section>
+    </div>
+
+    <footer class="site-footer">
+        <div class="container footer-content">
+            <div class="footer-links">
+                <a href="../../about.html">About</a>
+                <a href="../">Plugins</a>
+                <a href="../">Documentation</a>
+                <a href="../../examples/">Examples</a>
+                <a href="../../support.html">Support</a>
+                <a href="https://sourceforge.net/projects/web-harvest/">SourceForge</a>
+            </div>
+            <div class="footer-legal">
+                <p>Copyright © 2006-2025 WebHarvest Contributors. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+    <script src="../../js/prism.js"></script>
+</body>
+</html>

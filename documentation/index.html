@@ -1,0 +1,253 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>WebHarvest Documentation</title>
+    <link rel="stylesheet" href="../css/enterprise.css" />
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+
+<body>
+
+    <!-- Header -->
+    <header class="site-header">
+        <div class="container header-inner">
+            <a href="../index.html" class="brand"
+                style="text-decoration: none; color: inherit; display: flex; align-items: center; gap: var(--spacing-3);">
+                <picture>
+                    <source type="image/webp" srcset="../images/logo.webp" />
+                    <img src="../images/logo.png" alt="WebHarvest" class="logo" width="56" height="56" loading="eager" />
+                </picture>
+                <span class="project-name">WebHarvest</span>
+            </a>
+            <nav class="main-nav">
+                <a href="../about.html">About</a>
+                <a href="getting-started.html"
+                    style="background: linear-gradient(135deg, var(--lime), #8BC34A); color: white; padding: 0.5rem 1rem; border-radius: var(--radius-md); font-weight: 700;"><i
+                        class="fas fa-rocket"></i> Get Started</a>
+                <a href="../plugins.html">Plugins</a>
+                <a href="../ide.html">IDE</a>
+                <a href="../cli.html">CLI</a>
+                <a href="../examples/">Examples</a>
+                <a href="./" class="active">Docs</a>
+                <a href="../news.html">News</a>
+                <a href="../support.html">Support</a>
+                <a class="cta" href="../index.html#download">Download</a>
+            </nav>
+        </div>
+    </header>
+
+    <!-- Hero -->
+    <section class="hero">
+        <div class="container hero-inner">
+            <div class="hero-content">
+                <h1>WebHarvest<br />Documentation</h1>
+                <p class="lead">Comprehensive guides, API references, and tutorials</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Version Note -->
+    <section class="container" style="margin-top: 3rem;">
+        <div class="feature-card" style="max-width: 800px; margin: 0 auto; background: var(--gray-50);">
+            <h3 style="margin-bottom: 1rem;"><i class="fas fa-info-circle"></i> Documentation Versioning</h3>
+            <p style="color: var(--text-secondary);">
+                All documentation is versioned to match specific WebHarvest releases. The current version is
+                <strong>v2.2.0</strong>.
+                Links to plugin details and API documentation are version-specific to ensure accuracy.
+            </p>
+        </div>
+
+        <div class="feature-card"
+            style="max-width: 800px; margin: 2rem auto 0; background: linear-gradient(135deg, #FFF3CD, #FFF9E6); border-left: 4px solid #FFC107;">
+            <h3 style="margin-bottom: 1rem;"><i class="fas fa-flask" style="color: #F59E0B;"></i> Enhanced Metrics -
+                v2.2.0 Status</h3>
+            <p style="margin-bottom: 0.5rem;"><strong>✅ Production Metrics:</strong> Duration, Elements Processed,
+                Processing Rate, Session History API</p>
+            <p style="margin-bottom: 0.5rem;"><strong>⚠️ Simulated (Demo):</strong> HTTP Metrics and Plugin Breakdown
+                show example values</p>
+            <p style="color: var(--text-secondary); margin-bottom: 0; font-size: 0.875rem;">
+                Real-time HTTP and plugin tracking via EventBus integration coming in <strong>v2.3.0 (Q1 2026)</strong>.
+                UI is production-ready, data collection in progress.
+            </p>
+        </div>
+    </section>
+
+    <!-- Documentation Links -->
+    <section class="container" style="margin-top: 4rem;">
+        <div class="features-grid">
+            <div class="feature-card" style="border-left: 4px solid var(--lime);">
+                <div class="feature-icon" style="background: linear-gradient(135deg, var(--lime), var(--green-600));">
+                    <i class="fas fa-rocket"></i>
+                </div>
+                <h3>Getting Started</h3>
+                <p>Your first web scraper in 5 minutes - step-by-step tutorial for beginners.</p>
+                <div class="feature-tags">
+                    <a href="getting-started.html" class="tag" style="background: var(--lime); color: white;">
+                        <i class="fas fa-play"></i> Start Tutorial
+                    </a>
+                </div>
+            </div>
+
+            <div class="feature-card">
+                <div class="feature-icon">
+                    <i class="fas fa-cog"></i>
+                </div>
+                <h3>Settings & CLI <span class="tag"
+                        style="background: var(--lime); color: white; font-size: 0.75rem;">NEW</span></h3>
+                <p>Unified configuration system for CLI and GUI - modern syntax, auto-discovery, file overrides</p>
+                <div class="feature-tags">
+                    <a href="../cli.html" class="tag"><i class="fas fa-terminal"></i> CLI Guide</a>
+                </div>
+            </div>
+
+            <div class="feature-card">
+                <div class="feature-icon">
+                    <i class="fas fa-bug"></i>
+                </div>
+                <h3>Bug Fixes v2.2.0 <span class="tag"
+                        style="background: var(--lime); color: white; font-size: 0.75rem;">NEW</span></h3>
+                <p>Critical bugs fixed: Binary downloads, memory leaks, JavaScript support, MIME detection</p>
+                <div class="feature-tags">
+                    <a href="bug-fixes-v2.2.0.html" class="tag"><i class="fas fa-check"></i> View Fixes</a>
+                </div>
+            </div>
+
+            <div class="feature-card" style="border-left: 4px solid var(--lime);">
+                <div class="feature-icon" style="background: linear-gradient(135deg, var(--lime), var(--green-600));">
+                    <i class="fas fa-graduation-cap"></i>
+                </div>
+                <h3>Beginner Tutorials <span class="tag"
+                        style="background: var(--lime); color: white; font-size: 0.75rem;">NEW</span></h3>
+                <p>Step-by-step guides for common scenarios: form submit, pagination, CSS selectors, file operations</p>
+                <div class="feature-tags">
+                    <a href="tutorial-form-submit-pagination.html" class="tag"
+                        style="background: var(--lime); color: white;"><i class="fas fa-play"></i> Form & Pagination</a>
+                    <a href="xpath-best-practices.html" class="tag" style="background: var(--lime); color: white;"><i
+                            class="fas fa-code-branch"></i> XPath Best Practices</a>
+                    <a href="css-selectors-guide.html" class="tag"><i class="fas fa-code"></i> CSS Selectors</a>
+                    <a href="file-advanced-patterns.html" class="tag"><i class="fas fa-file"></i> File Patterns</a>
+                    <a href="debugging-guide.html" class="tag" style="background: var(--lime); color: white;"><i
+                            class="fas fa-bug"></i> Debugging</a>
+                    <a href="rate-limiting-guide.html" class="tag" style="background: var(--lime); color: white;"><i
+                            class="fas fa-tachometer-alt"></i> Rate Limiting</a>
+                </div>
+            </div>
+
+            <div class="feature-card">
+                <div class="feature-icon">
+                    <i class="fas fa-book"></i>
+                </div>
+                <h3>Plugin Reference (v2.2.0)</h3>
+                <p>Complete documentation for all 57 plugins (47 core + 10 extensions)</p>
+                <div class="feature-tags">
+                    <a href="2.2.0/" class="tag">View All Plugins</a>
+                </div>
+            </div>
+
+            <div class="feature-card">
+                <div class="feature-icon">
+                    <i class="fas fa-sitemap"></i>
+                </div>
+                <h3>Architecture</h3>
+                <p>System design, module structure, plugin system, session management</p>
+                <div class="feature-tags">
+                    <a href="architecture.html" class="tag">View Architecture</a>
+                </div>
+            </div>
+
+            <div class="feature-card">
+                <div class="feature-icon">
+                    <i class="fas fa-code"></i>
+                </div>
+                <h3>Plugin Development</h3>
+                <p>Create custom plugins with @CorePlugin architecture, automatic discovery, and best practices</p>
+                <div class="feature-tags">
+                    <a href="plugin-development.html" class="tag" style="background: var(--lime); color: white;"><i
+                            class="fas fa-star"></i> Developer Guide</a>
+                </div>
+            </div>
+
+            <div class="feature-card">
+                <div class="feature-icon">
+                    <i class="fas fa-laptop-code"></i>
+                </div>
+                <h3>IDE Guide</h3>
+                <p>Web-based IDE installation, features, usage, troubleshooting.</p>
+                <div class="feature-tags">
+                    <a href="../ide.html" class="tag">IDE Docs</a>
+                </div>
+            </div>
+
+            <div class="feature-card">
+                <div class="feature-icon">
+                    <i class="fas fa-fingerprint"></i>
+                </div>
+                <h3>Session Management (v2.2)</h3>
+                <p>UUID tracking, lifecycle states, metrics, event system, multi-threading.</p>
+                <div class="feature-tags">
+                    <a href="session-management.html" class="tag">View Guide</a>
+                </div>
+            </div>
+
+            <div class="feature-card">
+                <div class="feature-icon">
+                    <i class="fas fa-coins"></i>
+                </div>
+                <h3>Token Tracking (v2.2)</h3>
+                <p>Resource monitoring, quota enforcement, billing integration.</p>
+                <div class="feature-tags">
+                    <a href="token-tracking.html" class="tag">View Guide</a>
+                </div>
+            </div>
+
+            <div class="feature-card">
+                <div class="feature-icon">
+                    <i class="fas fa-graduation-cap"></i>
+                </div>
+                <h3>Examples</h3>
+                <p>Ready-to-use configurations organized by category.</p>
+                <div class="feature-tags">
+                    <a href="../examples/" class="tag">Browse Examples</a>
+                </div>
+            </div>
+
+            <div class="feature-card">
+                <div class="feature-icon">
+                    <i class="fas fa-code"></i>
+                </div>
+                <h3>API Reference</h3>
+                <p>Core APIs: Session Management, Token Tracking, Client Context, and Service APIs.</p>
+                <div class="feature-tags">
+                    <a href="session-management.html" class="tag">Session API</a>
+                    <a href="session-history.html" class="tag">Session History</a>
+                    <a href="pause-resume.html" class="tag">Pause/Resume</a>
+                    <a href="token-tracking.html" class="tag">Token API</a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="site-footer">
+        <div class="container footer-content">
+            <div class="footer-links">
+                <a href="../about.html">About</a>
+                <a href="../plugins.html">Plugins</a>
+                <a href="./">Documentation</a>
+                <a href="../examples/">Examples</a>
+                <a href="../support.html">Support</a>
+                <a href="https://sourceforge.net/projects/web-harvest/">SourceForge</a>
+            </div>
+            <div class="footer-legal">
+                <p>Copyright © 2006-2025 WebHarvest Contributors. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+</body>
+
+</html>

@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<config xmlns="http://org.webharvest/schema/2.1/core" charset="UTF-8">
+    <!-- Advanced Search Example - demonstrates web scraping and data extraction -->
+    
+    <!-- Define search parameters -->
+    <def var="search_query">Web-Harvest scraping</def>
+    <def var="target_url">https://httpbin.org/html</def>
+    
+    <!-- Perform web scraping -->
+    <http url="${target_url}" method="GET">
+        <http-header name="User-Agent" value="Web-Harvest Bot 2.2.0"/>
+    </http>
+    
+    <!-- Extract and process data -->
+    <def var="page_title">
+        <xpath expression="//title/text()">
+            <html-to-xml>
+                <get var="target_url"/>
+            </html-to-xml>
+        </xpath>
+    </def>
+    
+    <!-- Note: Use //title/text() to extract TEXT content, not the element -->
+    
+    <!-- Generate search results -->
+    <file action="write" path="advanced_search_results.xml" charset="UTF-8">
+        <template>
+            <search_results>
+                <query>${search_query}</query>
+                <timestamp>${sys.datetime()}</timestamp>
+                <page_title>${page_title}</page_title>
+                <page_content>
+                    <script>pageContent</script>
+                </page_content>
+                <extraction_method>html-to-xml with advanced options</extraction_method>
+                <features>
+                    <feature>Advanced XML escaping</feature>
+                    <feature>Special entities handling</feature>
+                    <feature>Unicode character support</feature>
+                    <feature>Multi-word attributes</feature>
+                    <feature>Unknown tags handling</feature>
+                </features>
+            </search_results>
+        </template>
+    </file>
+    
+    <!-- Display results -->
+    <text>Search completed for: </text>
+    <get var="search_query"/>
+    <text>
+Results saved to: advanced_search_results.xml</text>
+</config>
+
+
+
+
+
+
+
+
+
+
+
+

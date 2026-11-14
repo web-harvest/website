@@ -1,0 +1,106 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+    Web-Harvest Database Module - Named Connections Example
+
+    This example demonstrates named database connections with connection pooling.
+    Replace every YOUR_* placeholder and example_* database name before running.
+    Values below are non-working documentation placeholders only.
+-->
+<config xmlns="http://org.webharvest/schema/2.1/core"
+        xmlns:db="http://org.webharvest/schema/2.1/database">
+
+    <!-- ============================================ -->
+    <!-- PART 1: Define Named Connections             -->
+    <!-- ============================================ -->
+
+    <!-- Example primary database (local loopback only) -->
+    <db:connection id="mainDB"
+                   driver="org.postgresql.Driver"
+                   url="jdbc:postgresql://127.0.0.1:5432/example_main"
+                   username="YOUR_MAIN_DB_USERNAME"
+                   password="YOUR_MAIN_DB_PASSWORD"
+                   poolSize="5"/>
+
+    <!-- Example analytics database (local loopback only) -->
+    <db:connection id="analyticsDB"
+                   driver="com.mysql.jdbc.Driver"
+                   url="jdbc:mysql://127.0.0.1:3306/example_analytics"
+                   username="YOUR_ANALYTICS_DB_USERNAME"
+                   password="YOUR_ANALYTICS_DB_PASSWORD"
+                   poolSize="5"/>
+
+    <!-- In-memory scratch database (safe local demo defaults) -->
+    <db:connection id="scratchDB"
+                   driver="org.h2.Driver"
+                   url="jdbc:h2:mem:example_scratch"
+                   username="sa"
+                   password=""
+                   poolSize="5"/>
+
+
+    <!-- ============================================ -->
+    <!-- PART 2: Use Named Connections                -->
+    <!-- ============================================ -->
+
+    <!-- Query from main database -->
+    <def var="users">
+        <db:database connection="mainDB"
+                     sql="SELECT id, name, email FROM users WHERE active = true"/>
+    </def>
+
+    <!-- Insert into analytics -->
+    <db:database connection="analyticsDB"
+                 sql="INSERT INTO daily_stats (date, user_count, value)
+                      VALUES (CURRENT_DATE, 1000, 5000)"/>
+
+    <!-- Use scratch database for temporary calculations -->
+    <db:database connection="scratchDB"
+                 sql="CREATE TABLE temp_data (id INT, value VARCHAR(100))"/>
+
+    <db:database connection="scratchDB">
+        INSERT INTO temp_data (id, value)
+        VALUES (1, 'test'), (2, 'data'), (3, 'example')
+    </db:database>
+
+    <def var="temp_results">
+        <db:database connection="scratchDB"
+                     sql="SELECT * FROM temp_data ORDER BY id"/>
+    </def>
+
+    <!-- ============================================ -->
+    <!-- PART 3: Backward Compatibility              -->
+    <!-- ============================================ -->
+
+    <!-- Old style - inline connection (still works!) -->
+    <def var="simple_query">
+        <db:database driver="org.h2.Driver"
+                     url="jdbc:h2:mem:example_legacy"
+                     username="sa"
+                     password=""
+                     sql="SELECT 1 AS result"/>
+    </def>
+
+
+    <!-- ============================================ -->
+    <!-- PART 4: Complex Example with Variables      -->
+    <!-- ============================================ -->
+
+    <!-- Loop through users and query details from different databases -->
+    <loop items="${users}" item="user">
+        <!-- Get user details from main DB -->
+        <def var="user_details">
+            <db:database connection="mainDB"
+                         sql="SELECT * FROM user_profile WHERE user_id = ${user.id}"/>
+        </def>
+
+        <!-- Record analytics -->
+        <db:database connection="analyticsDB"
+                     sql="INSERT INTO user_access_log (user_id, timestamp)
+                          VALUES (${user.id}, NOW())"/>
+    </loop>
+
+    <!-- Output results -->
+    <var-debug name="users"/>
+    <var-debug name="temp_results"/>
+
+</config>

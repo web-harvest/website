@@ -1,0 +1,725 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Session Management API - WebHarvest v2.2</title>
+    <link rel="stylesheet" href="../css/enterprise.css" />
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="../css/prism.css">
+</head>
+
+<body>
+
+    <!-- Header -->
+    <header class="site-header">
+        <div class="container header-inner">
+            <a href="../index.html" class="brand"
+                style="text-decoration: none; color: inherit; display: flex; align-items: center; gap: var(--spacing-3);">
+                <picture>
+                    <source type="image/webp" srcset="../images/logo.webp" />
+                    <img src="../images/logo.png" alt="WebHarvest" class="logo" width="56" height="56" loading="eager" />
+                </picture>
+                <span class="project-name">WebHarvest</span>
+            </a>
+            <nav class="main-nav">
+                <a href="../about.html">About</a>
+                <a href="getting-started.html"
+                    style="background: linear-gradient(135deg, var(--lime), #8BC34A); color: white; padding: 0.5rem 1rem; border-radius: var(--radius-md); font-weight: 700;"><i
+                        class="fas fa-rocket"></i> Get Started</a>
+                <a href="../plugins.html">Plugins</a>
+                <a href="../ide.html">IDE</a>
+                <a href="../cli.html">CLI</a>
+                <a href="../examples/">Examples</a>
+                <a href="./" class="active">Docs</a>
+                <a href="../news.html">News</a>
+                <a href="../support.html">Support</a>
+                <a class="cta" href="../index.html#download">Download</a>
+            </nav>
+        </div>
+    </header>
+
+    <!-- Hero -->
+    <section class="hero">
+        <div class="container hero-inner">
+            <div class="hero-content">
+                <h1>Session Management<br />API (v2.2)</h1>
+                <p class="lead">Production-grade execution tracking and lifecycle management</p>
+                <p class="hero-description">
+                    UUID-based session tracking, thread-safe concurrent execution,
+                    real-time metrics, and event-driven monitoring for enterprise deployments.
+                </p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Overview -->
+    <section class="container" style="margin-top: 4rem;">
+        <div class="section-header">
+            <h2>Overview</h2>
+            <p class="section-subtitle">What is the Session Management API?</p>
+        </div>
+
+        <div class="feature-card" style="max-width: 900px; margin: 0 auto; background: var(--gray-50);">
+            <h3>Key Capabilities</h3>
+            <ul style="margin-left: 2rem; color: var(--text-secondary);">
+                <li><strong>Unique Identification:</strong> Every scraper execution gets a UUID-based session ID</li>
+                <li><strong>Lifecycle Tracking:</strong> PENDING → RUNNING → COMPLETED/FAILED/CANCELLED states</li>
+                <li><strong>Real-Time Metrics:</strong> Duration, element count, processing rate tracked automatically
+                </li>
+                <li><strong>Thread-Safe:</strong> Concurrent session registry with atomic operations</li>
+                <li><strong>Multi-Tenant Support:</strong> Client contexts for filtering and quota management</li>
+                <li><strong>Event-Driven:</strong> Session lifecycle events broadcast via Guava EventBus</li>
+                <li><strong>Blocking Wait:</strong> Synchronous execution with timeout support</li>
+            </ul>
+        </div>
+    </section>
+
+    <!-- Session Lifecycle -->
+    <section class="container" style="margin-top: 6rem;">
+        <div class="section-header">
+            <h2>Session Lifecycle</h2>
+            <p class="section-subtitle">State transitions and event flow</p>
+        </div>
+
+        <div class="diagram-container">
+            <h3 style="text-align: center; margin-bottom: 2rem; color: var(--text-primary);">Session Lifecycle Diagram
+            </h3>
+
+            <div class="diagram-box accent">
+                <i class="fas fa-play-circle"></i>
+                WebHarvestService.executeAsync()
+                <small>config + clientContext → Future&lt;Session&gt;</small>
+            </div>
+
+            <div class="diagram-arrow"><i class="fas fa-arrow-down"></i></div>
+
+            <div class="diagram-box">
+                <i class="fas fa-clock"></i>
+                PENDING
+                <small>UUID: a3f2... • Event: SessionCreatedEvent</small>
+            </div>
+            <div class="diagram-label">SessionMetrics initialized • TokenTracker initialized</div>
+
+            <div class="diagram-arrow"><i class="fas fa-arrow-down"></i></div>
+
+            <div class="diagram-box primary">
+                <i class="fas fa-running"></i>
+                RUNNING
+                <small>Start: 14:32:15 • Event: SessionStartedEvent</small>
+            </div>
+            <div class="diagram-label">Thread assigned • Context created</div>
+
+            <div class="diagram-arrow"><i class="fas fa-arrow-down"></i></div>
+
+            <!-- Execution Details -->
+            <div
+                style="background: var(--gray-100); border-radius: var(--radius-lg); padding: 1.5rem; max-width: 500px; margin: 1rem auto;">
+                <h4 style="text-align: center; margin-bottom: 1rem;">
+                    <i class="fas fa-cogs"></i> Plugins Execute
+                </h4>
+                <div style="font-size: 0.875rem; line-height: 1.8;">
+                    → HTTP requests<br>
+                    → XPath queries<br>
+                    → Variables stored<br>
+                    → Metrics incremented<br>
+                    → Events broadcast
+                </div>
+            </div>
+
+            <div class="diagram-arrow"><i class="fas fa-arrow-down"></i></div>
+
+            <!-- End States -->
+            <div class="diagram-row" style="justify-content: center;">
+                <div class="diagram-box success" style="max-width: 200px;">
+                    <i class="fas fa-check-circle"></i>
+                    COMPLETED
+                    <small>Duration: 2.3s</small>
+                </div>
+                <div class="diagram-box error" style="max-width: 200px;">
+                    <i class="fas fa-times-circle"></i>
+                    FAILED
+                    <small>Error: HTTP timeout</small>
+                </div>
+            </div>
+            <div class="diagram-label">Event broadcast • End time recorded • Duration calculated • Token snapshot •
+                Thread returned</div>
+
+            <!-- Cancellation Path -->
+            <div
+                style="margin-top: 3rem; padding: 1.5rem; background: var(--gray-100); border-radius: var(--radius-xl); max-width: 600px; margin-left: auto; margin-right: auto;">
+                <h4 style="margin-bottom: 1rem; color: var(--text-primary);">
+                    <i class="fas fa-ban"></i> Cancellation Path
+                </h4>
+                <div class="diagram-row" style="align-items: center;">
+                    <div class="diagram-box primary" style="max-width: 150px;">RUNNING</div>
+                    <div style="font-weight: 600; color: var(--magenta); font-size: 1.125rem;">cancel()</div>
+                    <div class="diagram-box" style="max-width: 150px; background: var(--gray-500); color: white;">
+                        CANCELLED</div>
+                </div>
+                <div style="margin-top: 1rem; font-size: 0.875rem; color: var(--text-secondary);">
+                    → Thread interrupted<br>
+                    → Current plugin finishes<br>
+                    → Event: SessionCancelledEvent<br>
+                    → Cleanup
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Core Components -->
+    <section class="container" style="margin-top: 6rem;">
+        <div class="section-header">
+            <h2>Core Components</h2>
+            <p class="section-subtitle">API classes and interfaces</p>
+        </div>
+
+        <div class="usage-grid">
+            <div class="usage-card">
+                <h3><i class="fas fa-fingerprint"></i> ScraperSession</h3>
+                <p><strong>Package:</strong> <code>org.webharvest.runtime.session</code></p>
+                <h4>Interface:</h4>
+                <div class="code-window">
+                    <div class="window-header">
+                        <div class="window-controls">
+                            <span class="control red"></span>
+                            <span class="control yellow"></span>
+                            <span class="control green"></span>
+                        </div>
+                        <span class="window-title">SessionUsage.java</span>
+                    </div>
+                    <div class="window-content">
+                        <pre><code class="language-java">public interface ScraperSession {
+    // Identification
+    String getSessionId();
+    String getClientId();
+    
+    // State
+    SessionStatus getStatus();
+    SessionMetrics getMetrics();
+    Config getConfig();
+    DynamicScopeContext getContext();
+    Throwable getError();
+    
+    // Control
+    boolean cancel();
+    
+    // Blocking wait
+    void awaitCompletion() 
+        throws InterruptedException;
+    boolean awaitCompletion(long timeout) 
+        throws InterruptedException;
+}</code></pre>
+                    </div>
+                </div>
+            </div>
+
+            <div class="usage-card">
+                <h3><i class="fas fa-chart-line"></i> SessionMetrics</h3>
+                <p><strong>Package:</strong> <code>org.webharvest.runtime.session</code></p>
+                <h4>Methods:</h4>
+                <div class="code-window">
+                    <div class="window-header">
+                        <div class="window-controls">
+                            <span class="control red"></span>
+                            <span class="control yellow"></span>
+                            <span class="control green"></span>
+                        </div>
+                        <span class="window-title">SessionUsage.java</span>
+                    </div>
+                    <div class="window-content">
+                        <pre><code class="language-java">public class SessionMetrics {
+    // Timing
+    Instant getStartTime();
+    Instant getEndTime();
+    Duration getDuration();
+    
+    // Progress
+    long getProcessedElements();
+    long incrementProcessedElements();
+    
+    // Performance
+    double getProcessingRate(); 
+    // elements/second
+    
+    // Lifecycle
+    void markEnded();
+}</code></pre>
+                    </div>
+                </div>
+            </div>
+
+            <div class="usage-card">
+                <h3><i class="fas fa-list"></i> SessionStatus</h3>
+                <p><strong>Package:</strong> <code>org.webharvest.runtime.session</code></p>
+                <h4>Enum Values:</h4>
+                <div class="code-window">
+                    <div class="window-header">
+                        <div class="window-controls">
+                            <span class="control red"></span>
+                            <span class="control yellow"></span>
+                            <span class="control green"></span>
+                        </div>
+                        <span class="window-title">SessionUsage.java</span>
+                    </div>
+                    <div class="window-content">
+                        <pre><code class="language-java">public enum SessionStatus {
+    PENDING,      // Created but not started
+    RUNNING,      // Currently executing
+    COMPLETED,    // Finished successfully
+    FAILED,       // Error occurred
+    CANCELLED;    // User cancelled
+    
+    // Helper methods
+    boolean isTerminal();
+    boolean isSuccessful();
+    boolean isActive();
+}</code></pre>
+                    </div>
+                </div>
+            </div>
+
+            <div class="usage-card">
+                <h3><i class="fas fa-database"></i> SessionRegistry</h3>
+                <p><strong>Package:</strong> <code>org.webharvest.runtime.session</code></p>
+                <h4>Interface:</h4>
+                <div class="code-window">
+                    <div class="window-header">
+                        <div class="window-controls">
+                            <span class="control red"></span>
+                            <span class="control yellow"></span>
+                            <span class="control green"></span>
+                        </div>
+                        <span class="window-title">SessionUsage.java</span>
+                    </div>
+                    <div class="window-content">
+                        <pre><code class="language-java">public interface SessionRegistry {
+    // Registration
+    void register(ScraperSession session);
+    boolean unregister(String sessionId);
+    void clear();
+    
+    // Lookup
+    Optional<ScraperSession> getSession(
+        String sessionId);
+    List<ScraperSession> getSessionsByClientId(
+        String clientId);
+    List<ScraperSession> getAllSessions();
+    
+    // Utility
+    int size();
+    boolean isEmpty();
+}</code></pre>
+                    </div>
+                </div>
+            </div>
+
+            <div class="usage-card">
+                <h3><i class="fas fa-user"></i> ClientContext</h3>
+                <p><strong>Package:</strong> <code>org.webharvest.runtime.client</code></p>
+                <h4>Builder Pattern:</h4>
+                <div class="code-window">
+                    <div class="window-header">
+                        <div class="window-controls">
+                            <span class="control red"></span>
+                            <span class="control yellow"></span>
+                            <span class="control green"></span>
+                        </div>
+                        <span class="window-title">SessionExample.java</span>
+                    </div>
+                    <div class="window-content">
+                        <pre><code class="language-java">ClientContext context = 
+    ClientContext.builder()
+        .clientId("client-123")
+        .metadata("project", "ecommerce")
+        .metadata("tier", "premium")
+        .metadata("userId", "user-456")
+        .build();
+
+// Immutable after creation
+String clientId = context.getClientId();
+Object tier = context.getMetadata("tier");</code></pre>
+                    </div>
+                </div>
+            </div>
+
+            <div class="usage-card">
+                <h3><i class="fas fa-cogs"></i> WebHarvestService</h3>
+                <p><strong>Package:</strong> <code>org.webharvest.runtime.service</code></p>
+                <h4>High-Level API:</h4>
+                <div class="code-window">
+                    <div class="window-header">
+                        <div class="window-controls">
+                            <span class="control red"></span>
+                            <span class="control yellow"></span>
+                            <span class="control green"></span>
+                        </div>
+                        <span class="window-title">SessionUsage.java</span>
+                    </div>
+                    <div class="window-content">
+                        <pre><code class="language-java">public interface WebHarvestService {
+    // Async execution
+    Future<ScraperSession> executeAsync(
+        Config config,
+        ClientContext clientContext,
+        SessionOptions options);
+    
+    // Session lookup
+    Optional<ScraperSession> getSession(
+        String sessionId);
+    List<ScraperSession> getSessionsByClient(
+        String clientId);
+}</code></pre>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Usage Examples -->
+    <section class="container" style="margin-top: 6rem;">
+        <div class="section-header">
+            <h2>Usage Examples</h2>
+            <p class="section-subtitle">Common patterns and best practices</p>
+        </div>
+
+        <div class="installation-steps">
+            <div class="install-step">
+                <div class="step-number">1</div>
+                <div class="step-content">
+                    <h3>Basic Async Execution</h3>
+                    <div class="code-window">
+                        <div class="window-header">
+                            <div class="window-controls">
+                                <span class="control red"></span>
+                                <span class="control yellow"></span>
+                                <span class="control green"></span>
+                            </div>
+                            <span class="window-title">SessionUsage.java</span>
+                        </div>
+                        <div class="window-content">
+                            <pre><code class="language-java">// Load configuration
+Config config = Config.fromFile("scraper.xml");
+
+// Create client context
+ClientContext client = ClientContext.of("client-123");
+
+// Execute async
+WebHarvestService service = new WebHarvestServiceImpl();
+Future<ScraperSession> future = service.executeAsync(
+    config, client, SessionOptions.DEFAULT);
+
+// Get session immediately
+ScraperSession session = future.get(100, TimeUnit.MILLISECONDS);
+System.out.println("Session ID: " + session.getSessionId());
+System.out.println("Status: " + session.getStatus()); // PENDING or RUNNING
+
+// Wait for completion (blocking)
+session.awaitCompletion();
+System.out.println("Final status: " + session.getStatus()); // COMPLETED/FAILED</code></pre>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="install-step">
+                <div class="step-number">2</div>
+                <div class="step-content">
+                    <h3>With Client Metadata & Monitoring</h3>
+                    <div class="code-window">
+                        <div class="window-header">
+                            <div class="window-controls">
+                                <span class="control red"></span>
+                                <span class="control yellow"></span>
+                                <span class="control green"></span>
+                            </div>
+                            <span class="window-title">SessionExample.java</span>
+                        </div>
+                        <div class="window-content">
+                            <pre><code class="language-java">// Rich client context
+ClientContext client = ClientContext.builder()
+    .clientId("datacorp-prod")
+    .metadata("project", "product-catalog")
+    .metadata("tier", "enterprise")
+    .metadata("userId", "alice@datacorp.com")
+    .metadata("environment", "production")
+    .build();
+
+// Session options
+SessionOptions options = SessionOptions.builder()
+    .enableTokenTracking(true)
+    .maxDuration(Duration.ofMinutes(30))
+    .build();
+
+// Execute
+Future<ScraperSession> future = service.executeAsync(config, client, options);
+ScraperSession session = future.get();
+
+// Monitor progress
+while (!session.getStatus().isTerminal()) {
+    SessionMetrics metrics = session.getMetrics();
+    System.out.printf("Processed: %d elements (%.2f/sec)%n",
+        metrics.getProcessedElements(),
+        metrics.getProcessingRate());
+    Thread.sleep(1000);
+}
+
+// Get final results
+if (session.getStatus() == SessionStatus.COMPLETED) {
+    DynamicScopeContext context = session.getContext();
+    Variable result = context.getVar("result");
+    System.out.println("Result: " + result);
+}</code></pre>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="install-step">
+                <div class="step-number">3</div>
+                <div class="step-content">
+                    <h3>Multi-Tenant with Session Registry</h3>
+                    <div class="code-window">
+                        <div class="window-header">
+                            <div class="window-controls">
+                                <span class="control red"></span>
+                                <span class="control yellow"></span>
+                                <span class="control green"></span>
+                            </div>
+                            <span class="window-title">SessionUsage.java</span>
+                        </div>
+                        <div class="window-content">
+                            <pre><code class="language-java">// Inject registry
+@Inject
+private SessionRegistry registry;
+
+// Execute multiple sessions for different clients
+List<Future<ScraperSession>> futures = new ArrayList<>();
+
+for (String clientId : clients) {
+    ClientContext context = ClientContext.of(clientId);
+    Future<ScraperSession> future = service.executeAsync(config, context);
+    futures.add(future);
+}
+
+// Wait for all to complete
+for (Future<ScraperSession> future : futures) {
+    future.get(); // Blocks until done
+}
+
+// Query sessions by client
+List<ScraperSession> clientSessions = 
+    registry.getSessionsByClientId("client-123");
+
+System.out.printf("Client 'client-123' ran %d sessions%n", 
+    clientSessions.size());
+
+// Calculate total usage per client
+long totalRequests = clientSessions.stream()
+    .map(ScraperSession::getTokenTracker)
+    .filter(Objects::nonNull)
+    .mapToLong(tracker -> tracker.getUsage().getHttpRequests())
+    .sum();
+
+System.out.printf("Total HTTP requests: %d%n", totalRequests);</code></pre>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="install-step">
+                <div class="step-number">4</div>
+                <div class="step-content">
+                    <h3>Event Listeners for Real-Time Updates</h3>
+                    <div class="code-window">
+                        <div class="window-header">
+                            <div class="window-controls">
+                                <span class="control red"></span>
+                                <span class="control yellow"></span>
+                                <span class="control green"></span>
+                            </div>
+                            <span class="window-title">SessionMonitor.java</span>
+                        </div>
+                        <div class="window-content">
+                            <pre><code class="language-java">// Create event listener
+public class SessionMonitor {
+    
+    @Subscribe
+    public void onSessionStarted(SessionStartedEvent event) {
+        System.out.printf("Session %s started for client %s%n",
+            event.getSessionId(), event.getClientId());
+        
+        // Send notification, update UI, start timer, etc.
+    }
+    
+    @Subscribe
+    public void onSessionCompleted(SessionCompletedEvent event) {
+        SessionMetrics metrics = event.getMetrics();
+        System.out.printf("Session %s completed in %s%n",
+            event.getSessionId(), metrics.getDuration());
+        System.out.printf("Processed %d elements at %.2f/sec%n",
+            metrics.getProcessedElements(),
+            metrics.getProcessingRate());
+        
+        // Log to database, send email, trigger webhook, etc.
+    }
+    
+    @Subscribe
+    public void onSessionFailed(SessionFailedEvent event) {
+        System.err.printf("Session %s failed: %s%n",
+            event.getSessionId(), event.getError().getMessage());
+        
+        // Alert ops team, retry logic, rollback, etc.
+    }
+}
+
+// Register listener
+EventBus eventBus = InjectorHelper.getInjector()
+    .getInstance(EventBus.class);
+eventBus.register(new SessionMonitor());</code></pre>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="install-step">
+                <div class="step-number">5</div>
+                <div class="step-content">
+                    <h3>Session Cancellation</h3>
+                    <div class="code-window">
+                        <div class="window-header">
+                            <div class="window-controls">
+                                <span class="control red"></span>
+                                <span class="control yellow"></span>
+                                <span class="control green"></span>
+                            </div>
+                            <span class="window-title">SessionUsage.java</span>
+                        </div>
+                        <div class="window-content">
+                            <pre><code class="language-java">// Start long-running session
+Future<ScraperSession> future = service.executeAsync(config, client);
+ScraperSession session = future.get();
+
+// User clicks "Cancel" button
+session.cancel();
+
+// Check status
+Thread.sleep(1000); // Give it time to stop
+System.out.println(session.getStatus()); // CANCELLED
+
+// Or with timeout
+if (!session.awaitCompletion(5000)) {
+    // Still running after 5 seconds
+    session.cancel();
+    System.out.println("Session cancelled due to timeout");
+}</code></pre>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="install-step">
+                <div class="step-number">6</div>
+                <div class="step-content">
+                    <h3>IDE Integration Example</h3>
+                    <div class="code-window">
+                        <div class="window-header">
+                            <div class="window-controls">
+                                <span class="control red"></span>
+                                <span class="control yellow"></span>
+                                <span class="control green"></span>
+                            </div>
+                            <span class="window-title">SessionExample.java</span>
+                        </div>
+                        <div class="window-content">
+                            <pre><code class="language-java">// IDE ExecutionManager
+public class ExecutionManager {
+    private final WebHarvestService service;
+    private final SessionRegistry registry;
+    private final WebSocketHandler websocket;
+    
+    public String executeConfiguration(String xmlConfig, String tabId) {
+        // Parse config
+        Config config = Config.fromString(xmlConfig);
+        
+        // Create client context (IDE tab)
+        ClientContext client = ClientContext.builder()
+            .clientId("ide-user")
+            .metadata("tabId", tabId)
+            .metadata("source", "web-ide")
+            .build();
+        
+        // Execute async
+        Future<ScraperSession> future = service.executeAsync(config, client);
+        ScraperSession session = future.get();
+        
+        // Stream updates via WebSocket
+        new Thread(() -> {
+            while (!session.getStatus().isTerminal()) {
+                SessionMetrics metrics = session.getMetrics();
+                websocket.send(tabId, Json.toJson(metrics));
+                Thread.sleep(500);
+            }
+        }).start();
+        
+        return session.getSessionId();
+    }
+}</code></pre>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- API Reference -->
+    <section class="container" style="margin-top: 6rem; margin-bottom: 6rem;">
+        <div class="section-header">
+            <h2>Complete API Reference</h2>
+            <p class="section-subtitle">Full JavaDoc for all session management classes</p>
+        </div>
+
+        <div class="download-card">
+            <h3>Available Documentation</h3>
+            <p>For complete API documentation including all methods, parameters, and return types, refer to the JavaDoc
+                included in the distribution package:</p>
+            <ul style="margin-top: 1rem;">
+                <li><code>org.webharvest.runtime.session</code> - Session Management API</li>
+                <li><code>org.webharvest.runtime.tracking</code> - Token Tracking API</li>
+                <li><code>org.webharvest.runtime.client</code> - Client Context API</li>
+                <li><code>org.webharvest.runtime.service</code> - WebHarvest Service API</li>
+            </ul>
+            <p style="margin-top: 1.5rem;"><em>JavaDoc is available in the <code>docs/api/</code> directory of the
+                    distribution ZIP.</em></p>
+            <div class="download-buttons" style="margin-top: 2rem;">
+                <a class="btn btn-secondary btn-large" href="token-tracking.html">
+                    <i class="fas fa-coins"></i>
+                    Token Tracking Docs
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="site-footer">
+        <div class="container footer-content">
+            <div class="footer-links">
+                <a href="../about.html">About</a>
+                <a href="./../documentation/2.2.0/">Plugins</a>
+                <a href="./../documentation/">Documentation</a>
+                <a href="../examples/">Examples</a>
+                <a href="../support.html">Support</a>
+                <a href="https://sourceforge.net/projects/web-harvest/">SourceForge</a>
+            </div>
+            <div class="footer-legal">
+                <p>Copyright © 2006-2025 WebHarvest Contributors. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script src="../js/prism.js"></script>
+</body>
+
+</html>

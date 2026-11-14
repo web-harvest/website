@@ -1,0 +1,367 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pause/Resume Execution - WebHarvest IDE v2.2.0</title>
+    <link rel="stylesheet" href="../css/enterprise.css">
+    <link rel="stylesheet" href="../css/prism.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        /* Override enterprise.css background for code blocks */
+        .window-content pre[class*="language-"] {
+            background: #272822 !important;
+        }
+
+        /* Add spacing between code windows */
+        .code-window {
+            margin: var(--spacing-6) 0;
+        }
+
+        /* Add spacing between sections */
+        h3 {
+            margin-top: var(--spacing-8);
+        }
+    </style>
+</head>
+
+<body>
+    <header class="site-header">
+        <div class="container header-inner">
+            <a href="../index.html" class="brand"
+                style="text-decoration: none; color: inherit; display: flex; align-items: center; gap: var(--spacing-3);">
+                <picture>
+                    <source type="image/webp" srcset="../images/logo.webp" />
+                    <img src="../images/logo.png" alt="WebHarvest" class="logo" width="56" height="56" loading="eager" />
+                </picture>
+                <span class="project-name">WebHarvest</span>
+            </a>
+            <nav class="main-nav">
+                <a href="../about.html">About</a>
+                <a href="getting-started.html"
+                    style="background: linear-gradient(135deg, var(--lime), #8BC34A); color: white; padding: 0.5rem 1rem; border-radius: var(--radius-md); font-weight: 700;"><i
+                        class="fas fa-rocket"></i> Get Started</a>
+                <a href="../plugins.html">Plugins</a>
+                <a href="../ide.html">IDE</a>
+                <a href="../cli.html">CLI</a>
+                <a href="../examples/">Examples</a>
+                <a href="./" class="active">Docs</a>
+                <a href="../news.html">News</a>
+                <a href="../support.html">Support</a>
+                <a class="cta" href="../index.html#download">Download</a>
+            </nav>
+        </div>
+    </header>
+
+    <!-- Hero -->
+    <section class="hero">
+        <div class="container hero-inner">
+            <div class="hero-content">
+                <h1>Pause/Resume<br />Execution</h1>
+                <p class="lead">Interactive execution control for WebHarvest IDE</p>
+                <p class="hero-description">
+                    Temporarily halt scraper execution and continue later from the same point.
+                    Perfect for debugging, resource management, and interactive development workflows.
+                </p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Overview -->
+    <section class="container" style="margin-top: 6rem;">
+        <div class="section-header">
+            <h2>Key Features</h2>
+        </div>
+
+        <div class="features-grid" style="margin-top: var(--spacing-8);">
+            <div class="feature-card">
+                <i class="fas fa-pause"></i>
+                <h3>Pause</h3>
+                <p>Halt execution at any time, state preserved</p>
+            </div>
+            <div class="feature-card">
+                <i class="fas fa-play"></i>
+                <h3>Resume</h3>
+                <p>Continue from exact point where paused</p>
+            </div>
+            <div class="feature-card">
+                <i class="fas fa-stop"></i>
+                <h3>Stop</h3>
+                <p>Permanently cancel execution</p>
+            </div>
+            <div class="feature-card">
+                <i class="fas fa-code"></i>
+                <h3>API Control</h3>
+                <p>Programmatic access via REST endpoints</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Quick Start -->
+    <section class="container" style="margin-top: 6rem;">
+        <h2>Quick Start</h2>
+
+        <h3>Using UI Buttons</h3>
+        <ol>
+            <li>Run any configuration (click <strong>▶ Run</strong> button)</li>
+            <li>During execution, control buttons appear below progress bar</li>
+            <li>Click <strong>⏸ Pause</strong> to halt execution</li>
+            <li>Inspect variables in Variables panel while paused</li>
+            <li>Click <strong>▶ Resume</strong> to continue</li>
+            <li>Or click <strong>⏹ Stop</strong> to cancel permanently</li>
+        </ol>
+
+        <div class="visual-diagram">
+            <h4>Execution Control Buttons</h4>
+            <div style="background: #f5f5f5; border: 1px solid #ddd; border-radius: 8px; padding: 20px;">
+                <pre style="margin: 0; font-family: monospace; font-size: 14px;">Running State:
+┌──────────────────────────────────┐
+│ Progress: ████████░░░░░ 60%      │
+│ [⏸ Pause]  [⏹ Stop]             │
+└──────────────────────────────────┘
+
+Paused State:
+┌──────────────────────────────────┐
+│ Status: ⏸ Paused                 │
+│ [▶ Resume]  [⏹ Stop]            │
+└──────────────────────────────────┘</pre>
+            </div>
+        </div>
+    </section>
+
+    <!-- API Reference -->
+    <section class="container" style="margin-top: 6rem;">
+        <h2>API Reference</h2>
+
+        <h3>POST /api/execution/{id}/pause</h3>
+        <p>Pauses a running execution.</p>
+
+        <div class="code-window">
+            <div class="window-header">
+                <div class="window-controls">
+                    <span class="control red"></span>
+                    <span class="control yellow"></span>
+                    <span class="control green"></span>
+                </div>
+                <span class="window-title">Request</span>
+            </div>
+            <div class="window-content">
+                <pre><code class="language-bash">POST /api/execution/abc-123-def-456/pause</code></pre>
+            </div>
+        </div>
+
+        <div class="code-window">
+            <div class="window-header">
+                <div class="window-controls">
+                    <span class="control red"></span>
+                    <span class="control yellow"></span>
+                    <span class="control green"></span>
+                </div>
+                <span class="window-title">Response (Success)</span>
+            </div>
+            <div class="window-content">
+                <pre><code class="language-json">{
+  "success": true,
+  "executionId": "abc-123-def-456",
+  "action": "pause",
+  "status": "PAUSED"
+}</code></pre>
+            </div>
+        </div>
+
+        <h3>POST /api/execution/{id}/resume</h3>
+        <p>Resumes a paused execution.</p>
+
+        <div class="code-window">
+            <div class="window-header">
+                <div class="window-controls">
+                    <span class="control red"></span>
+                    <span class="control yellow"></span>
+                    <span class="control green"></span>
+                </div>
+                <span class="window-title">Request</span>
+            </div>
+            <div class="window-content">
+                <pre><code class="language-bash">POST /api/execution/abc-123-def-456/resume</code></pre>
+            </div>
+
+            <h3>POST /api/execution/{id}/stop</h3>
+            <p>Stops execution permanently (cannot resume).</p>
+
+            <div class="code-window">
+                <div class="window-header">
+                    <div class="window-controls">
+                        <span class="control red"></span>
+                        <span class="control yellow"></span>
+                        <span class="control green"></span>
+                    </div>
+                    <span class="window-title">Request</span>
+                </div>
+                <div class="window-content">
+                    <pre><code class="language-bash">POST /api/execution/abc-123-def-456/stop</code></pre>
+                </div>
+    </section>
+
+    <!-- Use Cases -->
+    <section class="container" style="margin-top: 6rem;">
+        <h2>Use Cases</h2>
+
+        <h3>1. Interactive Debugging</h3>
+        <div class="code-window">
+            <div class="window-header">
+                <div class="window-controls">
+                    <span class="control red"></span>
+                    <span class="control yellow"></span>
+                    <span class="control green"></span>
+                </div>
+                <span class="window-title">Workflow</span>
+            </div>
+            <div class="window-content">
+                <pre><code class="language-bash">1. Run scraper
+2. Pause after HTTP request
+3. Inspect HTML in Variables panel
+4. Verify XPath selectors work
+5. Resume to continue
+6. Pause again after next step
+7. Iterate until working perfectly</code></pre>
+            </div>
+
+            <h3>2. Resource Management</h3>
+            <p>Pause expensive scrapers during peak hours:</p>
+            <div class="code-window">
+                <div class="window-header">
+                    <div class="window-controls">
+                        <span class="control red"></span>
+                        <span class="control yellow"></span>
+                        <span class="control green"></span>
+                    </div>
+                    <span class="window-title">JavaScript</span>
+                </div>
+                <div class="window-content">
+                    <pre><code class="language-bash">const hour = new Date().getHours();
+
+if (hour >= 9 && hour <= 17) {  // Business hours
+    await fetch(`/api/execution/${executionId}/pause`, {
+        method: 'POST'
+    });
+    console.log('Paused during peak hours');
+}</code></pre>
+                </div>
+            </div>
+
+            <h3>3. Manual Data Review</h3>
+            <p>Pause to manually verify scraped data before continuing:</p>
+            <div class="code-window">
+                <div class="window-header">
+                    <div class="window-controls">
+                        <span class="control red"></span>
+                        <span class="control yellow"></span>
+                        <span class="control green"></span>
+                    </div>
+                    <span class="window-title">XML Configuration</span>
+                </div>
+                <div class="window-content">
+                    <pre><code class="language-bash">&lt;config&gt;
+  &lt;!-- Scrape first page --&gt;
+  &lt;http url="https://example.com/page1"/&gt;
+  &lt;def var="page1"&gt;${http}&lt;/def&gt;
+  
+  &lt;!-- PAUSE HERE: Check if page1 looks correct --&gt;
+  
+  &lt;!-- Continue with processing --&gt;
+  &lt;xpath expression="//data"&gt;
+    &lt;html-to-xml&gt;${page1}&lt;/html-to-xml&gt;
+  &lt;/xpath&gt;
+&lt;/config&gt;</code></pre>
+                </div>
+    </section>
+
+    <!-- Technical Details -->
+    <section class="container" style="margin-top: 6rem;">
+        <h2>Technical Implementation</h2>
+
+        <h3>How It Works</h3>
+        <p><strong>Pause mechanism:</strong></p>
+        <ul>
+            <li>Sets <code>paused</code> flag in ExecutionJob</li>
+            <li>Execution thread checks flag between plugins</li>
+            <li>Thread blocks on <code>pauseLock</code> monitor</li>
+            <li>WebSocket sends PAUSED status to frontend</li>
+        </ul>
+
+        <p><strong>Resume mechanism:</strong></p>
+        <ul>
+            <li>Clears <code>paused</code> flag</li>
+            <li>Notifies <code>pauseLock</code> monitor</li>
+            <li>Execution thread wakes up and continues</li>
+            <li>WebSocket sends RUNNING status</li>
+        </ul>
+
+        <p><strong>Stop mechanism:</strong></p>
+        <ul>
+            <li>Sets <code>stopped</code> flag</li>
+            <li>Interrupts execution thread</li>
+            <li>Session marked as CANCELLED</li>
+            <li>Resources cleaned up immediately</li>
+        </ul>
+    </section>
+
+    <!-- Limitations -->
+    <section class="container" style="margin-top: 6rem;">
+        <h2>Current Limitations (v2.2.0)</h2>
+
+        <div class="info-box"
+            style="background: linear-gradient(135deg, #FFF3CD, #FFF9E6); border-left: 4px solid #FFC107; padding: 1.5rem; border-radius: 8px;">
+            <h4><i class="fas fa-exclamation-triangle" style="color: #F59E0B;"></i> Basic Implementation</h4>
+            <ul>
+                <li><strong>Pause granularity:</strong> Between plugins only (not during plugin execution)</li>
+                <li><strong>Sleep plugin:</strong> Completes before pause takes effect</li>
+                <li><strong>HTTP requests:</strong> Current request completes before pause</li>
+                <li><strong>No persistence:</strong> Paused state lost on server restart</li>
+            </ul>
+            <p style="margin-bottom: 0; margin-top: 1rem;">
+                <strong>Advanced pause/resume with checkpoints coming in v2.3.0</strong>
+            </p>
+        </div>
+    </section>
+
+    <!-- Related Documentation -->
+    <section class="content-section" style="margin-bottom: 6rem;">
+        <h2>Related Documentation</h2>
+        <div class="link-grid">
+            <a href="session-management.html" class="doc-link">
+                <i class="fas fa-project-diagram"></i>
+                <span>Session Management</span>
+            </a>
+            <a href="session-history.html" class="doc-link">
+                <i class="fas fa-history"></i>
+                <span>Session History</span>
+            </a>
+            <a href="../ide.html" class="doc-link">
+                <i class="fas fa-laptop-code"></i>
+                <span>IDE Guide</span>
+            </a>
+        </div>
+    </section>
+    </section>
+
+    <footer class="site-footer">
+        <div class="container footer-content">
+            <div class="footer-links">
+                <a href="../about.html">About</a>
+                <a href="./../documentation/2.2.0/">Plugins</a>
+                <a href="./../documentation/">Documentation</a>
+                <a href="../examples/">Examples</a>
+                <a href="../support.html">Support</a>
+                <a href="https://sourceforge.net/projects/web-harvest/">SourceForge</a>
+            </div>
+            <div class="footer-legal">
+                <p>Copyright © 2006-2025 WebHarvest Contributors. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+    <script src="../js/prism.js"></script>
+</body>
+
+</html>

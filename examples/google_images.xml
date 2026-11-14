@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+	Expects following initial variable: 
+		search - search expression
+-->
+<config xmlns="http://org.webharvest/schema/2.1/core" charset="UTF-8">
+    <include path="functions.xml"/>
+    <!-- defines search keyword and start URL -->
+    <def var="search" overwrite="false">platon</def>
+    <def var="url">
+        <xpath expression="//noscript//a/@href[1]">
+            <html-to-xml advancedxmlescape="true" specialentities="true">
+                <http url="http://images.google.com/images?q=${search}&amp;hl=en&amp;btnG=Search+Images"/>
+            </html-to-xml>
+        </xpath>
+    </def>
+    <!-- collects all image URLs -->
+    <def var="imgLinks">
+        <call name="download-multipage-list">
+            <call-param name="pageUrl">
+                <get var="url"/>
+            </call-param>
+            <call-param name="nextXPath">//td[.='Next']/a/@href</call-param>
+            <call-param name="itemXPath">//img[contains(@src, 'images?q=tbn')]/@src</call-param>
+            <call-param name="maxloops">5</call-param>
+        </call>
+    </def>
+    <!-- download images and saves them to the files -->
+    <loop item="link" index="i" filter="unique">
+        <list>
+            <get var="imgLinks"/>
+        </list>
+        <body>
+            <file action="write" type="binary" path="google_images/${search}_${i}.gif">
+                <http url="${sys.fullUrl(url, link)}"/>
+            </file>
+        </body>
+    </loop>
+</config>

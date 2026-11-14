@@ -1,0 +1,118 @@
+WebHarvest
+Copyright 2006-2025 the original author or authors.
+
+================================================================================
+
+ORIGINAL WORK
+
+This product includes software originally developed by Vladimir Nikic (2006-2013).
+The original WebHarvest project was created in 2006 and actively maintained through 2013.
+
+================================================================================
+
+SUBSTANTIAL MODIFICATIONS
+
+This product has been substantially modified and enhanced by subsequent contributors:
+
+- Vladimir Nikic - Original Author (2006-2013)
+  Designed original processor-based architecture, XML configuration system, and Swing-based IDE
+
+- Robert Bala - Project Admin & Lead Developer (2012-2025)
+  https://www.linkedin.com/in/rbala
+  Designed modern plugin architecture (2012+), event-driven system, and cloud-ready infrastructure
+  Led comprehensive modernization (2024-2025)
+
+- Alexander Wajda - Developer (2010-2012)
+- Piotr Dyraga - Developer (2012-2013)
+- Maciej Czapiewski - Developer (2012-2013)
+- and other contributors
+
+Modern plugin architecture and infrastructure (2012+):
+- Auto-discovered plugin system with @CorePlugin annotations
+- Event-driven architecture for distributed and cloud environments
+- Dependency injection with Google Guice
+- Modern session management and token tracking
+
+Major refactoring and modernization work (2024-2025):
+- Migration to modern Java (Java 11+)
+- Complete codebase refactoring
+- Web-based IDE implementation (replaced Swing GUI)
+- Modern HTTP client (Apache HttpClient 5, replaced Commons HttpClient 3.x)
+- Comprehensive test coverage (2600+ tests)
+- WebSocket support for real-time execution
+- Database connection pooling
+- Enhanced error handling and logging
+- And numerous other improvements
+
+================================================================================
+
+THIRD-PARTY COMPONENTS — JAVA APPLICATION
+
+The following notices are inherited from the WebHarvest Java application
+distribution. They describe application dependencies and are not a statement
+that these Java components are bundled or shipped by this website-only
+repository.
+
+Apache HttpComponents (Apache License 2.0)
+- httpclient5
+- See licences/apache_licence.txt
+
+BeanShell (Sun Public License / LGPL)
+- See licences/beanshell_licence.txt
+
+Groovy (Apache License 2.0)
+- See licences/groovy_licence.txt
+
+Mozilla Rhino (MPL 2.0)
+- See licences/rhino_licence.txt
+
+Saxon XSLT Processor (Mozilla Public License)
+- See licences/saxon_licence.txt
+
+ASM (BSD License)
+- See licences/asm_licence.txt
+
+And other components as documented in the Java application dependencies.
+
+================================================================================
+
+WEBSITE BRAND ASSETS
+
+The WebHarvest logo and hero artwork used in this website repository are
+project-owned original materials, as confirmed by the project owner, and are
+made available as part of the WebHarvest website source.
+
+================================================================================
+
+THIRD-PARTY COMPONENTS — WEBSITE
+
+Prism.js
+- Vendored JavaScript syntax highlighter in js/prism.js.
+- MIT License, Copyright (c) 2012 Lea Verou.
+- Full license text: licences/website_third_party_licences.txt
+- Upstream: https://github.com/PrismJS/prism
+
+Font Awesome Free 6.4.0
+- Loaded by website pages from cdnjs.cloudflare.com; Font Awesome files are
+  not vendored in this repository.
+- Font Awesome Free uses CC BY 4.0 for icons, SIL OFL 1.1 for web/desktop fonts,
+  and MIT for code, according to the upstream license.
+- Attribution and license terms: https://fontawesome.com/license/free
+- Upstream: https://github.com/FortAwesome/Font-Awesome
+
+Inter
+- Loaded by website pages through Google Fonts; font binaries are not vendored
+  in this repository.
+- The Inter typeface is licensed under SIL Open Font License 1.1.
+- Copyright (c) 2016 The Inter Project Authors.
+- License text: licences/website_third_party_licences.txt
+- Upstream: https://github.com/rsms/inter
+- Google Fonts distribution: https://fonts.google.com/specimen/Inter
+
+================================================================================
+
+LICENSE
+
+This software is licensed under the BSD License.
+See licences/webharvest_licence.txt for the full license text.
+

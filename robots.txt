@@ -1,0 +1,30 @@
+User-agent: *
+Allow: /
+
+# Main pages
+Allow: /index.html
+Allow: /about.html
+Allow: /plugins.html
+Allow: /ide.html
+Allow: /support.html
+Allow: /news.html
+
+# Documentation
+Allow: /documentation/
+Allow: /documentation/2.2.0/
+Allow: /documentation/2.2.0/external/
+
+# Examples
+Allow: /examples/
+
+# Resources
+Allow: /css/
+Allow: /js/
+Allow: /images/
+
+# Disallow temporary or development files
+Disallow: /target/
+Disallow: /*.tmp
+Disallow: /*.log
+
+# No sitemap is advertised until a production hostname is explicitly selected.

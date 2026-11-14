@@ -1,0 +1,231 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<config xmlns="http://org.webharvest/schema/2.1/core">
+    <!-- Advanced data processing pipeline example -->
+    <def var="inputFile">data_input.csv</def>
+    <def var="outputFile">processed_data.xml</def>
+    <!-- Create sample input data -->
+    <file path="${inputFile}" action="write">
+        <template>
+            <![CDATA[
+            Name,Age,Department,Salary,Performance
+            John Doe,30,Engineering,75000,Excellent
+            Jane Smith,28,Marketing,65000,Good
+            Bob Johnson,35,Engineering,80000,Excellent
+            Alice Brown,32,Sales,70000,Good
+            Charlie Wilson,29,Engineering,72000,Good
+            Diana Davis,31,Marketing,68000,Excellent
+            ]]>
+        </template>
+    </file>
+    <!-- Read and parse CSV data -->
+    <def var="csvData">
+        <file path="${inputFile}"/>
+    </def>
+    <!-- Convert CSV to XML -->
+    <def var="xmlData">
+        <template>
+            <![CDATA[<?xml version="1.0" encoding="UTF-8"?>
+<employees>
+<employee>
+<name>John Doe</name>
+<age>30</age>
+<department>Engineering</department>
+<salary>75000</salary>
+<performance>Excellent</performance>
+</employee>
+<employee>
+<name>Jane Smith</name>
+<age>28</age>
+<department>Marketing</department>
+<salary>65000</salary>
+<performance>Good</performance>
+</employee>
+<employee>
+<name>Bob Johnson</name>
+<age>35</age>
+<department>Engineering</department>
+<salary>80000</salary>
+<performance>Excellent</performance>
+</employee>
+<employee>
+<name>Alice Brown</name>
+<age>32</age>
+<department>Sales</department>
+<salary>70000</salary>
+<performance>Good</performance>
+</employee>
+<employee>
+<name>Charlie Wilson</name>
+<age>29</age>
+<department>Engineering</department>
+<salary>72000</salary>
+<performance>Good</performance>
+</employee>
+<employee>
+<name>Diana Davis</name>
+<age>31</age>
+<department>Marketing</department>
+<salary>68000</salary>
+<performance>Excellent</performance>
+</employee>
+</employees>]]>
+        </template>
+    </def>
+    <!-- Debug: Save xmlData to file -->
+    <file path="debug_xmlData.xml" action="write">
+        <get var="xmlData"/>
+    </file>
+    <!-- Process and analyze data -->
+    <def var="analysisResults">
+        <xquery>
+            <xq-param name="employees">
+                <get var="xmlData"/>
+            </xq-param>
+            <xq-expression>
+                <![CDATA[
+                declare variable $employees as node() external;
+                
+                let $totalEmployees := count($employees//employee)
+                let $avgSalary := avg($employees//employee/salary)
+                let $maxSalary := max($employees//employee/salary)
+                let $minSalary := min($employees//employee/salary)
+                let $engineeringCount := count($employees//employee[department = "Engineering"])
+                let $marketingCount := count($employees//employee[department = "Marketing"])
+                let $salesCount := count($employees//employee[department = "Sales"])
+                let $excellentCount := count($employees//employee[performance = "Excellent"])
+                let $goodCount := count($employees//employee[performance = "Good"])
+                
+                return
+                <analysis>
+                    <summary>
+                        <total_employees>{$totalEmployees}</total_employees>
+                        <average_salary>{round($avgSalary)}</average_salary>
+                        <max_salary>{$maxSalary}</max_salary>
+                        <min_salary>{$minSalary}</min_salary>
+                    </summary>
+                    <department_breakdown>
+                        <engineering>{$engineeringCount}</engineering>
+                        <marketing>{$marketingCount}</marketing>
+                        <sales>{$salesCount}</sales>
+                    </department_breakdown>
+                    <performance_breakdown>
+                        <excellent>{$excellentCount}</excellent>
+                        <good>{$goodCount}</good>
+                    </performance_breakdown>
+                </analysis>
+                ]]>
+            </xq-expression>
+        </xquery>
+    </def>
+    <!-- Generate reports for different departments -->
+    <loop item="department" index="i">
+        <list>
+            <text>Engineering</text>
+            <text>Marketing</text>
+            <text>Sales</text>
+        </list>
+        <body>
+            <def var="departmentReport">
+                <template>
+                    <![CDATA[<?xml version="1.0" encoding="UTF-8"?>
+<department_report>
+    <department_name>${department}</department_name>
+    <employees>
+        <!-- Employees for ${department} department -->
+    </employees>
+</department_report>]]>
+                </template>
+            </def>
+            <file path="report_${department}.xml" action="write">
+                <get var="departmentReport"/>
+            </file>
+        </body>
+    </loop>
+    <!-- Generate executive summary -->
+    <file path="executive_summary.xml" action="write">
+        <template>
+            <![CDATA[
+            <?xml version="1.0" encoding="UTF-8"?>
+            <executive_summary>
+                <generated_at>${sys.datetime("yyyy-MM-dd HH:mm:ss")}</generated_at>
+                <analysis_results>
+                    <get var="analysisResults"/>
+                </analysis_results>
+                <recommendations>
+                    <recommendation>
+                        <title>Salary Review</title>
+                        <description>Consider salary adjustments based on performance metrics</description>
+                        <priority>High</priority>
+                    </recommendation>
+                    <recommendation>
+                        <title>Department Growth</title>
+                        <description>Engineering department shows strong performance - consider expansion</description>
+                        <priority>Medium</priority>
+                    </recommendation>
+                </recommendations>
+            </executive_summary>
+            ]]>
+        </template>
+    </file>
+    <!-- Generate data quality report -->
+    <def var="dataQualityReport">
+        <xquery>
+            <xq-param name="employees">
+                <get var="xmlData"/>
+            </xq-param>
+            <xq-expression>
+                <![CDATA[
+                declare variable $employees as node() external;
+                
+                let $totalRecords := count($employees//employee)
+                let $completeRecords := count($employees//employee[normalize-space(name) != "" and normalize-space(age) != "" and normalize-space(department) != "" and normalize-space(salary) != "" and normalize-space(performance) != ""])
+                let $incompleteRecords := $totalRecords - $completeRecords
+                let $dataQualityScore := round(($completeRecords div $totalRecords) * 100)
+                
+                return
+                <data_quality_report>
+                    <total_records>{$totalRecords}</total_records>
+                    <complete_records>{$completeRecords}</complete_records>
+                    <incomplete_records>{$incompleteRecords}</incomplete_records>
+                    <quality_score>{$dataQualityScore}%</quality_score>
+                    <status>
+                        {
+                            if ($dataQualityScore >= 95) then "Excellent"
+                            else if ($dataQualityScore >= 90) then "Good"
+                            else if ($dataQualityScore >= 80) then "Fair"
+                            else "Needs Improvement"
+                        }
+                    </status>
+                </data_quality_report>
+                ]]>
+            </xq-expression>
+        </xquery>
+    </def>
+    <file path="data_quality_report.xml" action="write">
+        <get var="dataQualityReport"/>
+    </file>
+    <!-- Generate final output -->
+    <file path="${outputFile}" action="write">
+        <template>
+            <![CDATA[
+            <?xml version="1.0" encoding="UTF-8"?>
+            <processed_data>
+                <metadata>
+                    <processing_date>${sys.datetime("yyyy-MM-dd HH:mm:ss")}</processing_date>
+                    <input_file>${inputFile}</input_file>
+                    <records_processed>${sys.recordCount()}</records_processed>
+                </metadata>
+                <raw_data>
+                    <get var="cleanXmlData"/>
+                </raw_data>
+                <analysis>
+                    <get var="analysisResults"/>
+                </analysis>
+                <data_quality>
+                    <get var="dataQualityReport"/>
+                </data_quality>
+            </processed_data>
+            ]]>
+        </template>
+    </file>
+</config>
