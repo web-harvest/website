@@ -272,3 +272,32 @@ Added in commit `96d9e0ac95dae2c3ce6d6848a4bf13ecf37691dd`:
 Evidence: the upstream `2.2.x/pom.xml` declares BSD License, and its `NOTICE` identifies the BSD license and the third-party components. This closes the missing project-level license-documentation gap. It does **not** complete a file-level review of all website images, icons, fonts, or other independently sourced material, nor the secrets review.
 
 The full website test suite and clean-checkout link audit have not been rerun on the current branch HEAD. A non-deploying workflow was added in commit `7369fd0c74d0abc960ed8c1742c96d8e04ca1bc0`. Run `43306213169` was retried once; both attempts ended with a failed job, an empty job-step list, and `BlobNotFound` from the job-log endpoint. This is a runner/account-level execution blocker, not evidence of a failing test or a passing validation. A successful runner execution remains outstanding. The repository is still private; changing visibility is a separate owner decision and was not performed.
+
+## Website CI root cause (2026-11-14)
+
+Workflow `.github/workflows/website-ci.yml` is syntactically valid and triggers on PRs targeting `main` as well as pushes to `main` / `migration/website-source-inventory`.
+
+Runs on head `0fd46e839fed073604ee1c0230a42c413fe4cf7d` (and prior heads including `7776cdd`):
+
+| Run | Event | Conclusion | Job steps | Runner |
+|---|---|---|---:|---|
+| [43581441597](https://github.com/web-harvest/website/actions/runs/43581441597) | `pull_request` | `failure` | 0 | none (`runner_id: 0`) |
+| [43581437900](https://github.com/web-harvest/website/actions/runs/43581437900) | `push` | `failure` | 0 | none (`runner_id: 0`) |
+
+Check-run annotation (exact): *"The job was not started because recent account payments have failed or your spending limit needs to be increased."*
+
+This is a **billing/spending-limit blocker** for the private repository. It is not a test failure and does not validate or invalidate local workflow commands. Repository visibility was not changed.
+
+### Local validation on `0fd46e8` (Python 3 via pyenv shim)
+
+| Step | Result |
+|---|---|
+| `python3 -m unittest discover -s tests -v` | PASS — 14 tests |
+| `python3 scripts/fix_html_examples.py --check` | PASS — 0 pages need repair |
+| `python3 scripts/optimize_images.py --html-only` | PASS — 0 images / 0 HTML updates |
+| `git diff --exit-code -- '*.html'` | PASS |
+| Sitemap generate/parse with `https://example.invalid` | PASS — 104 URLs |
+| `git diff --check` | PASS |
+| `gitleaks detect` (tree + 39 reachable commits) | no leaks found |
+
+Gitleaks was available locally for this pass; earlier audits that lacked it remain historically accurate as tooling-coverage notes for those sessions.
