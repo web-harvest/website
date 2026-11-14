@@ -301,3 +301,53 @@ This is a **billing/spending-limit blocker** for the private repository. It is n
 | `gitleaks detect` (tree + 39 reachable commits) | no leaks found |
 
 Gitleaks was available locally for this pass; earlier audits that lacked it remain historically accurate as tooling-coverage notes for those sessions.
+
+## Content reconciliation vs application `main` (2026-11-14, issue #3)
+
+Comparison baselines (GitHub-only; no SourceForge):
+
+| Tree | Ref | HEAD |
+|---|---|---|
+| Application `main` | `origin/main` | `3adcd9b5a22004929ca455cd781ae86d9da26b5a` |
+| Website migration PR #2 tip (pre-reconcile parent) | `migration/website-source-inventory` | `bcd794108d51e905b35718c2873d7ebfea720b75` |
+| Transfer snapshot | `2.2.x` | `e25296701225f40a0f62b56df0795e5b83290a78` (115 `docs/web/**` blobs) |
+
+### Path-level summary (pre-reconcile website tip vs app `main`)
+
+| Class | Count | Decision |
+|---|---:|---|
+| Identical blob SHA | 22 | RETAIN (already synced) |
+| Website intentional post-snapshot edits (`app` still matches snap; website differs) | 88 | RETAIN on website (picture/WebP, nav hygiene, credential placeholders, optimized PNG, sitemap) |
+| App drifted after snap; website still held snap | 4 | INCLUDE app `main` content into website |
+| All three differ (`body-processor.html`) | 1 | MERGE: keep website picture/nav edits + import app 2.3.x removal callout |
+| Only in app | 1 (`examples/database_example.xml`) | INCLUDE sanitized website copy (never publish original unchanged) |
+| Only on website site tree | 3 (`.webp` delivery variants) | RETAIN |
+| Website meta (scripts/tests/licence/docs/CI) | 23 | RETAIN (website-only / already migrated) |
+
+### App-only / drifted paths investigated
+
+| Source path | Source blob @ `3adcd9b` | Destination | Decision | Notes |
+|---|---|---|---|---|
+| `docs/web/examples/database_example.xml` | `72ada1d0dff445407159b76948cfda16c11aa56c` | `examples/database_example.xml` (sanitized; new blob) | INCLUDE (sanitized) | Original contained production-shaped placeholders (`prod_user`, `prod_password`, `analytics_user`, `analytics_pass`, `analytics-server`). Not proven live credentials. Original **not** copied. App tree untouched. |
+| `docs/web/examples/basic_variables_example.xml` | `1bd0f580a64836b5065c16f8087fcace77f6715e` | `examples/basic_variables_example.xml` | INCLUDE | CDATA wrapping for template XML-like output |
+| `docs/web/examples/modern_web_scraping.xml` | `0634b3f41923395ad8bde7ee3deacb6b890930b2` | `examples/modern_web_scraping.xml` | INCLUDE | Simplified `html-to-xml` usage |
+| `docs/web/examples/webbrowser_plugin_demo.xml` | `be6d2c017547bf07943fa23408fa18a70862a68d` | `examples/webbrowser_plugin_demo.xml` | INCLUDE + honesty edit | App content is HTTP + `html-to-xml` + XPath, not headless browser. Website comment/index labels corrected. |
+| `docs/web/examples/xquery.xml` | `4bdefd1ed542344d966a2650c68fc3b6a5040743` | `examples/xquery.xml` | INCLUDE | Result captured in variable before optional file write |
+| `docs/web/documentation/2.2.0/body-processor.html` | `65d4d1a4f7452df0288686adb8ba5844baf44c7e` | `documentation/2.2.0/body-processor.html` | MERGE | Added app callout; retained website `<picture>` changes |
+
+### Security / licensing notes for this pass
+
+- Focused secret-pattern scan of the website candidate tree found only intentional `YOUR_*` placeholders in examples (plus H2 `sa`/empty demo defaults).
+- No private keys, personal machine paths, or cloud tokens observed in changed files.
+- Original `database_example.xml` values were treated as documentation-shaped, not proven live secrets. No credential rotation attempted.
+- Third-party asset provenance (Font Awesome CDN, Google Fonts Inter, brand PNGs beyond owner confirmation already recorded) remains an open publication gate; project BSD does not override third-party terms.
+- Application `docs/web/**` was **not** modified.
+
+### Hosting decision prep
+
+The earlier GitHub Pages recommendation in Issue #4 predates the continuity decision in Issue #7 and is superseded. The currently operating SourceForge-hosted public website is to remain available as the legacy endpoint during transition; GitHub Pages is only a possible future option, not an approved host. No hosting, DNS, TLS, canonical URL, redirect, or production deployment changes were made. See [Issue #4](https://github.com/web-harvest/website/issues/4) and [Issue #7](https://github.com/web-harvest/website/issues/7).
+
+
+### CI coverage
+
+Website CI now runs for pull requests targeting any branch, including this migration branch. The validation workflow is non-deploying and does not change production hosting.

@@ -30,3 +30,12 @@ The copied blobs preserve exact file content and blob identity, but this API-bas
 - Canonical URLs, download links, and SEO metadata still refer to the old hosting arrangement and require an explicit hosting/domain decision.
 - Website-only helper scripts that have been moved are tracked in `MIGRATION-INVENTORY.md`. Application-coupled generators remain in the application repository.
 - No production deployment workflow is configured.
+
+## Post-snapshot content reconciliation (issue #3)
+
+Reconfirmed against application `main` @ `3adcd9b5a22004929ca455cd781ae86d9da26b5a` on 2026-11-14.
+
+- The original 115-file transfer from `e252967` remains the snapshot baseline.
+- Application `main` still has 116 `docs/web/**` blobs; the extra path is `docs/web/examples/database_example.xml`.
+- A sanitized website copy of that example was added under `examples/database_example.xml` (original production-shaped values were not published).
+- Four post-snapshot example XML updates from application `main` were imported; `documentation/2.2.0/body-processor.html` received the 2.3.x removal callout while retaining website image optimizations.

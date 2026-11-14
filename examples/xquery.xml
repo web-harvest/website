@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <config xmlns="http://org.webharvest/schema/2.1/core" charset="UTF-8">
-    <file action="write" path="xquerytest.xml">
+    <!-- Execute XQuery and store result in variable -->
+    <def var="result">
         <xquery>
             <xq-param name="logicvalue" type="boolean">true</xq-param>
             <xq-param name="numbervalue" type="double">12</xq-param>
@@ -76,5 +77,10 @@
             ]]>
             </xq-expression>
         </xquery>
+    </def>
+
+    <!-- Optionally save result to file -->
+    <file action="write" path="xquerytest.xml">
+        <get var="result"/>
     </file>
 </config>

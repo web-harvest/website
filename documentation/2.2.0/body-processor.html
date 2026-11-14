@@ -148,6 +148,9 @@ way to execute processor body content and return the results as a variable list.
 
     <div class="processor-content">
         <section class="section">
+            <div class="callout warning">
+                <strong>Removed in 2.3.x:</strong> Starting with WebHarvest 2.3.x the <code>&lt;body-processor&gt;</code> element is no longer available. The runtime now invokes <code>executeBody(...)</code> directly; this page is kept for historical reference only.
+            </div>
             <h2 class="section-title">Overview</h2>
             <p>The <code><body-processor></code> is an internal processor used by the framework
 to execute child processors and collect their results. It provides a standardized
