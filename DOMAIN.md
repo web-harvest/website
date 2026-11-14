@@ -46,3 +46,8 @@ Before that decision:
 - Do not change Porkbun DNS, registrar settings, hosting, TLS, GitHub Pages settings, canonical URLs, redirects, or production deployment.
 - Do not infer launch approval from merging a content or source-migration PR.
 - No DNS or production change without explicit maintainer approval.
+
+
+## Validation workflow
+
+The website validation workflow runs for pull requests targeting any branch, including migration and documentation branches. It is a non-deploying validation workflow; it does not publish the site or alter production hosting.
