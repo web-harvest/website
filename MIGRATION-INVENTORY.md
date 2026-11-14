@@ -219,6 +219,32 @@ Coordinated with application umbrella [#84](https://github.com/web-harvest/web-h
 
 Expected intentional drift remains: website HTML uses `<picture>`/WebP optimizations and navigation/placeholder hygiene that the application `docs/web` tree may not yet mirror. The application tree remains the pre-cutover packaging source.
 
+## Source file-count audit — 115 vs 116 (2026-11-14)
+
+Git-only comparison (no SourceForge). Object type counted: regular file blobs (`100644` / `100755`); directories excluded.
+
+| Tree | Commit | Regular files under `docs/web/**` |
+|---|---|---:|
+| Transfer source (`2.2.x` snapshot recorded in `SOURCE-SNAPSHOT.md`) | `e25296701225f40a0f62b56df0795e5b83290a78` | **115** |
+| Application `main` (PR-coordination baseline) | `436cd50b159a5a22fc9e040663ebd323c5cdfa52` | **116** |
+
+**Path present on `main` @ `436cd50` but absent from transfer source `e252967`:**
+
+- `docs/web/examples/database_example.xml` (blob `72ada1d0dff445407159b76948cfda16c11aa56c`; introduced on the application line after the website snapshot, first seen via `cc2b7cf`)
+
+**Website destination vs transfer source `e252967` (relative paths at website repo root):**
+
+| Class | Count | Notes |
+|---|---:|---|
+| Source paths present in website tree | 115 | No omitted source path |
+| Blob SHA identical | 26 | Unchanged content |
+| Blob SHA differs (intentional) | 89 | Optimized PNG fallbacks (3); HTML `<picture>`/navigation edits; credential placeholders in examples; `css/enterprise.css`; regenerated `sitemap.xml` |
+| Missing source path | 0 | — |
+| Extra content-like paths not in source | 3 | `images/hero-icon.webp`, `images/logo-white-bg.webp`, `images/logo.webp` (delivery variants; originals remain in history at `5e0b98d`) |
+| `examples/database_example.xml` on website | Absent | Expected: never part of the `e252967` transfer set |
+
+**Conclusion:** The 115 figure is correct for the recorded transfer commit. The 116 figure is correct for application `main` @ `436cd50` and differs by exactly one post-snapshot file. Do not force numeric equality across those commits. Any future cutover must decide whether `database_example.xml` (and later `docs/web` changes on `main`) are imported separately.
+
 
 ## Navigation defect closure (2026-11-12)
 
