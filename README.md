@@ -12,7 +12,7 @@ A source snapshot from `web-harvest/web-harvest:2.2.x` is present on the migrati
 
 The application repository still contains `docs/web/**` on canonical `main` and must keep that tree until cutover criteria are met. No application source files were deleted in this migration.
 
-Intended public identity: `webharvest.org`. Current DNS/HTTP observations are recorded in [DOMAIN.md](DOMAIN.md). Do not treat the parked domain page as this site, and do not change DNS or hosting from this repository work.
+Domain under consideration: `webharvest.org`. It is **not yet approved as the production canonical hostname**. Current historical DNS/HTTP observations are recorded in [DOMAIN.md](DOMAIN.md). Do not treat the parked domain page as this site, and do not change DNS or hosting from this repository work.
 
 ## Local preview
 
@@ -45,10 +45,10 @@ Then open `http://127.0.0.1:8765/`. This is a static preview only. It is not a p
 The standard-library-only generator requires an explicit canonical URL:
 
 ```sh
-python3 scripts/generate_sitemap.py --base-url https://example.invalid
+python3 scripts/generate_sitemap.py --base-url https://example.invalid --output /tmp/webharvest-sitemap.xml
 ```
 
-Replace the example URL only after the production hostname has been selected. The generator also accepts `WEBSITE_BASE_URL`. It omits `lastmod` so clean checkouts produce identical sitemaps.
+Replace the example URL only after the production hostname has been selected. Until then, generate only to a temporary path as shown; do not commit or publish a generated sitemap or advertise one in `robots.txt`. The generator also accepts `WEBSITE_BASE_URL`. It omits `lastmod` so clean checkouts produce identical sitemaps.
 
 The website-only legacy example repair helper supports a safe check mode:
 
