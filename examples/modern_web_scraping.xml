@@ -3,15 +3,9 @@
     <def var="searchTerm">artificial intelligence</def>
     <def var="maxResults">5</def>
     
-    <!-- Modern web scraping using improved html-to-xml -->
+    <!-- Modern web scraping using html-to-xml (JSoup-based) -->
     <def var="searchResults">
-        <html-to-xml 
-            advancedxmlescape="true" 
-            specialentities="true" 
-            unicodechars="true" 
-            allowmultiwordattributes="true" 
-            omitunknowntags="true"
-            treatunknowntagsascontent="true">
+        <html-to-xml>
             <http url="https://httpbin.org/html"/>
         </html-to-xml>
     </def>

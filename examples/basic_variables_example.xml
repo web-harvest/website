@@ -10,10 +10,10 @@
     <!-- Use variables in output -->
     <file action="write" path="basic_variables_output.txt" charset="UTF-8">
         <template>
-            <greeting>${greeting}</greeting>
-            <user>Welcome, ${user_name}!</user>
-            <timestamp>Generated at: ${current_time}</timestamp>
-            <message>This example demonstrates basic variable usage in Web-Harvest.</message>
+            <![CDATA[<greeting>${greeting}</greeting>
+<user>Welcome, ${user_name}!</user>
+<timestamp>Generated at: ${current_time}</timestamp>
+<message>This example demonstrates basic variable usage in Web-Harvest.</message>]]>
         </template>
     </file>
     
