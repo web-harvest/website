@@ -345,4 +345,4 @@ Comparison baselines (GitHub-only; no SourceForge):
 
 ### Hosting decision prep
 
-Read-only review of `DOMAIN.md` and Issue #4: recommendation remains GitHub Pages with canonical `https://webharvest.org/` and `www` → apex redirect. No DNS/Pages/hosting changes were made in this issue.
+The earlier GitHub Pages recommendation in Issue #4 predates the continuity decision in Issue #7 and is superseded. The currently operating SourceForge-hosted public website is to remain available as the legacy endpoint during transition; GitHub Pages is only a possible future option, not an approved host. No hosting, DNS, TLS, canonical URL, redirect, or production deployment changes were made. See [Issue #4](https://github.com/web-harvest/website/issues/4) and [Issue #7](https://github.com/web-harvest/website/issues/7).
