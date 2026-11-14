@@ -205,6 +205,20 @@ No workflow in this branch deploys or modifies production.
 
 This API snapshot preserves exact Git blob content for the 112 transferred files, but does not preserve their commit history. The original source commit is recorded in `SOURCE-SNAPSHOT.md`. Prefer a local `git filter-repo` or `git subtree split` extraction if a local checkout is available. Do not rewrite the application repository's shared branch history.
 
+## Application `main` reconciliation (2026-11-14)
+
+Coordinated with application umbrella [#84](https://github.com/web-harvest/web-harvest/issues/84) from a separate worktree on `origin/main` @ `436cd50b159a5a22fc9e040663ebd323c5cdfa52`.
+
+| Check | Result |
+|---|---|
+| Application still contains `docs/web/**` | Yes (116 files under `docs/web` on that SHA) |
+| Website branch still builds/tests locally | `python3 -m unittest discover -s tests -v` → 14 tests OK on this campaign tip |
+| Domain `webharvest.org` | Parked Porkbun page over HTTP; HTTPS handshake failed in inspection; documented in `DOMAIN.md` |
+| Delete application `docs/web/**`? | **No** — Maven docs packaging still depends on it; cutover remains blocked |
+| Production deploy / DNS change? | **No** |
+
+Expected intentional drift remains: website HTML uses `<picture>`/WebP optimizations and navigation/placeholder hygiene that the application `docs/web` tree may not yet mirror. The application tree remains the pre-cutover packaging source.
+
 
 ## Navigation defect closure (2026-11-12)
 
